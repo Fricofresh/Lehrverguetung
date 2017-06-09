@@ -23,7 +23,7 @@ public class MainApp extends Application {
 			FXML_GUI fxml_gui = new FXML_GUI();
 			fxml_gui.primaryStage = primaryStage;
 			fxml_gui.initRootLayout();
-			fxml_gui.showLogin();
+			fxml_gui.showMainPage();
 		}
 		catch (Exception e) {
 			e.printStackTrace();

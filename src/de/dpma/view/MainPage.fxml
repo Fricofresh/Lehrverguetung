@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="520.0" prefWidth="939.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dpma.view.MainPageController">
+   <children>
+      <ButtonBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <buttons>
+          <Button mnemonicParsing="false" text="Neu" />
+            <Button mnemonicParsing="false" text="Ändern" />
+            <Button mnemonicParsing="false" text="Löschen" />
+            <Button mnemonicParsing="false" text="Dokument erstellen" />
+        </buttons>
+      </ButtonBar>
+      <SplitPane dividerPositions="0.3192771084337349" layoutY="118.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
+         <items>
+            <ListView fx:id="navigationListe" maxWidth="160.0" minWidth="160.0" prefWidth="160.0" />
+            <TableView fx:id="tabellenTableView">
+              <columns>
+                <TableColumn fx:id="nameTableColumn" prefWidth="75.0" text="Name" />
+                  <TableColumn fx:id="aktenzeichenTableColumn" prefWidth="105.0" text="Aktenzeichen" />
+                  <TableColumn fx:id="schulArt" prefWidth="74.0" text="SchulArt" />
+                  <TableColumn fx:id="vfgTableColumn" prefWidth="46.0" text="Vfg" />
+                  <TableColumn fx:id="vortragTableColumn" prefWidth="75.0" text="Vortrag" />
+                  <TableColumn fx:id="datumTableColumn" prefWidth="75.0" text="Datum" />
+                  <TableColumn fx:id="euro_StdTableColumn" prefWidth="75.0" text="Euro_Std" />
+                  <TableColumn fx:id="stdZahlTableColumn" prefWidth="75.0" text="StdZahl" />
+                  <TableColumn fx:id="betragTableColumn" prefWidth="75.0" text="Betrag" />
+                  <TableColumn fx:id="betrag_ABCTableColumn" prefWidth="96.0" text="Betrag_ABC" />
+              </columns>
+            </TableView>
+         </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

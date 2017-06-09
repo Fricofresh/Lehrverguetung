@@ -32,11 +32,4 @@ public class RootLayoutController {
 			e.printStackTrace();
 		}
 	}
-	
-	// TODO Logout
-	@FXML
-	public void handleLogout() {
-		
-	}
-	
 }

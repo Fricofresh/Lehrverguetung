@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dpma.view.RootLayoutController">
+   <top>
+      <AnchorPane BorderPane.alignment="CENTER">
+         <children>
+            <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+              <menus>
+                <Menu mnemonicParsing="false" text="Datei">
+                  <items>
+                        <MenuItem mnemonicParsing="false" text="Gesamtliste Exportieren" />
+                    <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Beenden" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </children>
+      </AnchorPane>
+   </top>
+   <right>
+      <AnchorPane maxWidth="20.0" minWidth="20.0" prefWidth="20.0" BorderPane.alignment="CENTER" />
+   </right>
+   <left>
+      <AnchorPane maxWidth="20.0" minWidth="20.0" prefWidth="20.0" BorderPane.alignment="CENTER" />
+   </left>
+   <bottom>
+      <AnchorPane maxHeight="20.0" minHeight="20.0" prefHeight="20.0" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>
