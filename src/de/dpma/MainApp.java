@@ -48,5 +48,9 @@ public class MainApp extends Application {
 				e.printStackTrace();
 			}
 		}
+		
+		// System.out.println(new File(".").getAbsoluteFile());
+		// WriteDocx docx = new WriteDocx();
+		
 	}
 }
