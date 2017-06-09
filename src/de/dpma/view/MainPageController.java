@@ -1,6 +1,6 @@
 package de.dpma.view;
 
-import de.dpma.model.Events;
+import de.dpma.model.Event;
 import de.dpma.util.AlertUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,34 +18,34 @@ public class MainPageController {
 	TableView<String> tabellenTableView;
 	
 	@FXML
-	TableColumn<Events, String> nameTableColumn;
+	TableColumn<Event, String> nameTableColumn;
 	
 	@FXML
-	TableColumn<Events, String> aktenzeichenTableColumn;
+	TableColumn<Event, String> aktenzeichenTableColumn;
 	
 	@FXML
-	TableColumn<Events, String> schulArt;
+	TableColumn<Event, String> schulArt;
 	
 	@FXML
-	TableColumn<Events, String> vfgTableColumn;
+	TableColumn<Event, String> vfgTableColumn;
 	
 	@FXML
-	TableColumn<Events, String> vortragTableColumn;
+	TableColumn<Event, String> vortragTableColumn;
 	
 	@FXML
-	TableColumn<Events, String> datumTableColumn;
+	TableColumn<Event, String> datumTableColumn;
 	
 	@FXML
-	TableColumn<Events, String> euro_StdTableColumn;
+	TableColumn<Event, String> euro_StdTableColumn;
 	
 	@FXML
-	TableColumn<Events, String> stdZahlTableColumn;
+	TableColumn<Event, String> stdZahlTableColumn;
 	
 	@FXML
-	TableColumn<Events, String> betragTableColumn;
+	TableColumn<Event, String> betragTableColumn;
 	
 	@FXML
-	TableColumn<Events, String> betrag_ABCTableColumn;
+	TableColumn<Event, String> betrag_ABCTableColumn;
 	
 	AlertUtil alert;
 	
