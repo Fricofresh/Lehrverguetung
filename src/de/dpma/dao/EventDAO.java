@@ -39,9 +39,9 @@ public class EventDAO {
 			event.setId_dozent(result.getInt("ID_DOZENT"));
 			event.setSchulart(result.getString("SCHULART"));
 			event.setAktenz(result.getString("AKTENZ"));
-			event.setVfg(result.getString("VFG"));
-			event.setDate_start(result.getString("DATE_START"));
-			event.setDate_end(result.getString("DATE_END"));
+			event.setVfg(result.getString("VFG").split(" ")[0]);
+			event.setDate_start(result.getString("DATE_START").split(" ")[0]);
+			event.setDate_end(result.getString("DATE_END").split(" ")[0]);
 			event.setStdzahl(result.getInt("STDZAHL"));
 			event.setId_euro_std(result.getInt("ID_EURO_STD"));
 			event.setVortrg_mode(result.getInt("VORTRG_MODE"));
