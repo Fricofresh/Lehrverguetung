@@ -1,6 +1,6 @@
 package de.dpma.view;
 
-import de.dpma.model.Event;
+import de.dpma.model.Events;
 import de.dpma.util.AlertUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -49,6 +49,10 @@ public class MainPageController {
 	
 	AlertUtil alert;
 	
+	RootLayoutController root;
+	
+	String fokus = "Veranstaltungen";
+	
 	@FXML
 	public void initialize() {
 		
@@ -60,7 +64,7 @@ public class MainPageController {
 	@FXML
 	public void handleSelect() {
 		
-		String fokus = navigationListe.getFocusModel().getFocusedItem();
+		fokus = navigationListe.getFocusModel().getFocusedItem();
 		if (fokus.equals("Veranstaltungen")) {
 			handleVeranstaltungen();
 		}
@@ -77,6 +81,12 @@ public class MainPageController {
 	}
 	
 	@FXML
+	public void handleNew() {
+		
+		root.handleGUI(fokus, false);
+	}
+	
+	@FXML
 	public void handleDelete() {
 		
 		String aktAuswahl = "";
@@ -87,7 +97,7 @@ public class MainPageController {
 	@FXML
 	public void handleEdit() {
 		
-		String aktAuswahl = "";
+		root.handleGUI(fokus, true);
 		// Select Befehl um das ausgewählte Tabelle
 	}
 	

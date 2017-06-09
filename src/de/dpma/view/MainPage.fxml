@@ -12,15 +12,15 @@
    <children>
       <ButtonBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <buttons>
-          <Button mnemonicParsing="false" text="Neu" />
-            <Button mnemonicParsing="false" text="Ändern" />
-            <Button mnemonicParsing="false" text="Löschen" />
+          <Button mnemonicParsing="false" onAction="#handleNew" text="Neu" />
+            <Button mnemonicParsing="false" onAction="#handleEdit" text="Ändern" />
+            <Button mnemonicParsing="false" onAction="#handleDelete" text="Löschen" />
             <Button mnemonicParsing="false" text="Dokument erstellen" />
         </buttons>
       </ButtonBar>
       <SplitPane dividerPositions="0.3192771084337349" layoutY="118.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
          <items>
-            <ListView fx:id="navigationListe" maxWidth="160.0" minWidth="160.0" prefWidth="160.0" />
+            <ListView fx:id="navigationListe" maxWidth="160.0" minWidth="160.0" onMouseClicked="#handleSelect" prefWidth="160.0" />
             <TableView fx:id="tabellenTableView">
               <columns>
                 <TableColumn fx:id="nameTableColumn" prefWidth="75.0" text="Name" />

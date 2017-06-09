@@ -3,6 +3,7 @@ package de.dpma;
 import java.util.logging.Logger;
 
 import de.dpma.util.AlertUtil;
+import de.dpma.view.VeranstaltungController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -73,7 +74,32 @@ public class FXML_GUI {
 	private void sizeHandling(double height, double width) {
 		
 		primaryStage.setMinWidth(width + 60);
-		primaryStage.setMinHeight(height + 50);
+		primaryStage.setMinHeight(height + 120);
+	}
+	
+	public void showDozent() {
+		
+	}
+	
+	public void showLehrverguetung() {
+		
+	}
+	
+	public void showVeranstaltug(boolean ändern) {
+		
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(FXML_GUI.class.getResource("view/Veranstaltung.fxml"));
+			
+			AnchorPane Veranstaltung;
+			Veranstaltung = (AnchorPane) loader.load();
+			sizeHandling(Veranstaltung.getPrefHeight(), Veranstaltung.getPrefWidth());
+			VeranstaltungController vc = new VeranstaltungController(ändern);
+			rootLayout.setCenter(Veranstaltung);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

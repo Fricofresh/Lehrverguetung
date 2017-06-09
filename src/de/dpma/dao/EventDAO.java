@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 import de.dpma.model.Event;
 
-public class EventsDAO {
+public class EventDAO {
 	final String INSERT_EVENT = "INSERT INTO `books` (`name`, `author`, `release_year`, `isbn`, `id_categorys`) VALUES (?, ?, ?, ?, ?)";
 
 	final String DELETE_EVENT = "DELETE FROM `books` WHERE `id` = ?";
@@ -24,7 +24,7 @@ public class EventsDAO {
 
 	private final Connection con;
 
-	public EventsDAO(Connection con) {
+	public EventDAO(Connection con) {
 		this.con = con;
 	}
 

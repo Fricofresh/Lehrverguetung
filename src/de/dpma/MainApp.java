@@ -4,56 +4,62 @@ import java.sql.SQLException;
 import java.util.logging.Logger;
 
 import de.dpma.dao.DatabaseConnection;
-import de.dpma.dao.EventsDAO;
+import de.dpma.util.AlertUtil;
+import de.dpma.dao.EventDAO;
 import de.dpma.model.Event;
 import javafx.application.Application;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
-
-	public static DatabaseConnection dbcon = null;
-
+	
+	public static DatabaseConnection dbcon;
+	
 	Logger log = Logger.getLogger(MainApp.class.getName());
-
-	BorderPane borderPane;
-
+	
+	static AlertUtil alert;
+	
 	@Override
 	public void start(Stage primaryStage) {
-
+		
 		try {
 			FXML_GUI fxml_gui = new FXML_GUI();
 			fxml_gui.primaryStage = primaryStage;
 			fxml_gui.initRootLayout();
 			fxml_gui.showMainPage();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
-	public static void main(String[] args) throws SQLException {
-
+	
+	public static void main(String[] args) {
+		
 		try {
 			dbcon = new DatabaseConnection();
 
-			EventsDAO dao = new EventsDAO(dbcon.getConnection());
+			EventDAO dao = new EventDAO(dbcon.getConnection());
 			Event evt = dao.selectEvent(11);
 			System.out.println(evt.getVfg());
 
 			launch(args);
-
-		} catch (ClassNotFoundException | SQLException e) {
+			
+		}
+		catch (ClassNotFoundException | SQLException e) {
+			alert = new AlertUtil("Datenbankverbindung konnte nicht hergestellt werden.",
+					"Bitte überprüfen Sie ihre Internetverbindung.", "WARNING");
 			e.printStackTrace();
-		} finally {
+		}
+		finally {
 			try {
 				dbcon.closeConnection();
-			} catch (SQLException e) {
+			}
+			catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-
+		
 		// System.out.println(new File(".").getAbsoluteFile());
 		// WriteDocx docx = new WriteDocx();
-
+		
 	}
 }
