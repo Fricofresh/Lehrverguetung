@@ -21,8 +21,6 @@ public class Event {
 	private IntegerProperty id_euro_std = new SimpleIntegerProperty();
 	private IntegerProperty vortrg_mode = new SimpleIntegerProperty();
 
-	// Constructor um in BuchDAO Select ein Buch zu erstellen und dieses mit
-	// Daten zu füllen
 	public Event() {
 
 	}

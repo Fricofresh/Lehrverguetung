@@ -10,11 +10,11 @@ import java.util.List;
 import de.dpma.model.Event;
 
 public class EventDAO {
-	final String INSERT_EVENT = "INSERT INTO \"LEHRVERGUETUNG\".\"events\" (\"ID_DOZENT\", \"SCHULART\", \"AKTENZ\", \"VFG\", \"DATE_START\", \"DATE END\", \"STDZAHL\", \"ID_EURO_STD\", \"VORTRG_MODE\") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	final String INSERT_EVENT = "INSERT INTO \"LEHRVERGUETUNG\".\"events\" (\"ID_DOZENT\", \"SCHULART\", \"AKTENZ\", \"VFG\", \"DATE_START\", \"DATE_END\", \"STDZAHL\", \"ID_EURO_STD\", \"VORTRG_MODE\") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	final String DELETE_EVENT = "DELETE FROM \"LEHRVERGUETUNG\".\"events\" WHERE \"ID\" = ?";
 
-	final String UPDATE_EVENT = "UPDATE \"LEHRVERGUETUNG\".\"events\" SET \"ID_DOZENT\" = ?, \"SCHULART\" = ?, \"AKTENZ\" = ?, \"VFG\" = ?, \"DATE_START\" = ?, \"DATE END\" = ?, \"STDZAHL\" = ?, \"ID_EURO_STD\" = ?, \"VORTRG_MODE\" = ? WHERE \"ID\" = ?";
+	final String UPDATE_EVENT = "UPDATE \"LEHRVERGUETUNG\".\"events\" SET \"ID_DOZENT\" = ?, \"SCHULART\" = ?, \"AKTENZ\" = ?, \"VFG\" = ?, \"DATE_START\" = ?, \"DATE_END\" = ?, \"STDZAHL\" = ?, \"ID_EURO_STD\" = ?, \"VORTRG_MODE\" = ? WHERE \"ID\" = ?";
 
 	final String SELECT_EVENT = "SELECT * FROM \"LEHRVERGUETUNG\".\"events\" WHERE \"ID\" = ?";
 
@@ -51,6 +51,14 @@ public class EventDAO {
 		return event;
 	}
 
+	public Event deleteEvent(int id) throws SQLException {
+		PreparedStatement stat = con.prepareStatement(DELETE_EVENT);
+		stat.setInt(1, id);
+		stat.executeQuery();
+
+		return null;
+	}
+
 	public List<Event> selectAllEvents() throws SQLException {
 		PreparedStatement stat = con.prepareStatement(SELECT_EVENT_ALL);
 		ResultSet result = stat.executeQuery();
@@ -78,9 +86,9 @@ public class EventDAO {
 		stat.setInt(1, event.getId_dozent());
 		stat.setString(2, event.getSchulart());
 		stat.setString(3, event.getAktenz());
-		stat.setString(4, event.getVfg().split(" ")[0]);
-		stat.setString(5, event.getDate_start().split(" ")[0]);
-		stat.setString(6, event.getDate_end().split(" ")[0]);
+		stat.setString(4, event.getVfg() + " 00:00:00.0");
+		stat.setString(5, event.getDate_start() + " 00:00:00.0");
+		stat.setString(6, event.getDate_end() + " 00:00:00.0");
 		stat.setInt(7, event.getStdzahl());
 		stat.setInt(8, event.getId_euro_std());
 		stat.setInt(9, event.getVortrg_mode());
@@ -94,9 +102,9 @@ public class EventDAO {
 		stat.setInt(1, event.getId_dozent());
 		stat.setString(2, event.getSchulart());
 		stat.setString(3, event.getAktenz());
-		stat.setString(4, event.getVfg().split(" ")[0]);
-		stat.setString(5, event.getDate_start().split(" ")[0]);
-		stat.setString(6, event.getDate_end().split(" ")[0]);
+		stat.setString(4, event.getVfg() + " 00:00:00.0");
+		stat.setString(5, event.getDate_start() + " 00:00:00.0");
+		stat.setString(6, event.getDate_end() + " 00:00:00.0");
 		stat.setInt(7, event.getStdzahl());
 		stat.setInt(8, event.getId_euro_std());
 		stat.setInt(9, event.getVortrg_mode());
