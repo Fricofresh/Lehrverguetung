@@ -27,13 +27,15 @@ public class FXML_GUI {
 	}
 	
 	public FXML_GUI(Stage primaryStage, BorderPane rootLayout) {
-		
+		this.primaryStage = primaryStage;
+		this.rootLayout = rootLayout;
 		initRootLayout();
 	}
 	
 	public void initRootLayout() {
 		
 		try {
+			primaryStage = new Stage();
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(FXML_GUI.class.getResource("view/RootLayout.fxml"));
 			rootLayout = (BorderPane) loader.load();
@@ -56,18 +58,8 @@ public class FXML_GUI {
 	
 	public void showMainPage() {
 		
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(FXML_GUI.class.getResource("view/MainPage.fxml"));
-			
-			AnchorPane mainPage;
-			mainPage = (AnchorPane) loader.load();
-			sizeHandling(mainPage.getPrefHeight(), mainPage.getPrefWidth());
-			rootLayout.setCenter(mainPage);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+		handleChildren("MainPage");
+		
 	}
 	
 	// Anpassung der Größe
@@ -85,21 +77,33 @@ public class FXML_GUI {
 		
 	}
 	
-	public void showVeranstaltug(boolean ändern) {
+	public void showVeranstaltung(boolean ändern) {
+		
+		// Path currentRelativePath = Paths.get("");
+		// String s = currentRelativePath.toAbsolutePath().toString();
+		// System.out.println("Current relative path is: " + s);
+		
+		handleChildren("Veranstaltung");
+		VeranstaltungController vc = new VeranstaltungController();
+		vc.handleNew(ändern);
+		
+	}
+	
+	private void handleChildren(String FXML_Name) {
 		
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(FXML_GUI.class.getResource("view/Veranstaltung.fxml"));
+			loader.setLocation(this.getClass().getResource("view/" + FXML_Name + ".fxml"));
 			
-			AnchorPane Veranstaltung;
-			Veranstaltung = (AnchorPane) loader.load();
-			sizeHandling(Veranstaltung.getPrefHeight(), Veranstaltung.getPrefWidth());
-			VeranstaltungController vc = new VeranstaltungController(ändern);
-			rootLayout.setCenter(Veranstaltung);
+			AnchorPane children;
+			children = (AnchorPane) loader.load();
+			sizeHandling(children.getPrefHeight(), children.getPrefWidth());
+			rootLayout.setCenter(children);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 }

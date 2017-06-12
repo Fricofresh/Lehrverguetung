@@ -1,6 +1,10 @@
 package de.dpma.view;
 
-import de.dpma.model.Events;
+import java.sql.SQLException;
+
+import de.dpma.MainApp;
+import de.dpma.dao.EventDAO;
+import de.dpma.model.Event;
 import de.dpma.util.AlertUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,7 +19,7 @@ public class MainPageController {
 	ListView<String> navigationListe = new ListView<String>();
 	
 	@FXML
-	TableView<String> tabellenTableView;
+	TableView<Event> tabellenTableView;
 	
 	@FXML
 	TableColumn<Event, String> nameTableColumn;
@@ -49,16 +53,43 @@ public class MainPageController {
 	
 	AlertUtil alert;
 	
-	RootLayoutController root;
+	RootLayoutController root = new RootLayoutController();
 	
 	String fokus = "Veranstaltungen";
 	
+	private ObservableList<Event> eventData = FXCollections.observableArrayList();
+	
+	static EventDAO eventDAO = new EventDAO(MainApp.dbcon.getConnection());
+	
 	@FXML
-	public void initialize() {
+	public void initialize() throws SQLException {
 		
 		ObservableList<String> inhalte = FXCollections.observableArrayList("Veranstaltungen", "Dozenten",
 				"Lehrvergütungssätze");
 		navigationListe.setItems(inhalte);
+		
+		eventData = FXCollections.observableArrayList((eventDAO.selectAllEvents()));
+		
+		tabellenTableView.setItems(eventData);
+		
+		// nameTableColumn.setCellValueFactory(cellData ->
+		// cellData.getValue().dozentName());
+		aktenzeichenTableColumn.setCellValueFactory(cellData -> cellData.getValue().AktenzProperty());
+		schulArt.setCellValueFactory(cellData -> cellData.getValue().SchulartProperty());
+		vfgTableColumn.setCellValueFactory(cellData -> cellData.getValue().VfgProperty());
+		// vortragTableColumn.setCellValueFactory(cellData ->
+		// cellData.getValue().vortragName());
+		// datumTableColumn.setCellValueFactory(
+		// cellData -> cellData.getValue().getDate_start() + " " +
+		// cellData.getValue().getDate_end());
+		// euro_StdTableColumn.setCellValueFactory(cellData ->
+		// cellData.getValue().euroStdString());
+		stdZahlTableColumn.setCellValueFactory(cellData -> cellData.getValue().getStundenZahlString());
+		// betragTableColumn.setCellValueFactory(cellData ->
+		// cellData.getValue().betragString());
+		// betrag_ABCTableColumn.setCellValueFactory(cellData ->
+		// cellData.getValue().betrag_ABCString());
+		
 	}
 	
 	@FXML

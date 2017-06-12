@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane minHeight="500.0" minWidth="820.0" prefHeight="500.0" prefWidth="820.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dpma.view.VeranstaltungController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="820.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dpma.view.VeranstaltungController">
    <children>
       <Label layoutX="75.0" layoutY="40.0" text="Dozent:" AnchorPane.leftAnchor="50.0" />
       <Label layoutX="75.0" layoutY="80.0" text="Aktenzeichen:" AnchorPane.leftAnchor="50.0" />
@@ -18,7 +18,7 @@
       <Label layoutX="75.0" layoutY="320.0" text="StdZahl" AnchorPane.leftAnchor="50.0" />
       <Label layoutX="75.0" layoutY="360.0" text="Betrag" AnchorPane.leftAnchor="50.0" />
       <Label layoutX="75.0" layoutY="400.0" text="Betrag_ABC" AnchorPane.leftAnchor="50.0" />
-      <TextField layoutX="237.0" layoutY="35.0" prefHeight="31.0" prefWidth="241.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="22.0" />
+      <TextField fx:id="dozentTextField" layoutX="237.0" layoutY="35.0" prefHeight="31.0" prefWidth="241.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="22.0" />
       <TextField fx:id="aktenzeichenTextField" layoutX="237.0" layoutY="75.0" prefHeight="31.0" prefWidth="241.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="22.0" />
       <TextField fx:id="schulArtTextField" layoutX="237.0" layoutY="115.0" prefHeight="31.0" prefWidth="241.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="22.0" />
       <TextField fx:id="vfgTextField" layoutX="237.0" layoutY="155.0" prefHeight="31.0" prefWidth="241.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="22.0" />
@@ -27,10 +27,10 @@
       <TextField fx:id="stdZahlTextField" layoutX="237.0" layoutY="315.0" prefHeight="31.0" prefWidth="241.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="22.0" />
       <TextField fx:id="betragTextField" layoutX="237.0" layoutY="355.0" prefHeight="31.0" prefWidth="241.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="22.0" />
       <TextField fx:id="betrag_ABCTextField" layoutX="237.0" layoutY="395.0" prefHeight="31.0" prefWidth="241.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="22.0" />
-      <Button layoutX="591.0" layoutY="441.0" mnemonicParsing="false" onAction="#handleSubmit" text="Bestätigen" AnchorPane.rightAnchor="147.0" />
-      <Button layoutX="709.0" layoutY="441.0" mnemonicParsing="false" text="Abbrechen" AnchorPane.rightAnchor="26.0" />
-      <DatePicker layoutX="284.0" layoutY="235.0" AnchorPane.leftAnchor="284.0" />
-      <DatePicker layoutX="491.0" layoutY="235.0" AnchorPane.rightAnchor="22.0" />
+      <Button layoutX="591.0" layoutY="440.0" mnemonicParsing="false" onAction="#handleSubmit" prefWidth="93.0" text="OK" AnchorPane.rightAnchor="22.0" />
+      <Button layoutX="592.0" layoutY="440.0" mnemonicParsing="false" onAction="#handleCancel" text="Abbrechen" AnchorPane.rightAnchor="135.0" />
+      <DatePicker fx:id="datumVon" layoutX="284.0" layoutY="235.0" AnchorPane.leftAnchor="284.0" />
+      <DatePicker fx:id="datumBis" layoutX="491.0" layoutY="235.0" AnchorPane.rightAnchor="22.0" />
       <Label layoutX="541.0" layoutY="240.0" text="bis:" AnchorPane.rightAnchor="254.0" />
       <Label layoutX="237.0" layoutY="240.0" text="von:" AnchorPane.leftAnchor="237.0" />
    </children>

@@ -48,7 +48,7 @@ public class RootLayoutController {
 			fxml_gui.showMainPage();
 			break;
 		case "Veranstaltungen":
-			fxml_gui.showVeranstaltug(ändern);
+			fxml_gui.showVeranstaltung(ändern);
 			break;
 		case "Dozenten":
 			fxml_gui.showDozent();

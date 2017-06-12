@@ -2,6 +2,7 @@ package de.dpma.view;
 
 import de.dpma.FXML_GUI;
 import javafx.fxml.FXML;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
 public class VeranstaltungController {
@@ -21,8 +22,11 @@ public class VeranstaltungController {
 	@FXML
 	TextField vortragTextField;
 	
-	// @FXML
-	// datum;
+	@FXML
+	DatePicker datumVon;
+	
+	@FXML
+	DatePicker datumBis;
 	
 	@FXML
 	TextField euro_StdTextField;
@@ -36,9 +40,11 @@ public class VeranstaltungController {
 	@FXML
 	TextField betrag_ABCTextField;
 	
-	public VeranstaltungController(boolean ändern) {
+	public void handleNew(boolean ändern) {
+		
 		if (ändern) {
-			dozentTextField.setText("");
+			dozentTextField.setText(""); // TODO SQL Select Befehl | get
+											// Selected item
 			aktenzeichenTextField.setText("");
 			schulArtTextField.setText("");
 			vfgTextField.setText("");
@@ -54,6 +60,10 @@ public class VeranstaltungController {
 	private void handleSubmit() {
 		
 		// TODO insert befehl
+		
+		System.out.println(datumVon.getValue());
+		System.out.println(datumBis.getValue());
+		
 	}
 	
 	@FXML
