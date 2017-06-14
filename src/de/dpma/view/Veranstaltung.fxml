@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="820.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dpma.view.VeranstaltungController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="801.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dpma.view.VeranstaltungController">
    <children>
       <Label layoutX="75.0" layoutY="40.0" text="Dozent:" AnchorPane.leftAnchor="50.0" />
       <Label layoutX="75.0" layoutY="80.0" text="Aktenzeichen:" AnchorPane.leftAnchor="50.0" />
@@ -14,24 +15,24 @@
       <Label layoutX="75.0" layoutY="160.0" text="Vfg:" AnchorPane.leftAnchor="50.0" />
       <Label layoutX="75.0" layoutY="200.0" text="Vortrag" AnchorPane.leftAnchor="50.0" />
       <Label layoutX="75.0" layoutY="240.0" text="Datum" AnchorPane.leftAnchor="50.0" />
-      <Label layoutX="75.0" layoutY="280.0" text="Euro_Std" AnchorPane.leftAnchor="50.0" />
-      <Label layoutX="75.0" layoutY="320.0" text="StdZahl" AnchorPane.leftAnchor="50.0" />
+      <Label layoutX="75.0" layoutY="280.0" text="Euro pro Stunde" AnchorPane.leftAnchor="50.0" />
+      <Label layoutX="75.0" layoutY="320.0" text="Stundenanzahl" AnchorPane.leftAnchor="50.0" />
       <Label layoutX="75.0" layoutY="360.0" text="Betrag" AnchorPane.leftAnchor="50.0" />
       <Label layoutX="75.0" layoutY="400.0" text="Betrag_ABC" AnchorPane.leftAnchor="50.0" />
-      <TextField fx:id="dozentTextField" layoutX="237.0" layoutY="35.0" prefHeight="31.0" prefWidth="241.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="22.0" />
+      <Label layoutX="541.0" layoutY="240.0" text="bis:" AnchorPane.rightAnchor="254.0" />
+      <Label layoutX="237.0" layoutY="240.0" text="von:" AnchorPane.leftAnchor="237.0" />
+      <TextField fx:id="dozentTextField" layoutX="237.0" layoutY="35.0" onKeyTyped="#handleTypingDozent" prefHeight="31.0" prefWidth="241.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="22.0" />
       <TextField fx:id="aktenzeichenTextField" layoutX="237.0" layoutY="75.0" prefHeight="31.0" prefWidth="241.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="22.0" />
       <TextField fx:id="schulArtTextField" layoutX="237.0" layoutY="115.0" prefHeight="31.0" prefWidth="241.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="22.0" />
       <TextField fx:id="vfgTextField" layoutX="237.0" layoutY="155.0" prefHeight="31.0" prefWidth="241.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="22.0" />
-      <TextField fx:id="vortragTextField" layoutX="237.0" layoutY="195.0" prefHeight="31.0" prefWidth="241.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="22.0" />
-      <TextField fx:id="euro_StdTextField" layoutX="237.0" layoutY="275.0" prefHeight="31.0" prefWidth="241.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="22.0" />
-      <TextField fx:id="stdZahlTextField" layoutX="237.0" layoutY="315.0" prefHeight="31.0" prefWidth="241.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="22.0" />
+      <ComboBox fx:id="vortragComboBox" layoutX="561.0" layoutY="195.0" prefHeight="31.0" prefWidth="218.0" />
+      <DatePicker fx:id="datumVon" layoutX="284.0" layoutY="235.0" AnchorPane.leftAnchor="284.0" />
+      <DatePicker fx:id="datumBis" layoutX="491.0" layoutY="235.0" AnchorPane.rightAnchor="22.0" />
+      <ComboBox fx:id="euro_StdComboBox" layoutX="561.0" layoutY="275.0" prefHeight="31.0" prefWidth="218.0" AnchorPane.leftAnchor="561.0" AnchorPane.rightAnchor="22.0" />
+      <TextField fx:id="stdZahlTextField" layoutX="561.0" layoutY="315.0" prefHeight="31.0" prefWidth="218.0" AnchorPane.leftAnchor="561.0" AnchorPane.rightAnchor="22.0" />
       <TextField fx:id="betragTextField" layoutX="237.0" layoutY="355.0" prefHeight="31.0" prefWidth="241.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="22.0" />
       <TextField fx:id="betrag_ABCTextField" layoutX="237.0" layoutY="395.0" prefHeight="31.0" prefWidth="241.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="22.0" />
       <Button layoutX="591.0" layoutY="440.0" mnemonicParsing="false" onAction="#handleSubmit" prefWidth="93.0" text="OK" AnchorPane.rightAnchor="22.0" />
       <Button layoutX="592.0" layoutY="440.0" mnemonicParsing="false" onAction="#handleCancel" text="Abbrechen" AnchorPane.rightAnchor="135.0" />
-      <DatePicker fx:id="datumVon" layoutX="284.0" layoutY="235.0" AnchorPane.leftAnchor="284.0" />
-      <DatePicker fx:id="datumBis" layoutX="491.0" layoutY="235.0" AnchorPane.rightAnchor="22.0" />
-      <Label layoutX="541.0" layoutY="240.0" text="bis:" AnchorPane.rightAnchor="254.0" />
-      <Label layoutX="237.0" layoutY="240.0" text="von:" AnchorPane.leftAnchor="237.0" />
    </children>
 </AnchorPane>

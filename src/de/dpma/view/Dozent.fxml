@@ -6,8 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="493.0" prefWidth="532.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
+<AnchorPane prefHeight="493.0" prefWidth="532.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dpma.view.DozentController">
    <children>
       <Label layoutX="50.0" layoutY="40.0" text="Anrede" />
       <Label layoutX="50.0" layoutY="80.0" text="Titel" />
@@ -19,17 +18,17 @@
       <Label layoutX="50.0" layoutY="320.0" text="Kontonummer" />
       <Label layoutX="50.0" layoutY="360.0" text="Bank" />
       <Label layoutX="50.0" layoutY="400.0" text="BLZ" />
-      <ComboBox layoutX="383.0" layoutY="35.0" prefHeight="31.0" prefWidth="132.0" AnchorPane.rightAnchor="30.0" />
-      <TextField layoutX="247.0" layoutY="75.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
-      <TextField layoutX="243.0" layoutY="115.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
-      <TextField layoutX="243.0" layoutY="155.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
-      <TextField layoutX="243.0" layoutY="195.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
-      <TextField layoutX="243.0" layoutY="235.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
-      <TextField layoutX="243.0" layoutY="275.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
-      <TextField layoutX="243.0" layoutY="315.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
-      <TextField layoutX="243.0" layoutY="355.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
-      <TextField layoutX="243.0" layoutY="395.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
-      <Button layoutX="422.0" layoutY="440.0" mnemonicParsing="false" prefWidth="93.0" text="OK" AnchorPane.rightAnchor="30.0" />
-      <Button layoutX="306.0" layoutY="440.0" mnemonicParsing="false" text="Abbrechen" AnchorPane.rightAnchor="146.0" />
+      <ComboBox fx:id="anredeComboBox" layoutX="383.0" layoutY="35.0" prefHeight="31.0" prefWidth="132.0" AnchorPane.rightAnchor="30.0" />
+      <TextField fx:id="titelTextField" layoutX="247.0" layoutY="75.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
+      <TextField fx:id="vornameTextField" layoutX="243.0" layoutY="115.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
+      <TextField fx:id="nameTextField" layoutX="243.0" layoutY="155.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
+      <TextField fx:id="eTextField" layoutX="243.0" layoutY="195.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
+      <TextField fx:id="pLZTextField" layoutX="243.0" layoutY="235.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
+      <TextField fx:id="ortTextField" layoutX="243.0" layoutY="275.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
+      <TextField fx:id="kontonummerTextField" layoutX="243.0" layoutY="315.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
+      <TextField fx:id="bankTextField" layoutX="243.0" layoutY="355.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
+      <TextField fx:id="bLZTextField" layoutX="243.0" layoutY="395.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
+      <Button layoutX="422.0" layoutY="440.0" mnemonicParsing="false" onAction="#handleSubmit" prefWidth="93.0" text="OK" AnchorPane.rightAnchor="30.0" />
+      <Button layoutX="306.0" layoutY="440.0" mnemonicParsing="false" onAction="#handleCancel" text="Abbrechen" AnchorPane.rightAnchor="146.0" />
    </children>
 </AnchorPane>

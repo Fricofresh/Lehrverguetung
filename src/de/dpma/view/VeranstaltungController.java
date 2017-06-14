@@ -1,7 +1,10 @@
 package de.dpma.view;
 
 import de.dpma.FXML_GUI;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
@@ -20,7 +23,7 @@ public class VeranstaltungController {
 	TextField vfgTextField;
 	
 	@FXML
-	TextField vortragTextField;
+	ComboBox<String> vortragComboBox;
 	
 	@FXML
 	DatePicker datumVon;
@@ -29,7 +32,7 @@ public class VeranstaltungController {
 	DatePicker datumBis;
 	
 	@FXML
-	TextField euro_StdTextField;
+	ComboBox<String> euro_StdComboBox;
 	
 	@FXML
 	TextField stdZahlTextField;
@@ -40,16 +43,32 @@ public class VeranstaltungController {
 	@FXML
 	TextField betrag_ABCTextField;
 	
-	public void handleNew(boolean ändern) {
+	@FXML
+	private void inizialize() {
+		
+		handleNew();
+	}
+	
+	public void handleNew() {
+		
+		boolean ändern = RootLayoutController.ändern;
+		// Stundenlohn Tabelle die Auswahlmöglichkeiten reinschmeißen
+		ObservableList<String> euro_StdComboBoxList = FXCollections.observableArrayList(); // Stundesatz
+																							// herausnehmen
+		euro_StdComboBox.setItems(euro_StdComboBoxList);
+		
+		ObservableList<String> vortragComboBoxList = FXCollections.observableArrayList("Schulung", "Sonstiges");
+		vortragComboBox.setItems(vortragComboBoxList);
 		
 		if (ändern) {
-			dozentTextField.setText(""); // TODO SQL Select Befehl | get
-											// Selected item
+			dozentTextField.setText("ändern"); // TODO SQL Select Befehl | get
+												// Selected item
 			aktenzeichenTextField.setText("");
 			schulArtTextField.setText("");
 			vfgTextField.setText("");
-			vortragTextField.setText("");
-			euro_StdTextField.setText("");
+			vortragComboBox.setValue("");
+			// Das neuste eingetragegene Satz
+			// euro_StdComboBox.setValue("");
 			stdZahlTextField.setText("");
 			betragTextField.setText("");
 			betrag_ABCTextField.setText("");
@@ -59,7 +78,7 @@ public class VeranstaltungController {
 	@FXML
 	private void handleSubmit() {
 		
-		// TODO insert befehl
+		// TODO Insert befehl
 		
 		System.out.println(datumVon.getValue());
 		System.out.println(datumBis.getValue());
@@ -70,5 +89,11 @@ public class VeranstaltungController {
 	private void handleCancel() {
 		
 		FXML_GUI.primaryStage.close();
+	}
+	
+	@FXML
+	private void handleTypingDozent() {
+		
+		// TODO Vorschläge bei Eingabe des Dozenten (list)
 	}
 }

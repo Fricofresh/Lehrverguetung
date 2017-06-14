@@ -3,7 +3,6 @@ package de.dpma;
 import java.util.logging.Logger;
 
 import de.dpma.util.AlertUtil;
-import de.dpma.view.VeranstaltungController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -71,22 +70,24 @@ public class FXML_GUI {
 	
 	public void showDozent() {
 		
+		handleChildren("Dozent");
 	}
 	
-	public void showLehrverguetung() {
-		
-	}
-	
-	public void showVeranstaltung(boolean ändern) {
+	public void showVeranstaltung() {
 		
 		// Path currentRelativePath = Paths.get("");
 		// String s = currentRelativePath.toAbsolutePath().toString();
 		// System.out.println("Current relative path is: " + s);
 		
 		handleChildren("Veranstaltung");
-		VeranstaltungController vc = new VeranstaltungController();
-		vc.handleNew(ändern);
 		
+	}
+	
+	public void showLehrverguetungssaetze() {
+		
+		handleChildren("Lehrverguetungssaetze");
+		primaryStage.setMaxWidth(400 + 60);
+		primaryStage.setMaxHeight(250 + 120);
 	}
 	
 	private void handleChildren(String FXML_Name) {

@@ -19,6 +19,8 @@ public class RootLayoutController {
 	
 	AlertUtil alert;
 	
+	static boolean ändern;
+	
 	@FXML
 	public void initialize() {
 		
@@ -42,19 +44,20 @@ public class RootLayoutController {
 	
 	public void handleGUI(String check, boolean ändern) {
 		
+		this.ändern = ändern;
 		fxml_gui = new FXML_GUI(stage, borderPane);
 		switch (check) {
 		case "main":
 			fxml_gui.showMainPage();
 			break;
 		case "Veranstaltungen":
-			fxml_gui.showVeranstaltung(ändern);
+			fxml_gui.showVeranstaltung();
 			break;
 		case "Dozenten":
 			fxml_gui.showDozent();
 			break;
 		case "Lehrvergütungssätze":
-			fxml_gui.showLehrverguetung();
+			fxml_gui.showLehrverguetungssaetze();
 			break;
 		case "":
 			

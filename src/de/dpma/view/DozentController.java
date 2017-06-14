@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 public class DozentController {
 	
 	@FXML
-	ComboBox anredeComboBox;
+	ComboBox<String> anredeComboBox;
 	
 	@FXML
 	TextField titelTextField;
@@ -39,12 +39,31 @@ public class DozentController {
 	@FXML
 	TextField bLZTextField;
 	
-	ObservableList<String> categoryComboBoxList = FXCollections.observableArrayList("Patente", "Marken", "Lernbücher",
-			"Zeitschriften");
+	ObservableList<String> anredeComboBoxList = FXCollections.observableArrayList("Frau", "Herr");
 	
 	@FXML
 	public void initialize() {
 		
+		anredeComboBox.setItems(anredeComboBoxList);
+	}
+	
+	private void handleNew() {
+		
+		boolean ändern = RootLayoutController.ändern;
+		
+		if (ändern) {
+			// anredeComboBox.setSelectionModel("");// TODO SQL Select Befehl |
+			// get Selected item
+			titelTextField.setText("");
+			vornameTextField.setText("");
+			nameTextField.setText("");
+			straßeTextField.setText("");
+			pLZTextField.setText("");
+			ortTextField.setText("");
+			kontonummerTextField.setText("");
+			bankTextField.setText("");
+			bLZTextField.setText("");
+		}
 	}
 	
 	@FXML
