@@ -6,14 +6,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="250.0" maxWidth="400.0" prefHeight="250.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dpma.view.LehrverguetungssaetzeController">
+<AnchorPane maxHeight="250.0" maxWidth="463.0" prefHeight="250.0" prefWidth="463.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dpma.view.LehrverguetungssaetzeController">
    <children>
-      <Label fx:id="headerLabel" layoutX="29.0" layoutY="14.0" text="Neue Lehrvergütung hinzufügen" textAlignment="CENTER" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="28.0">
+      <Label fx:id="headerLabel" alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="35.0" prefWidth="429.0" text="Neuen Lehrvergütungssatz hinzufügen" textAlignment="CENTER" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="12.0">
          <font>
             <Font size="24.0" />
          </font></Label>
-      <TextField fx:id="tungsSatzTextField" layoutX="29.0" layoutY="119.0" prefHeight="31.0" prefWidth="344.0" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="28.0" />
-      <Button layoutX="280.0" layoutY="198.0" mnemonicParsing="false" onAction="#handleSubmit" prefHeight="31.0" prefWidth="93.0" text="OK" />
-      <Button layoutX="168.0" layoutY="198.0" mnemonicParsing="false" onAction="#handleCancel" text="Abbrechen" />
+      <TextField fx:id="tungsSatzTextField" layoutX="28.0" layoutY="110.0" prefHeight="31.0" prefWidth="344.0" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="28.0" />
+      <Button layoutX="342.0" layoutY="198.0" mnemonicParsing="false" onAction="#handleSubmit" prefHeight="31.0" prefWidth="93.0" text="OK" />
+      <Button layoutX="232.0" layoutY="198.0" mnemonicParsing="false" onAction="#handleCancel" text="Abbrechen" />
    </children>
 </AnchorPane>
