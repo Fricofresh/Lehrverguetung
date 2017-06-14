@@ -32,7 +32,7 @@ public class AlertUtil {
 			
 			alert.setTitle("Information");
 			alert.setHeaderText(title);
-			alert.setContentText(null);
+			alert.setContentText(content);
 			// alert.initOwner(stage);
 			alert.showAndWait();
 		}

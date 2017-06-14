@@ -4,6 +4,8 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -16,7 +18,12 @@
           <Button mnemonicParsing="false" onAction="#handleNew" text="Neu" />
             <Button mnemonicParsing="false" onAction="#handleEdit" text="Ändern" />
             <Button mnemonicParsing="false" onAction="#handleDelete" text="Löschen" />
-            <Button mnemonicParsing="false" onAction="#handleCreateDoc" text="Dokument erstellen" />
+            <MenuButton mnemonicParsing="false" text="Dokument erstellen">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#handleCreateDocRechnung" text="Rechnungsbegleitblatt" />
+                <MenuItem mnemonicParsing="false" onAction="#handleCreateDocAuszahlung" text="Auszahlung Lehrvergütung" />
+              </items>
+            </MenuButton>
         </buttons>
       </ButtonBar>
       <SplitPane dividerPositions="0.3192771084337349" layoutY="118.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">

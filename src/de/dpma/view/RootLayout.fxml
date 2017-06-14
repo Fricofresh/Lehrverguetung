@@ -14,7 +14,7 @@
               <menus>
                 <Menu mnemonicParsing="false" text="Datei">
                   <items>
-                        <MenuItem mnemonicParsing="false" text="Gesamtliste Exportieren" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleExport" text="Gesamtliste Exportieren" />
                     <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Beenden" />
                   </items>
                 </Menu>

@@ -1,12 +1,15 @@
 package de.dpma.view;
 
+import java.io.File;
 import java.sql.SQLException;
 
 import de.dpma.FXML_GUI;
 import de.dpma.MainApp;
 import de.dpma.util.AlertUtil;
+import de.dpma.util.GenerateExcelData;
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class RootLayoutController {
@@ -66,6 +69,25 @@ public class RootLayoutController {
 		default:
 			alert = new AlertUtil("Falscher übergabeparameter", "Bitte kontaktieren Sie den Administrator!", "WARNING");
 			break;
+		}
+	}
+	
+	@FXML
+	private void handleExport() {
+		
+		FileChooser chooser = new FileChooser();
+		chooser.setTitle("Speichern");
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Excel Datei (*.xlsx)", "*.xlsx");
+		chooser.getExtensionFilters().add(extFilter);
+		
+		String directory = chooser.getExtensionFilters().toString();
+		
+		File file = chooser.showSaveDialog(FXML_GUI.primaryStage.getScene().getWindow());
+		
+		if (file != null) {
+			GenerateExcelData ged = new GenerateExcelData(file);
+			alert = new AlertUtil("Gesamtliste exportiert",
+					"Die Gesamtliste wurde erfolgreich im Ordner " + file + " abgelegt.", "INFO");
 		}
 	}
 }

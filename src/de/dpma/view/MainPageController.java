@@ -1,20 +1,25 @@
 package de.dpma.view;
 
+import java.io.File;
 import java.sql.SQLException;
 
 import de.dpma.FXML_GUI;
 import de.dpma.MainApp;
 import de.dpma.dao.DozentDAO;
 import de.dpma.dao.EventDAO;
+import de.dpma.dao.StundenlohnDAO;
 import de.dpma.model.Dozent;
 import de.dpma.model.Event;
+import de.dpma.model.Stundenlohn;
 import de.dpma.util.AlertUtil;
+import de.dpma.util.WriteDocx;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.stage.FileChooser;
 
 public class MainPageController {
 	
@@ -29,8 +34,6 @@ public class MainPageController {
 	RootLayoutController root = new RootLayoutController();
 	
 	String fokus = "Veranstaltungen";
-	
-	boolean firstTime = true;
 	
 	@FXML
 	public void initialize() {
@@ -110,23 +113,16 @@ public class MainPageController {
 			
 			tabellenTableView.setItems(eventData);
 			
-			// nameTableColumn.setCellValueFactory(cellData ->
-			// cellData.getValue().dozentName());
+			nameTableColumn.setCellValueFactory(cellData -> cellData.getValue().DozentProperty());
 			aktenzeichenTableColumn.setCellValueFactory(cellData -> cellData.getValue().AktenzProperty());
 			schulArt.setCellValueFactory(cellData -> cellData.getValue().SchulartProperty());
 			vfgTableColumn.setCellValueFactory(cellData -> cellData.getValue().VfgProperty());
-			// vortragTableColumn.setCellValueFactory(cellData ->
-			// cellData.getValue().vortragName());
-			// datumTableColumn.setCellValueFactory(
-			// cellData -> cellData.getValue().getDate_start() + " " +
-			// cellData.getValue().getDate_end());
-			// euro_StdTableColumn.setCellValueFactory(cellData ->
-			// cellData.getValue().euroStdString();
+			vortragTableColumn.setCellValueFactory(cellData -> cellData.getValue().VortragsArtProperty());
+			datumTableColumn.setCellValueFactory(cellData -> cellData.getValue().DateProperty());
+			euro_StdTableColumn.setCellValueFactory(cellData -> cellData.getValue().Euro_stdProperty());
 			stdZahlTableColumn.setCellValueFactory(cellData -> cellData.getValue().getStundenZahlString());
-			// betragTableColumn.setCellValueFactory(cellData ->
-			// cellData.getValue().betragString());
-			// betrag_ABCTableColumn.setCellValueFactory(cellData ->
-			// cellData.getValue().betrag_ABCString());
+			betragTableColumn.setCellValueFactory(cellData -> cellData.getValue().BetragProperty());
+			betrag_ABCTableColumn.setCellValueFactory(cellData -> cellData.getValue().Betrag_ABCProperty());
 		}
 		catch (SQLException e) {
 			alert = new AlertUtil("Datenbankfehler",
@@ -168,8 +164,7 @@ public class MainPageController {
 			nameTableColumn.setCellValueFactory(cellData -> cellData.getValue().NameProperty());
 			straßeTableColumn.setCellValueFactory(cellData -> cellData.getValue().StrasseProperty());
 			pLZTableColumn.setCellValueFactory(cellData -> cellData.getValue().PLZProperty());
-			// ortTableColumn.setCellValueFactory(cellData ->
-			// cellData.getValue().);
+			ortTableColumn.setCellValueFactory(cellData -> cellData.getValue().OrtProperty());
 			kontonummerTableColumn.setCellValueFactory(cellData -> cellData.getValue().IBANProperty());
 			bankTableColumn.setCellValueFactory(cellData -> cellData.getValue().BankProperty());
 			bLZTableColumn.setCellValueFactory(cellData -> cellData.getValue().BLZProperty());
@@ -183,17 +178,52 @@ public class MainPageController {
 	
 	private void handleLehrverguetung() {
 		
-		// TODO Tabelle mit den Daten füllen
+		TableColumn<Stundenlohn, String> vergütungTableColumn = new TableColumn("Vergütung");
+		tabellenTableView.getColumns().setAll(vergütungTableColumn);
+		
+		try {
+			// TODO Tabelle mit den Daten füllen
+			StundenlohnDAO stundenlohnDAO = new StundenlohnDAO(MainApp.dbcon.getConnection());
+			ObservableList<Stundenlohn> stundenlohnData = FXCollections.observableArrayList();
+			
+			stundenlohnData = FXCollections.observableArrayList(stundenlohnDAO.selectAllStundenloehne());
+			
+			tabellenTableView.setItems(stundenlohnData);
+			
+			vergütungTableColumn.setCellValueFactory(cellData -> cellData.getValue().LohnProperty());
+			
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
-	public void handleCreateDoc() {
+	public void handleCreateDocRechnung() {
 		
-		// TODO Excel Export
+		try {
+			// TODO Word export
+			FileChooser chooser = new FileChooser();
+			chooser.setTitle("Speichern");
+			FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Word Datei (*.docx)", "*.docx");
+			chooser.getExtensionFilters().add(extFilter);
+			
+			String directory = chooser.getExtensionFilters().toString();
+			
+			File file = chooser.showSaveDialog(FXML_GUI.primaryStage.getScene().getWindow());
+			WriteDocx wdoc = new WriteDocx(file);
+		}
+		catch (Exception e) {
+		}
+	}
+	
+	public void handleCreateDocAuszahlung() {
+		
+		// TODO Word export
 	}
 	
 	public void handleSearch() {
 		
-		// TODO Suchen
+		// TODO Suchenfunktion
 	}
 }
