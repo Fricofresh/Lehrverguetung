@@ -10,17 +10,17 @@ import java.util.List;
 import de.dpma.model.Dozent;
 
 public class DozentDAO {
-	final String INSERT_DOZENT = "INSERT INTO \"LEHRVERGUETUNG\".\"DOZENTEN\" (\"ANREDE\", \"TITEL\", \"VORNAME\", \"NAME\", \"STRASSE\", \"PLZ\", \"IBAN\", \"BANK\", \"BLZ\") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	final String INSERT_DOZENT = "INSERT INTO \"LEHRVERGUETUNG\".\"DOZENTEN\" (\"ANREDE\", \"TITEL\", \"VORNAME\", \"NAME\", \"STRASSE\", \"PLZ\", \"IBAN\", \"BANK\", \"BLZ\", \"ORT\") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	final String DELETE_DOZENT = "DELETE FROM \"LEHRVERGUETUNG\".\"DOZENTEN\" WHERE \"ID\" = ?";
 
-	final String UPDATE_DOZENT = "UPDATE \"LEHRVERGUETUNG\".\"DOZENTEN\" SET \"ANREDE\" = ?, \"TITEL\" = ?, \"VORNAME\" = ?, \"NAME\" = ?, \"STRASSE\" = ?, \"PLZ\" = ?, \"IBAN\" = ?, \"BANK\" = ?, \"BLZ\" = ? WHERE \"ID\" = ?";
+	final String UPDATE_DOZENT = "UPDATE \"LEHRVERGUETUNG\".\"DOZENTEN\" SET \"ANREDE\" = ?, \"TITEL\" = ?, \"VORNAME\" = ?, \"NAME\" = ?, \"STRASSE\" = ?, \"PLZ\" = ?, \"IBAN\" = ?, \"BANK\" = ?, \"BLZ\" = ?, \"ORT\" = ? WHERE \"ID\" = ?";
 
 	final String SELECT_DOZENT = "SELECT * FROM \"LEHRVERGUETUNG\".\"DOZENTEN\" WHERE \"ID\" = ?";
 
 	final String SELECT_DOZENT_ALL = "SELECT * FROM \"LEHRVERGUETUNG\".\"DOZENTEN\"";
 
-	final String SELECT_DOZENT_SEARCH = "SELECT * FROM \"LEHRVERGUETUNG\".\"DOZENTEN\" WHERE LOWER(\"ANREDE\") LIKE ? OR LOWER(\"TITEL\") LIKE ? OR LOWER(\"VORNAME\") LIKE ? OR LOWER(\"NAME\") LIKE ? OR LOWER(\"STRASSE\") LIKE ? OR LOWER(\"PLZ\") LIKE ? OR LOWER(\"IBAN\") LIKE ? OR LOWER(\"BANK\") LIKE ? OR LOWER(\"BLZ\") LIKE ?";
+	final String SELECT_DOZENT_SEARCH = "SELECT * FROM \"LEHRVERGUETUNG\".\"DOZENTEN\" WHERE LOWER(\"ANREDE\") LIKE ? OR LOWER(\"TITEL\") LIKE ? OR LOWER(\"VORNAME\") LIKE ? OR LOWER(\"NAME\") LIKE ? OR LOWER(\"STRASSE\") LIKE ? OR LOWER(\"PLZ\") LIKE ? OR LOWER(\"IBAN\") LIKE ? OR LOWER(\"BANK\") LIKE ? OR LOWER(\"BLZ\") LIKE ? OR LOWER(\"ORT\") LIKE ?";
 
 	private int id;
 
@@ -47,6 +47,7 @@ public class DozentDAO {
 			dozent.setIBAN(result.getString("IBAN"));
 			dozent.setBank(result.getString("BANK"));
 			dozent.setBLZ(result.getString("BLZ"));
+			dozent.setOrt(result.getString("ORT"));
 		}
 		return dozent;
 	}
@@ -63,7 +64,7 @@ public class DozentDAO {
 		PreparedStatement stat = con.prepareStatement(SELECT_DOZENT_ALL);
 		ResultSet result = stat.executeQuery();
 
-		ArrayList<Dozent> dozents = new ArrayList<>();
+		ArrayList<Dozent> dozenten = new ArrayList<>();
 		while (result.next()) {
 			Dozent dozent = new Dozent();
 			dozent.setId(result.getInt("ID"));
@@ -76,9 +77,10 @@ public class DozentDAO {
 			dozent.setIBAN(result.getString("IBAN"));
 			dozent.setBank(result.getString("BANK"));
 			dozent.setBLZ(result.getString("BLZ"));
-			dozents.add(dozent);
+			dozent.setOrt(result.getString("ORT"));
+			dozenten.add(dozent);
 		}
-		return dozents;
+		return dozenten;
 	}
 
 	public Dozent insertDozent(Dozent dozent) throws SQLException {
@@ -92,6 +94,7 @@ public class DozentDAO {
 		stat.setString(7, dozent.getIBAN());
 		stat.setString(8, dozent.getBank());
 		stat.setString(9, dozent.getBLZ());
+		stat.setString(10, dozent.getOrt());
 
 		stat.executeUpdate();
 		return dozent;
@@ -108,7 +111,8 @@ public class DozentDAO {
 		stat.setString(7, dozent.getIBAN());
 		stat.setString(8, dozent.getBank());
 		stat.setString(9, dozent.getBLZ());
-		stat.setInt(10, dozent.getId());
+		stat.setString(10, dozent.getOrt());
+		stat.setInt(11, dozent.getId());
 
 		stat.executeUpdate();
 		return dozent;
@@ -125,9 +129,10 @@ public class DozentDAO {
 		stat.setString(7, ("%" + searchString + "%").toLowerCase());
 		stat.setString(8, ("%" + searchString + "%").toLowerCase());
 		stat.setString(9, ("%" + searchString + "%").toLowerCase());
+		stat.setString(10, ("%" + searchString + "%").toLowerCase());
 		ResultSet result = stat.executeQuery();
 
-		ArrayList<Dozent> dozents = new ArrayList<>();
+		ArrayList<Dozent> dozenten = new ArrayList<>();
 		while (result.next()) {
 			Dozent dozent = new Dozent();
 			dozent.setId(result.getInt("ID"));
@@ -140,9 +145,10 @@ public class DozentDAO {
 			dozent.setIBAN(result.getString("IBAN"));
 			dozent.setBank(result.getString("BANK"));
 			dozent.setBLZ(result.getString("BLZ"));
-			dozents.add(dozent);
+			dozent.setOrt(result.getString("ORT"));
+			dozenten.add(dozent);
 		}
-		return dozents;
+		return dozenten;
 	}
 
 }

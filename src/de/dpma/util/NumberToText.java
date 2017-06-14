@@ -1,5 +1,8 @@
 package de.dpma.util;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 public class NumberToText {
 
 	/**
@@ -203,7 +206,11 @@ public class NumberToText {
 	 */
 	public static String NumberToText(double y) {
 		int x = (int) y;
-		String after = String.valueOf(y).substring(String.valueOf(y).lastIndexOf(".") + 1);
+
+		DecimalFormat df = new DecimalFormat("#.##");
+		df.setRoundingMode(RoundingMode.HALF_UP);
+
+		String after = String.valueOf(df.format(y)).substring(String.valueOf(y).lastIndexOf(".") + 1);
 
 		int digits; /* Anzahl der bearb. Stellen */
 		String result; /* Zahl in Worten */

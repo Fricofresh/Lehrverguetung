@@ -18,6 +18,7 @@ public class Dozent {
 	private StringProperty iban = new SimpleStringProperty();
 	private StringProperty bank = new SimpleStringProperty();
 	private StringProperty blz = new SimpleStringProperty();
+	private StringProperty ort = new SimpleStringProperty();
 
 	// Constructor um in BuchDAO Select ein Buch zu erstellen und dieses mit
 	// Daten zu füllen
@@ -27,7 +28,7 @@ public class Dozent {
 
 	// Standard Event Constructor
 	public Dozent(int id, String anrede, String titel, String vorname, String name, String strasse, String plz,
-			String iban, String bank, String blz) {
+			String iban, String bank, String blz, String ort) {
 		this.id = new SimpleIntegerProperty(id);
 		this.anrede = new SimpleStringProperty(anrede);
 		this.titel = new SimpleStringProperty(titel);
@@ -38,6 +39,7 @@ public class Dozent {
 		this.iban = new SimpleStringProperty(iban);
 		this.bank = new SimpleStringProperty(bank);
 		this.blz = new SimpleStringProperty(blz);
+		this.ort = new SimpleStringProperty(ort);
 	}
 
 	public int getId() {
@@ -158,6 +160,18 @@ public class Dozent {
 
 	public StringProperty BLZProperty() {
 		return this.blz;
+	}
+
+	public String getOrt() {
+		return ort.get();
+	}
+
+	public void setOrt(String ort) {
+		this.ort.set(ort);
+	}
+
+	public StringProperty OrtProperty() {
+		return this.ort;
 	}
 
 }
