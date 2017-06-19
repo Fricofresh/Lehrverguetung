@@ -10,12 +10,12 @@
    <top>
       <AnchorPane BorderPane.alignment="CENTER">
          <children>
-            <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <MenuBar fx:id="menuMenuBar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
               <menus>
                 <Menu mnemonicParsing="false" text="Datei">
                   <items>
-                        <MenuItem mnemonicParsing="false" onAction="#handleExport" text="Gesamtliste Exportieren" />
-                        <MenuItem mnemonicParsing="false" onAction="#handleSettings" text="Einstellungen" />
+                        <MenuItem fx:id="gesammtListeMenuItem" mnemonicParsing="false" onAction="#handleExport" text="Gesamtliste Exportieren" />
+                        <MenuItem fx:id="einstellungenMenuItem" mnemonicParsing="false" onAction="#handleSettings" text="Einstellungen" />
                     <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Beenden" />
                   </items>
                 </Menu>

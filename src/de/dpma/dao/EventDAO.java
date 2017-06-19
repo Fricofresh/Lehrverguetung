@@ -54,7 +54,7 @@ public class EventDAO {
 	public Event deleteEvent(int id) throws SQLException {
 		PreparedStatement stat = con.prepareStatement(DELETE_EVENT);
 		stat.setInt(1, id);
-		stat.executeQuery();
+		stat.executeUpdate();
 
 		return null;
 	}

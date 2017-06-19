@@ -47,7 +47,7 @@ public class StundenlohnDAO {
 	public Stundenlohn deleteStundenlohn(int id) throws SQLException {
 		PreparedStatement stat = con.prepareStatement(DELETE_STUNDENLOHN);
 		stat.setInt(1, id);
-		stat.executeQuery();
+		stat.executeUpdate();
 
 		return null;
 	}

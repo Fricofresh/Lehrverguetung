@@ -55,7 +55,7 @@ public class DozentDAO {
 	public Dozent deleteDozent(int id) throws SQLException {
 		PreparedStatement stat = con.prepareStatement(DELETE_DOZENT);
 		stat.setInt(1, id);
-		stat.executeQuery();
+		stat.executeUpdate();
 
 		return null;
 	}

@@ -15,139 +15,144 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class FXML_GUI {
-	
+
 	Logger log = Logger.getLogger(FXML_GUI.class.getName());
-	
+
 	public static Stage primaryStage;
-	
+
 	public BorderPane rootLayout;
-	
+
 	Scene scene;
-	
+
 	AlertUtil alert;
-	
+
 	Object tabelle;
-	
+
 	public FXML_GUI() {
-		
+
 	}
-	
+
 	public FXML_GUI(Stage primaryStage, BorderPane rootLayout) {
 		this.primaryStage = primaryStage;
 		this.rootLayout = rootLayout;
-		initRootLayout();
+		initRootLayout(false);
 	}
-	
-	public void initRootLayout() {
-		
+
+	public FXML_GUI(Stage primaryStage, BorderPane rootLayout, String dump) {
+		this.primaryStage = primaryStage;
+		this.rootLayout = rootLayout;
+		initRootLayout(true);
+	}
+
+	public void initRootLayout(boolean b) {
+
 		try {
 			primaryStage = new Stage();
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(FXML_GUI.class.getResource("view/RootLayout.fxml"));
 			rootLayout = (BorderPane) loader.load();
 			Scene scene = new Scene(rootLayout);
-			
+
 			primaryStage.setScene(scene);
+
 			primaryStage.show();
-		}
-		catch (NullPointerException n) {
+
+		} catch (NullPointerException n) {
 			String nu = n.toString();
 			alert = new AlertUtil("NullPointerException", nu, "WARNING");
 			n.printStackTrace();
-		}
-		catch (Exception e) {
-			
+		} catch (Exception e) {
+
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public void showMainPage() {
-		
+
 		handleChildren("MainPage");
-		
+
 	}
-	
+
 	// Anpassung der Größe
 	private void sizeHandling(double height, double width) {
-		
+
 		primaryStage.setMinWidth(width + 60);
 		primaryStage.setMinHeight(height + 120);
 	}
-	
+
 	public void showDozent(Object tabelle) {
-		
+
 		handleChildren("Dozent", tabelle, "dc");
 	}
-	
+
 	public void showVeranstaltung(Object tabelle) {
-		
+
 		// Path currentRelativePath = Paths.get("");
 		// String s = currentRelativePath.toAbsolutePath().toString();
 		// System.out.println("Current relative path is: " + s);
 		if (tabelle != null) {
 			this.tabelle = tabelle;
 			handleChildren("Veranstaltung", tabelle, "vc");
-		}
-		else {
-			
+		} else {
+
 			handleChildren("Veranstaltung");
 		}
-		
+
 	}
-	
+
 	public void showLehrverguetungssaetze(Object tabelle) {
-		
+
 		handleChildren("Lehrverguetungssaetze", tabelle, "lc");
 		primaryStage.setMaxWidth(400 + 60);
 		primaryStage.setMaxHeight(250 + 120);
 	}
-	
+
 	private void handleChildren(String FXML_Name) {
-		
+
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(this.getClass().getResource("view/" + FXML_Name + ".fxml"));
-			
+
 			AnchorPane children;
 			children = (AnchorPane) loader.load();
 			sizeHandling(children.getPrefHeight(), children.getPrefWidth());
 			rootLayout.setCenter(children);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	private void handleChildren(String FXML_Name, Object tabelle, String check) {
-		
+
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(this.getClass().getResource("view/" + FXML_Name + ".fxml"));
-			
+
 			AnchorPane children;
 			children = (AnchorPane) loader.load();
 			if (check.equals("vc")) {
 				Event event = (Event) tabelle;
 				VeranstaltungController vc = loader.getController();
 				vc.handleNew(event);
-			}
-			else if (check.equals("dc")) {
+			} else if (check.equals("dc")) {
 				Dozent dozent = (Dozent) tabelle;
-			}
-			else if (check.equals("lc")) {
+			} else if (check.equals("lc")) {
 				Stundenlohn stundenlohn = (Stundenlohn) tabelle;
 				LehrverguetungssaetzeController lc = new LehrverguetungssaetzeController();
 				lc.handleNew(stundenlohn);
 			}
 			sizeHandling(children.getPrefHeight(), children.getPrefWidth());
 			rootLayout.setCenter(children);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
+	public void showInsertPersonalData() {
+		handleChildren("InsertPersonalData");
+	}
+
 }

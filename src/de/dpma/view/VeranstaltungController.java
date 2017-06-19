@@ -1,7 +1,12 @@
 package de.dpma.view;
 
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import de.dpma.FXML_GUI;
 import de.dpma.model.Event;
+import de.dpma.model.Stundenlohn;
 import de.dpma.util.AlertUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,62 +18,76 @@ import javafx.scene.control.TextField;
 public class VeranstaltungController {
 
 	@FXML
-	TextField dozentTextField;
+	TextField dozentTextField = new TextField();
 
 	@FXML
-	TextField aktenzeichenTextField;
+	TextField aktenzeichenTextField = new TextField();
 
 	@FXML
-	TextField schulArtTextField;
+	TextField schulArtTextField = new TextField();
 
 	@FXML
-	DatePicker vfgDatePicker;
+	DatePicker vfgDatePicker = new DatePicker();
 
 	@FXML
-	ComboBox<String> vortragComboBox;
+	ComboBox<String> vortragComboBox = new ComboBox();
 
 	@FXML
-	DatePicker datumVonDatePicker;
+	DatePicker datumVonDatePicker = new DatePicker();
 
 	@FXML
-	DatePicker datumBisDatePicker;
+	DatePicker datumBisDatePicker = new DatePicker();
 
 	@FXML
-	ComboBox<String> euro_StdComboBox;
+	ComboBox<String> euro_StdComboBox = new ComboBox();
 
 	@FXML
-	TextField stdZahlTextField;
+	TextField stdZahlTextField = new TextField();
 
 	@FXML
-	TextField betragTextField;
+	TextField betragTextField = new TextField();
 
 	@FXML
-	TextField betrag_ABCTextField;
+	TextField betrag_ABCTextField = new TextField();
 
 	Event event;
 
 	AlertUtil alert;
 
 	@FXML
-	private void inizialize() {
+	private void initialize() {
 
-		ObservableList<String> euro_StdComboBoxList = FXCollections.observableArrayList(); // Stundesatz
-		// herausnehmen
-		euro_StdComboBox.setItems(euro_StdComboBoxList);
+		try {
+			ObservableList<Stundenlohn> selectStundenloehne = FXCollections
+					.observableArrayList(MainPageController.stundenlohnDAO.selectAllStundenloehne());
+			ObservableList<String> euro_StdComboBoxList = FXCollections.observableArrayList();
+			for (int i = 0; i < selectStundenloehne.size(); i++) {
+				euro_StdComboBoxList.add(String.valueOf(selectStundenloehne.get(i).getLohn()));
+			}
+			euro_StdComboBox.setItems(euro_StdComboBoxList);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		ObservableList<String> vortragComboBoxList = FXCollections.observableArrayList("Schulung", "Sonstiges");
 		vortragComboBox.setItems(vortragComboBoxList);
 	}
 
-	public void handleNew(Event event) {
+	public static final LocalDate LOCAL_DATE(String dateString) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate localDate = LocalDate.parse(dateString, formatter);
+		return localDate;
+	}
 
+	public void handleNew(Event event) throws SQLException {
 		// Stundenlohn Tabelle die Auswahlmöglichkeiten reinschmeißen
 		this.event = event;
 
 		dozentTextField.setText(event.DozentString());
 		aktenzeichenTextField.setText(event.getAktenz());
 		schulArtTextField.setText(event.getSchulart());
-		// vfgDatePicker.setValue(event.getVfg());
+		vfgDatePicker.setValue(LOCAL_DATE(event.getVfg()));
 		String vortrag;
 		if (event.getVortrg_mode() == 1) {
 			vortrag = "Schulung";
@@ -76,10 +95,11 @@ public class VeranstaltungController {
 			vortrag = "Sonstiges";
 		}
 		vortragComboBox.setValue(vortrag);
-		// datumVonDatePicker.setValue();
-		// datumBisDatePicker.setValue();
+		datumVonDatePicker.setValue(LOCAL_DATE(event.getDate_start()));
+		datumBisDatePicker.setValue(LOCAL_DATE(event.getDate_end()));
 		// TODO Das neuste eingetragegene Satz anzeigen lassen
-		// euro_StdComboBox.setValue("");
+		euro_StdComboBox.setValue(
+				String.valueOf(MainPageController.stundenlohnDAO.selectStundenlohn(event.getId_euro_std()).getLohn()));
 		String stdZahl = String.valueOf(event.getStdzahl());
 		stdZahlTextField.setText(stdZahl);
 		String betrag = String.valueOf(event.BetragProperty());
