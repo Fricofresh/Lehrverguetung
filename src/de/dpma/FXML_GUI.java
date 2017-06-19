@@ -2,7 +2,12 @@ package de.dpma;
 
 import java.util.logging.Logger;
 
+import de.dpma.model.Dozent;
+import de.dpma.model.Event;
+import de.dpma.model.Stundenlohn;
 import de.dpma.util.AlertUtil;
+import de.dpma.view.LehrverguetungssaetzeController;
+import de.dpma.view.VeranstaltungController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -20,6 +25,8 @@ public class FXML_GUI {
 	Scene scene;
 	
 	AlertUtil alert;
+	
+	Object tabelle;
 	
 	public FXML_GUI() {
 		
@@ -68,24 +75,30 @@ public class FXML_GUI {
 		primaryStage.setMinHeight(height + 120);
 	}
 	
-	public void showDozent() {
+	public void showDozent(Object tabelle) {
 		
-		handleChildren("Dozent");
+		handleChildren("Dozent", tabelle, "dc");
 	}
 	
-	public void showVeranstaltung() {
+	public void showVeranstaltung(Object tabelle) {
 		
 		// Path currentRelativePath = Paths.get("");
 		// String s = currentRelativePath.toAbsolutePath().toString();
 		// System.out.println("Current relative path is: " + s);
-		
-		handleChildren("Veranstaltung");
+		if (tabelle != null) {
+			this.tabelle = tabelle;
+			handleChildren("Veranstaltung", tabelle, "vc");
+		}
+		else {
+			
+			handleChildren("Veranstaltung");
+		}
 		
 	}
 	
-	public void showLehrverguetungssaetze() {
+	public void showLehrverguetungssaetze(Object tabelle) {
 		
-		handleChildren("Lehrverguetungssaetze");
+		handleChildren("Lehrverguetungssaetze", tabelle, "lc");
 		primaryStage.setMaxWidth(400 + 60);
 		primaryStage.setMaxHeight(250 + 120);
 	}
@@ -98,6 +111,36 @@ public class FXML_GUI {
 			
 			AnchorPane children;
 			children = (AnchorPane) loader.load();
+			sizeHandling(children.getPrefHeight(), children.getPrefWidth());
+			rootLayout.setCenter(children);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	private void handleChildren(String FXML_Name, Object tabelle, String check) {
+		
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(this.getClass().getResource("view/" + FXML_Name + ".fxml"));
+			
+			AnchorPane children;
+			children = (AnchorPane) loader.load();
+			if (check.equals("vc")) {
+				Event event = (Event) tabelle;
+				VeranstaltungController vc = loader.getController();
+				vc.handleNew(event);
+			}
+			else if (check.equals("dc")) {
+				Dozent dozent = (Dozent) tabelle;
+			}
+			else if (check.equals("lc")) {
+				Stundenlohn stundenlohn = (Stundenlohn) tabelle;
+				LehrverguetungssaetzeController lc = new LehrverguetungssaetzeController();
+				lc.handleNew(stundenlohn);
+			}
 			sizeHandling(children.getPrefHeight(), children.getPrefWidth());
 			rootLayout.setCenter(children);
 		}

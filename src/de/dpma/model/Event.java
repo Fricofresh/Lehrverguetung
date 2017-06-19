@@ -239,6 +239,24 @@ public class Event {
 		
 	}
 	
+	public String DozentString() {
+		
+		String dump = null;
+		try {
+			DozentDAO dozentDAO = new DozentDAO(MainApp.dbcon.getConnection());
+			Dozent name = dozentDAO.selectDozent(this.getId_dozent());
+			
+			String dozent = name.getAnrede() + (name.getTitel() == null ? "" : " " + name.getTitel()) + " "
+					+ name.getVorname() + " " + name.getName();
+			return dozent;
+			
+		}
+		catch (Exception e) {
+		}
+		return dump;
+		
+	}
+	
 	public StringProperty VortragsArtProperty() {
 		
 		StringProperty temp;

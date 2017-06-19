@@ -12,7 +12,7 @@ import de.dpma.model.Dozent;
 import de.dpma.model.Event;
 import de.dpma.model.Stundenlohn;
 import de.dpma.util.AlertUtil;
-import de.dpma.util.WriteDocx;
+import de.dpma.util.WriteDocxTEST;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -34,6 +34,18 @@ public class MainPageController {
 	RootLayoutController root = new RootLayoutController();
 	
 	String fokus = "Veranstaltungen";
+	
+	static DozentDAO dozentDAO = new DozentDAO(MainApp.dbcon.getConnection());
+	
+	static EventDAO eventDAO = new EventDAO(MainApp.dbcon.getConnection());
+	
+	static StundenlohnDAO stundenlohnDAO = new StundenlohnDAO(MainApp.dbcon.getConnection());
+	
+	Event event;
+	
+	Dozent dozent;
+	
+	Stundenlohn stundenlohn;
 	
 	@FXML
 	public void initialize() {
@@ -72,13 +84,30 @@ public class MainPageController {
 	@FXML
 	public void handleNew() {
 		
-		root.handleGUI(fokus, false);
+		root.handleGUI(fokus, null);
 	}
 	
 	@FXML
 	public void handleDelete() {
 		
-		String aktAuswahl = "";
+		int selectedIndex = tabellenTableView.getSelectionModel().getSelectedIndex();
+		if (fokus.equals("Veranstaltungen")) {
+			event = (Event) tabellenTableView.getSelectionModel().getSelectedItem();
+			tabellenTableView.getItems().remove(selectedIndex);
+			try {
+				eventDAO.deleteEvent(event.getId());
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		else if (fokus.equals("Dozenten")) {
+			dozent = (Dozent) tabellenTableView.getSelectionModel().getSelectedItem();
+		}
+		else if (fokus.equals("Lehrvergütungssätze")) {
+			stundenlohn = (Stundenlohn) tabellenTableView.getSelectionModel().getSelectedItem();
+		}
+		
 		// aufrufen der SQL Befehles um den Eintrag zu droppen, dann kann die
 		// Tabelle nochmal aktuallisiert werden
 	}
@@ -86,7 +115,31 @@ public class MainPageController {
 	@FXML
 	public void handleEdit() {
 		
-		root.handleGUI(fokus, true);
+		int selectedIndex = tabellenTableView.getSelectionModel().getSelectedIndex();
+		if (selectedIndex >= 0) {
+			switch (fokus) {
+			case "Veranstaltungen":
+				event = (Event) tabellenTableView.getSelectionModel().getSelectedItem();
+				VeranstaltungController vc = new VeranstaltungController();
+				vc.handleNew(event);
+				break;
+			case "Dozenten":
+				dozent = (Dozent) tabellenTableView.getSelectionModel().getSelectedItem();
+				DozentController dc = new DozentController();
+				dc.handleNew(dozent);
+				break;
+			case "Lehrvergütungssätze":
+				stundenlohn = (Stundenlohn) tabellenTableView.getSelectionModel().getSelectedItem();
+				LehrverguetungssaetzeController lc = new LehrverguetungssaetzeController();
+				lc.handleNew(stundenlohn);
+				break;
+			
+			default:
+				break;
+			}
+		}
+		
+		root.handleGUI(fokus, null);
 	}
 	
 	private void handleVeranstaltungen() {
@@ -107,7 +160,6 @@ public class MainPageController {
 				betrag_ABCTableColumn);
 		
 		try {
-			EventDAO eventDAO = new EventDAO(MainApp.dbcon.getConnection());
 			ObservableList<Event> eventData = FXCollections.observableArrayList();
 			eventData = FXCollections.observableArrayList((eventDAO.selectAllEvents()));
 			
@@ -150,8 +202,6 @@ public class MainPageController {
 				bLZTableColumn);
 		
 		try {
-			// TODO Tabelle mit den Daten füllen
-			DozentDAO dozentDAO = new DozentDAO(MainApp.dbcon.getConnection());
 			ObservableList<Dozent> dozentData = FXCollections.observableArrayList();
 			
 			dozentData = FXCollections.observableArrayList(dozentDAO.selectAllDozenten());
@@ -182,8 +232,6 @@ public class MainPageController {
 		tabellenTableView.getColumns().setAll(vergütungTableColumn);
 		
 		try {
-			// TODO Tabelle mit den Daten füllen
-			StundenlohnDAO stundenlohnDAO = new StundenlohnDAO(MainApp.dbcon.getConnection());
 			ObservableList<Stundenlohn> stundenlohnData = FXCollections.observableArrayList();
 			
 			stundenlohnData = FXCollections.observableArrayList(stundenlohnDAO.selectAllStundenloehne());
@@ -201,7 +249,26 @@ public class MainPageController {
 	
 	public void handleCreateDocRechnung() {
 		
+		int selectedIndex = tabellenTableView.getSelectionModel().getSelectedIndex();
+		if (selectedIndex >= 0) {
+			switch (fokus) {
+			case "Veranstaltungen":
+				event = (Event) tabellenTableView.getSelectionModel().getSelectedItem();
+				break;
+			case "Dozenten":
+				
+				break;
+			case "Lehrvergütungssätze":
+				
+				break;
+			
+			default:
+				break;
+			}
+		}
+		
 		try {
+			
 			// TODO Word export
 			FileChooser chooser = new FileChooser();
 			chooser.setTitle("Speichern");
@@ -211,7 +278,7 @@ public class MainPageController {
 			String directory = chooser.getExtensionFilters().toString();
 			
 			File file = chooser.showSaveDialog(FXML_GUI.primaryStage.getScene().getWindow());
-			WriteDocx wdoc = new WriteDocx(file);
+			WriteDocxTEST wdoc = new WriteDocxTEST(file);
 		}
 		catch (Exception e) {
 		}

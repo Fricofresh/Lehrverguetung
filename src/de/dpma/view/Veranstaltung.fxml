@@ -24,14 +24,14 @@
       <TextField fx:id="dozentTextField" layoutX="237.0" layoutY="35.0" onKeyTyped="#handleTypingDozent" prefHeight="31.0" prefWidth="241.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="22.0" />
       <TextField fx:id="aktenzeichenTextField" layoutX="237.0" layoutY="75.0" prefHeight="31.0" prefWidth="241.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="22.0" />
       <TextField fx:id="schulArtTextField" layoutX="237.0" layoutY="115.0" prefHeight="31.0" prefWidth="241.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="22.0" />
-      <TextField fx:id="vfgTextField" layoutX="237.0" layoutY="155.0" prefHeight="31.0" prefWidth="241.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="22.0" />
+      <DatePicker fx:id="vfgDatePicker" layoutX="564.0" layoutY="155.0" AnchorPane.rightAnchor="22.0" />
       <ComboBox fx:id="vortragComboBox" layoutX="561.0" layoutY="195.0" prefHeight="31.0" prefWidth="218.0" />
-      <DatePicker fx:id="datumVon" layoutX="284.0" layoutY="235.0" AnchorPane.leftAnchor="284.0" />
-      <DatePicker fx:id="datumBis" layoutX="491.0" layoutY="235.0" AnchorPane.rightAnchor="22.0" />
-      <ComboBox fx:id="euro_StdComboBox" layoutX="561.0" layoutY="275.0" prefHeight="31.0" prefWidth="218.0" AnchorPane.leftAnchor="561.0" AnchorPane.rightAnchor="22.0" />
-      <TextField fx:id="stdZahlTextField" layoutX="561.0" layoutY="315.0" prefHeight="31.0" prefWidth="218.0" AnchorPane.leftAnchor="561.0" AnchorPane.rightAnchor="22.0" />
-      <TextField fx:id="betragTextField" layoutX="237.0" layoutY="355.0" prefHeight="31.0" prefWidth="241.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="22.0" />
-      <TextField fx:id="betrag_ABCTextField" layoutX="237.0" layoutY="395.0" prefHeight="31.0" prefWidth="241.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="22.0" />
+      <DatePicker fx:id="datumVonDatePicker" layoutX="284.0" layoutY="235.0" AnchorPane.leftAnchor="284.0" />
+      <DatePicker fx:id="datumBisDatePicker" layoutX="491.0" layoutY="235.0" AnchorPane.rightAnchor="22.0" />
+      <ComboBox fx:id="euro_StdComboBox" layoutX="561.0" layoutY="275.0" onAction="#handleCounting" prefHeight="31.0" prefWidth="218.0" AnchorPane.leftAnchor="561.0" AnchorPane.rightAnchor="22.0" />
+      <TextField fx:id="stdZahlTextField" layoutX="561.0" layoutY="315.0" onKeyTyped="#handleCounting" prefHeight="31.0" prefWidth="218.0" AnchorPane.leftAnchor="561.0" AnchorPane.rightAnchor="22.0" />
+      <TextField fx:id="betragTextField" editable="false" layoutX="237.0" layoutY="355.0" prefHeight="31.0" prefWidth="241.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="22.0" />
+      <TextField fx:id="betrag_ABCTextField" editable="false" layoutX="237.0" layoutY="395.0" prefHeight="31.0" prefWidth="241.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="22.0" />
       <Button layoutX="591.0" layoutY="440.0" mnemonicParsing="false" onAction="#handleSubmit" prefWidth="93.0" text="OK" AnchorPane.rightAnchor="22.0" />
       <Button layoutX="592.0" layoutY="440.0" mnemonicParsing="false" onAction="#handleCancel" text="Abbrechen" AnchorPane.rightAnchor="135.0" />
    </children>
