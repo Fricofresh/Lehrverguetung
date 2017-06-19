@@ -8,8 +8,8 @@
 
 <AnchorPane prefHeight="493.0" prefWidth="532.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dpma.view.DozentController">
    <children>
-      <Label layoutX="50.0" layoutY="40.0" text="Anrede" />
-      <Label layoutX="50.0" layoutY="80.0" text="Titel" />
+      <Label layoutX="50.0" layoutY="40.0" text="Ihr Dienstort" />
+      <Label layoutX="50.0" layoutY="80.0" text="Ihre Durchwahl " />
       <Label layoutX="50.0" layoutY="120.0" text="Vorname" />
       <Label layoutX="50.0" layoutY="160.0" text="Name" />
       <Label layoutX="50.0" layoutY="200.0" text="Straße" />
