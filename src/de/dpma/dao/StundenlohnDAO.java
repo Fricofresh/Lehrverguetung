@@ -88,7 +88,7 @@ public class StundenlohnDAO {
 
 	public List<Stundenlohn> searchStundenlohn(String searchString) throws SQLException {
 		PreparedStatement stat = con.prepareStatement(SELECT_STUNDENLOHN_SEARCH);
-		stat.setString(1, ("%" + searchString + "%").toLowerCase());
+		stat.setString(1, "%" + searchString.replace(",", ".") + "%");
 
 		ResultSet result = stat.executeQuery();
 
