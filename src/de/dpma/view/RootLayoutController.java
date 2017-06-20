@@ -15,58 +15,59 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class RootLayoutController {
-
+	
 	Stage stage;
-
+	
 	BorderPane borderPane;
-
+	
 	FXML_GUI fxml_gui;
-
+	
 	AlertUtil alert;
-
+	
 	@FXML
 	MenuBar menuMenuBar = new MenuBar();
-
+	
 	@FXML
 	MenuItem gesammtListeMenuItem = new MenuItem();
-
+	
 	@FXML
 	MenuItem einstellungenMenuItem = new MenuItem();
-
+	
 	@FXML
 	public void initialize() {
-
+		
 	}
-
+	
 	@FXML
 	public void handleExit() {
-
+		
 		try {
 			MainApp.dbcon.closeConnection();
 			System.exit(0);
-		} catch (SQLException e) {
+		}
+		catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-
-	public void handleGUI(String check, String temp) {
-
-		fxml_gui = new FXML_GUI(stage, borderPane, temp);
+	
+	public void handleGUI(String check) {
+		
+		fxml_gui = new FXML_GUI(stage, borderPane);
 		switch (check) {
 		case "createDoc":
-			menuMenuBar.setDisable(true);
+			menuMenuBar.setDisable(false);
 			gesammtListeMenuItem.setVisible(false);
 			einstellungenMenuItem.setVisible(true);
-			fxml_gui.showInsertPersonalData();
+			fxml_gui.showConfigIni();
 			break;
 		default:
 			alert = new AlertUtil("Falscher übergabeparameter", "Bitte kontaktieren Sie den Administrator!", "WARNING");
 			break;
 		}
 	}
-
+	
 	public void handleGUI(String check, Object tabelle) {
-
+		
 		fxml_gui = new FXML_GUI(stage, borderPane);
 		switch (check) {
 		case "main":
@@ -74,7 +75,7 @@ public class RootLayoutController {
 			break;
 		case "Veranstaltungen":
 			fxml_gui.showVeranstaltung(tabelle);
-
+			
 			break;
 		case "Dozenten":
 			fxml_gui.showDozent(tabelle);
@@ -82,35 +83,40 @@ public class RootLayoutController {
 		case "Lehrvergütungssätze":
 			fxml_gui.showLehrverguetungssaetze(tabelle);
 			break;
-
+		case "configIni":
+			fxml_gui.showConfigIni();
+			break;
 		default:
 			alert = new AlertUtil("Falscher übergabeparameter", "Bitte kontaktieren Sie den Administrator!", "WARNING");
 			break;
 		}
 	}
-
+	
 	@FXML
 	private void handleExport() {
-
+		
 		FileChooser chooser = new FileChooser();
 		chooser.setTitle("Speichern");
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Excel Datei (*.xlsx)", "*.xlsx");
 		chooser.getExtensionFilters().add(extFilter);
-
+		
 		String directory = chooser.getExtensionFilters().toString();
-
+		
 		File file = chooser.showSaveDialog(FXML_GUI.primaryStage.getScene().getWindow());
-
+		
 		if (file != null) {
 			GenerateExcelData ged = new GenerateExcelData(file);
 			alert = new AlertUtil("Gesamtliste exportiert",
 					"Die Gesamtliste wurde erfolgreich im Ordner " + file + " abgelegt.", "INFO");
 		}
 	}
-
+	
 	@FXML
 	private void handleSettings() {
-
+		
 		// TODO Konfigurationsdatei
+		
+		handleGUI("configIni", null);
+		
 	}
 }

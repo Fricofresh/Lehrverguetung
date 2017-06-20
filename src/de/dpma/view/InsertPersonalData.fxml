@@ -13,12 +13,12 @@
       <Label layoutX="50.0" layoutY="120.0" text="Vorname" />
       <Label layoutX="50.0" layoutY="160.0" text="Nachname" />
       <Label layoutX="50.0" layoutY="200.0" text="E-Mail" />
-      <ComboBox layoutX="373.0" layoutY="35.0" prefHeight="31.0" prefWidth="132.0" AnchorPane.rightAnchor="27.0" />
-      <TextField layoutX="247.0" layoutY="75.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
-      <TextField layoutX="243.0" layoutY="115.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
-      <TextField layoutX="243.0" layoutY="155.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
-      <TextField layoutX="243.0" layoutY="195.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
-      <Button layoutX="412.0" layoutY="247.0" mnemonicParsing="false" onAction="#wordExport" prefWidth="93.0" text="OK" AnchorPane.rightAnchor="27.0" />
-      <Button layoutX="305.0" layoutY="247.0" mnemonicParsing="false" text="Abbrechen" AnchorPane.rightAnchor="134.0" />
+      <ComboBox fx:id="dienstortComboBox" layoutX="373.0" layoutY="35.0" prefHeight="31.0" prefWidth="132.0" AnchorPane.rightAnchor="27.0" />
+      <TextField fx:id="durchwahlTextField" layoutX="247.0" layoutY="75.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
+      <TextField fx:id="vornameTextField" layoutX="243.0" layoutY="115.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
+      <TextField fx:id="nachnameTextField" layoutX="243.0" layoutY="155.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
+      <TextField fx:id="emailTextField" layoutX="243.0" layoutY="195.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
+      <Button layoutX="412.0" layoutY="247.0" mnemonicParsing="false" onAction="#handleSubmit" prefWidth="93.0" text="OK" AnchorPane.rightAnchor="27.0" />
+      <Button layoutX="305.0" layoutY="247.0" mnemonicParsing="false" onAction="#handleCancel" text="Abbrechen" AnchorPane.rightAnchor="134.0" />
    </children>
 </AnchorPane>

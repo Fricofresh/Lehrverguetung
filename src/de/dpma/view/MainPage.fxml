@@ -18,7 +18,7 @@
           <Button mnemonicParsing="false" onAction="#handleNew" text="Neu" />
             <Button mnemonicParsing="false" onAction="#handleEdit" text="Ändern" />
             <Button mnemonicParsing="false" onAction="#handleDelete" text="Löschen" />
-            <MenuButton mnemonicParsing="false" text="Dokument erstellen">
+            <MenuButton fx:id="dokumentErstellenMenuButton" mnemonicParsing="false" text="Dokument erstellen">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#handleCreateDocRechnung" text="Rechnungsbegleitblatt" />
                 <MenuItem mnemonicParsing="false" onAction="#handleCreateDocAuszahlung" text="Auszahlung Lehrvergütung" />
