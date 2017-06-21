@@ -5,6 +5,7 @@ import java.io.File;
 import de.dpma.FXML_GUI;
 import de.dpma.model.Event;
 import de.dpma.util.AlertUtil;
+import de.dpma.util.ConfigIniUtil;
 import de.dpma.util.WriteDocxTEST;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -39,10 +40,17 @@ public class InsertPersonalDataController {
 	@FXML
 	AlertUtil alert;
 	
+	ConfigIniUtil confini;
+	
 	@FXML
 	public void initialize() {
 		
+		confini = new ConfigIniUtil();
 		dienstortComboBox.setItems(dienstortComboBoxList);
+		dienstortComboBox.setValue(confini.getDienstort());
+		vornameTextField.setText(confini.getVorname());
+		nachnameTextField.setText(confini.getNachname());
+		emailTextField.setText(confini.getEmail());
 	}
 	
 	public boolean wordExport(String check) {
@@ -73,8 +81,13 @@ public class InsertPersonalDataController {
 		
 		boolean b = false;
 		
-		// TODO ini datei auslesen
-		if (FXML_GUI.primaryStage.getTitle().equals("Rechnungsbegleitblatt exportieren")) {
+		confini.setConf(dienstortComboBox.getValue().toString(), durchwahlTextField.getText(),
+				vornameTextField.getText(), nachnameTextField.getText(), emailTextField.getText());
+		confini.writeConf();
+		if (FXML_GUI.primaryStage.getTitle() == "Einstellungen") {
+			FXML_GUI.primaryStage.close();
+		}
+		else if (FXML_GUI.primaryStage.getTitle().equals("Rechnungsbegleitblatt exportieren")) {
 			b = wordExport("Rechnungsbegleitblatt");
 		}
 		else if (FXML_GUI.primaryStage.getTitle().equals("Auszahlung Lehrvergütung exportieren")) {

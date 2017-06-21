@@ -1,6 +1,6 @@
 package de.dpma.util;
 
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Properties;
 
@@ -18,16 +18,21 @@ public class ConfigIniUtil {
 	
 	private String email;
 	
-	private String path;
+	private String path = "conf\\";
+	
+	private String fullpath = path + System.getProperty("user.name") + ".ini";
 	
 	public ConfigIniUtil() {
 		try {
-			if (path.isEmpty()) {
-				path = System.getProperty("user.home") + "/Lehrvergütung/" + System.getProperty("user.name") + ".ini";
+			// System.getProperty("user.home")
+			boolean b;
+			if (!(b = (new File(path).exists()))) {
+				b = (new File(path).mkdirs());
+				System.out.println(b);
 			}
-			
-			p.load(new FileInputStream(path));
-			readConf();
+			else if (b = new File(fullpath).exists()) {
+				readConf();
+			}
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -36,11 +41,11 @@ public class ConfigIniUtil {
 	
 	private void readConf() {
 		
-		p.getProperty("Dienstort");
-		p.getProperty("Durchwahl");
-		p.getProperty("Vorname");
-		p.getProperty("Nachname");
-		p.getProperty("E-Mail");
+		dienstort = p.getProperty("Dienstort");
+		durchwahl = p.getProperty("Durchwahl");
+		vorname = p.getProperty("Vorname");
+		nachname = p.getProperty("Nachname");
+		email = p.getProperty("E-Mail");
 	}
 	
 	public void writeConf() {
@@ -51,8 +56,11 @@ public class ConfigIniUtil {
 			p.setProperty("Vorname", vorname);
 			p.setProperty("Nachname", nachname);
 			p.setProperty("E-Mail", email);
-			FileOutputStream out = new FileOutputStream(path);
-			p.save(out, "Benutzer Konfiguration");
+			File file = new File(fullpath);
+			FileOutputStream out = new FileOutputStream(file, false);
+			p.store(out, "Benutzer Konfiguration");
+			out.flush();
+			out.close();
 		}
 		catch (Exception e) {
 			e.printStackTrace();

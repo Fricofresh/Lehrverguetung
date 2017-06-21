@@ -117,6 +117,7 @@ public class RootLayoutController {
 		// TODO Konfigurationsdatei
 		
 		handleGUI("configIni", null);
+		FXML_GUI.primaryStage.setTitle("Einstellungen");
 		
 	}
 }

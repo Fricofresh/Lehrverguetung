@@ -25,8 +25,8 @@ public class WriteDocxTEST {
 				if (runs != null) {
 					for (XWPFRun r : runs) {
 						String text = r.getText(0);
-						if (text != null && text.contains("{Titel} {Vorname} {Name}")) {
-							text = text.replaceFirst("{Titel} {Vorname} {Name}", event.DozentString());
+						if (text != null && text.contains("{Titel}{Vorname} {Nachname}")) {
+							text = text.replaceFirst("Titel}{Vorname} {Nachname}", event.DozentString());
 							r.setText(text, 0);
 						}
 					}
