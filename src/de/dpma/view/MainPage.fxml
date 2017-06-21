@@ -16,7 +16,7 @@
       <ButtonBar layoutY="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <buttons>
           <Button mnemonicParsing="false" onAction="#handleNew" text="Neu" />
-            <Button mnemonicParsing="false" onAction="#handleEdit" text="Ändern" />
+            <Button mnemonicParsing="false" onAction="#handleEdit" text="Bearbeiten" />
             <Button mnemonicParsing="false" onAction="#handleDelete" text="Löschen" />
             <MenuButton fx:id="dokumentErstellenMenuButton" mnemonicParsing="false" text="Dokument erstellen">
               <items>

@@ -15,7 +15,7 @@
       <Label layoutX="50.0" layoutY="200.0" text="Straße" />
       <Label layoutX="50.0" layoutY="240.0" text="PLZ" />
       <Label layoutX="50.0" layoutY="280.0" text="Ort" />
-      <Label layoutX="50.0" layoutY="320.0" text="Kontonummer" />
+      <Label layoutX="50.0" layoutY="320.0" text="IBAN / Kontonummer" />
       <Label layoutX="50.0" layoutY="360.0" text="Bank" />
       <Label layoutX="50.0" layoutY="400.0" text="BLZ" />
       <ComboBox fx:id="anredeComboBox" layoutX="383.0" layoutY="35.0" prefHeight="31.0" prefWidth="132.0" AnchorPane.rightAnchor="30.0" />

@@ -10,9 +10,9 @@
    <children>
       <Label layoutX="50.0" layoutY="40.0" text="Ihr Dienstort" />
       <Label layoutX="50.0" layoutY="80.0" text="Ihre Durchwahl " />
-      <Label layoutX="50.0" layoutY="120.0" text="Vorname" />
-      <Label layoutX="50.0" layoutY="160.0" text="Nachname" />
-      <Label layoutX="50.0" layoutY="200.0" text="E-Mail" />
+      <Label layoutX="50.0" layoutY="120.0" text="Ihr Vorname" />
+      <Label layoutX="50.0" layoutY="160.0" text="Ihr Nachname" />
+      <Label layoutX="50.0" layoutY="200.0" text="Ihre E-Mail" />
       <ComboBox fx:id="dienstortComboBox" layoutX="373.0" layoutY="35.0" prefHeight="31.0" prefWidth="132.0" AnchorPane.rightAnchor="27.0" />
       <TextField fx:id="durchwahlTextField" layoutX="247.0" layoutY="75.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
       <TextField fx:id="vornameTextField" layoutX="243.0" layoutY="115.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class EventDAO {
 		this.con = con;
 	}
 
-	public Event selectEvent(int id) throws SQLException {
+	public Event selectEvent(int id) throws SQLException, ParseException {
 		PreparedStatement stat = con.prepareStatement(SELECT_EVENT);
 		stat.setInt(1, id);
 		ResultSet result = stat.executeQuery();
@@ -71,7 +72,7 @@ public class EventDAO {
 		return null;
 	}
 
-	public List<Event> selectAllEvents() throws SQLException {
+	public List<Event> selectAllEvents() throws SQLException, ParseException {
 		PreparedStatement stat = con.prepareStatement(SELECT_EVENT_ALL);
 		ResultSet result = stat.executeQuery();
 
@@ -126,7 +127,7 @@ public class EventDAO {
 		return event;
 	}
 
-	public List<Event> searchEvent(String searchString) throws SQLException {
+	public List<Event> searchEvent(String searchString) throws SQLException, ParseException {
 		int SearchIntVortrag;
 		PreparedStatement stat = con.prepareStatement(SELECT_EVENT_SEARCH);
 
