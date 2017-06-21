@@ -4,6 +4,7 @@ import java.io.File;
 
 import de.dpma.FXML_GUI;
 import de.dpma.model.Event;
+import de.dpma.util.AlertUtil;
 import de.dpma.util.WriteDocxTEST;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,12 +37,15 @@ public class InsertPersonalDataController {
 	TextField emailTextField;
 	
 	@FXML
+	AlertUtil alert;
+	
+	@FXML
 	public void initialize() {
 		
 		dienstortComboBox.setItems(dienstortComboBoxList);
 	}
 	
-	public void wordExport(String check) {
+	public boolean wordExport(String check) {
 		
 		try {
 			// TODO Word export
@@ -53,25 +57,33 @@ public class InsertPersonalDataController {
 			String directory = chooser.getExtensionFilters().toString();
 			
 			File file = chooser.showSaveDialog(FXML_GUI.primaryStage.getScene().getWindow());
-			WriteDocxTEST wdoc = new WriteDocxTEST(file, check);
+			if (file == null) {
+				alert = new AlertUtil("Pfad ungültig", "Bitte wählen Sie einen Pfad an", "WARNING");
+				return false;
+			}
+			WriteDocxTEST wdoc = new WriteDocxTEST(file, check, event);
 		}
 		catch (Exception e) {
 		}
+		return true;
 	}
 	
 	@FXML
 	private void handleSubmit() {
 		
+		boolean b = false;
+		
 		// TODO ini datei auslesen
 		if (FXML_GUI.primaryStage.getTitle().equals("Rechnungsbegleitblatt exportieren")) {
-			wordExport("Rechnungsbegleitblatt");
+			b = wordExport("Rechnungsbegleitblatt");
 		}
 		else if (FXML_GUI.primaryStage.getTitle().equals("Auszahlung Lehrvergütung exportieren")) {
-			wordExport("Auszahlung");
+			b = wordExport("Auszahlung");
 		}
-		else {
-			// TODO DO NOTHING
+		if (b == false) {
+			return;
 		}
+		FXML_GUI.primaryStage.close();
 	}
 	
 	@FXML

@@ -135,19 +135,18 @@ public class MainPageController {
 			switch (fokus) {
 			case "Veranstaltungen":
 				event = (Event) tabellenTableView.getSelectionModel().getSelectedItem();
-				VeranstaltungController vc = new VeranstaltungController();
-				vc.handleNew(event);
 				root.handleGUI(fokus, event);
+				FXML_GUI.primaryStage.setTitle(fokus.replace("gen", "g") + " ändern");
 				break;
 			case "Dozenten":
 				dozent = (Dozent) tabellenTableView.getSelectionModel().getSelectedItem();
-				DozentController dc = new DozentController();
-				dc.handleNew(dozent);
+				root.handleGUI(fokus, dozent);
+				FXML_GUI.primaryStage.setTitle(fokus.replace("ten", "t") + " ändern");
 				break;
 			case "Lehrvergütungssätze":
 				stundenlohn = (Stundenlohn) tabellenTableView.getSelectionModel().getSelectedItem();
-				LehrverguetungssaetzeController lc = new LehrverguetungssaetzeController();
-				lc.handleNew(stundenlohn);
+				root.handleGUI(fokus, stundenlohn);
+				FXML_GUI.primaryStage.setTitle(fokus.replace("ätze", "atz") + " ändern");
 				break;
 			
 			default:
@@ -165,18 +164,35 @@ public class MainPageController {
 	
 	public void handleCreateDocRechnung() {
 		
-		root.handleGUI("createDoc", "");
-		
 		int selectedIndex = tabellenTableView.getSelectionModel().getSelectedIndex();
 		if (selectedIndex >= 0) {
 			event = (Event) tabellenTableView.getSelectionModel().getSelectedItem();
+			root.handleGUI("createDoc");
+			FXML_GUI.primaryStage.setTitle("Rechnungsbegleitblatt exportieren");
+		}
+		else {
+			// TODO Rechtschreibprüfung
+			alert = new AlertUtil("Keine Auswahl",
+					"Sie haben kein zu exportierendes Element ausgewählt. Bitte wählen Sie ein Element aus und versuchen Sie es erneut.",
+					"INFO");
 		}
 		
 	}
 	
 	public void handleCreateDocAuszahlung() {
 		
-		// TODO Word export
+		int selectedIndex = tabellenTableView.getSelectionModel().getSelectedIndex();
+		if (selectedIndex >= 0) {
+			event = (Event) tabellenTableView.getSelectionModel().getSelectedItem();
+			root.handleGUI("createDoc");
+			FXML_GUI.primaryStage.setTitle("Auszahlung Lehrvergütung exportieren");
+		}
+		else {
+			// TODO Rechtschreibprüfung
+			alert = new AlertUtil("Keine Auswahl",
+					"Sie haben kein zu exportierendes Element ausgewählt. Bitte wählen Sie ein Element aus und versuchen Sie es erneut.",
+					"INFO");
+		}
 	}
 	
 	private void insertIntoDozentenTable(List<Dozent> input) throws SQLException {

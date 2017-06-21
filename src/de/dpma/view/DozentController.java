@@ -12,34 +12,34 @@ import javafx.scene.control.TextField;
 public class DozentController {
 	
 	@FXML
-	ComboBox<String> anredeComboBox;
+	ComboBox<String> anredeComboBox = new ComboBox();
 	
 	@FXML
-	TextField titelTextField;
+	TextField titelTextField = new TextField();
 	
 	@FXML
-	TextField vornameTextField;
+	TextField vornameTextField = new TextField();
 	
 	@FXML
-	TextField nameTextField;
+	TextField nameTextField = new TextField();
 	
 	@FXML
-	TextField straﬂeTextField;
+	TextField strasseTextField = new TextField();
 	
 	@FXML
-	TextField pLZTextField;
+	TextField pLZTextField = new TextField();
 	
 	@FXML
-	TextField ortTextField;
+	TextField ortTextField = new TextField();
 	
 	@FXML
-	TextField kontonummerTextField;
+	TextField kontonummerTextField = new TextField();
 	
 	@FXML
-	TextField bankTextField;
+	TextField bankTextField = new TextField();
 	
 	@FXML
-	TextField bLZTextField;
+	TextField bLZTextField = new TextField();
 	
 	ObservableList<String> anredeComboBoxList = FXCollections.observableArrayList("Frau", "Herr");
 	
@@ -56,12 +56,14 @@ public class DozentController {
 	@FXML
 	public void handleNew(Dozent dozent) {
 		
-		// anredeComboBox.setSelectionModel("");// TODO SQL Select Befehl |
-		// get Selected item
+		this.dozent = dozent;
+		
+		anredeComboBox.setValue(dozent.getAnrede()); // TODO SQL Select Befehl |
+														// get Selected item
 		titelTextField.setText(dozent.getTitel());
 		vornameTextField.setText(dozent.getVorname());
 		nameTextField.setText(dozent.getName());
-		straﬂeTextField.setText(dozent.getStrasse());
+		strasseTextField.setText(dozent.getStrasse());
 		pLZTextField.setText(dozent.getPLZ());
 		ortTextField.setText(dozent.getOrt());
 		kontonummerTextField.setText(dozent.getIBAN());
@@ -82,7 +84,7 @@ public class DozentController {
 			this.dozent.setTitel(titelTextField.getText());
 			this.dozent.setVorname(vornameTextField.getText());
 			this.dozent.setName(nameTextField.getText());
-			this.dozent.setStrasse(straﬂeTextField.getText());
+			this.dozent.setStrasse(strasseTextField.getText());
 			this.dozent.setPLZ(pLZTextField.getText());
 			this.dozent.setOrt(ortTextField.getText());
 			this.dozent.setIBAN(kontonummerTextField.getText());

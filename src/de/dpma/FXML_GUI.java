@@ -6,6 +6,7 @@ import de.dpma.model.Dozent;
 import de.dpma.model.Event;
 import de.dpma.model.Stundenlohn;
 import de.dpma.util.AlertUtil;
+import de.dpma.view.DozentController;
 import de.dpma.view.InsertPersonalDataController;
 import de.dpma.view.LehrverguetungssaetzeController;
 import de.dpma.view.VeranstaltungController;
@@ -154,10 +155,12 @@ public class FXML_GUI {
 			}
 			else if (check.equals("dc")) {
 				Dozent dozent = (Dozent) tabelle;
+				DozentController dc = loader.getController();
+				dc.handleNew(dozent);
 			}
 			else if (check.equals("lc")) {
 				Stundenlohn stundenlohn = (Stundenlohn) tabelle;
-				LehrverguetungssaetzeController lc = new LehrverguetungssaetzeController();
+				LehrverguetungssaetzeController lc = loader.getController();
 				lc.handleNew(stundenlohn);
 			}
 			else if (check.equals("confIni")) {

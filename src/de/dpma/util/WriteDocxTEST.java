@@ -11,9 +11,12 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 
+import de.dpma.model.Event;
+
 public class WriteDocxTEST {
 	
-	public WriteDocxTEST(File file, String source) throws FileNotFoundException, IOException {
+	public WriteDocxTEST(File file, String source, Event event) throws FileNotFoundException, IOException {
+		// TODO alle Felder ersetzten
 		try {
 			XWPFDocument doc = new XWPFDocument(OPCPackage.open("src/de/dpma/" + source + ".docx"));
 			
@@ -22,9 +25,8 @@ public class WriteDocxTEST {
 				if (runs != null) {
 					for (XWPFRun r : runs) {
 						String text = r.getText(0);
-						// TODO Formularfeld ändern
 						if (text != null && text.contains("{Titel} {Vorname} {Name}")) {
-							text = text.replaceFirst("{Titel} {Vorname} {Name}", "");
+							text = text.replaceFirst("{Titel} {Vorname} {Name}", event.DozentString());
 							r.setText(text, 0);
 						}
 					}

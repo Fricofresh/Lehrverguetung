@@ -12,7 +12,7 @@ import javafx.scene.control.TextField;
 public class LehrverguetungssaetzeController {
 	
 	@FXML
-	TextField vergütungsSatzTextField;
+	TextField verguetungsSatzTextField = new TextField();
 	
 	@FXML
 	Label headerLabel;
@@ -42,7 +42,7 @@ public class LehrverguetungssaetzeController {
 	public void handleSubmit() throws SQLException {
 		
 		// TODO insert oder update Befehl
-		double sdtLohn = Double.valueOf(vergütungsSatzTextField.getText());
+		double sdtLohn = Double.valueOf(verguetungsSatzTextField.getText());
 		stundenlohn.setLohn(sdtLohn);
 		if (stundenlohn.getId() == 0) {
 			MainPageController.stundenlohnDAO.insertStundenlohn(this.stundenlohn);
@@ -62,9 +62,10 @@ public class LehrverguetungssaetzeController {
 	
 	public void handleNew(Stundenlohn stundenlohn) {
 		
+		this.stundenlohn = stundenlohn;
+		
 		String stdLohn = String.valueOf(stundenlohn.getLohn());
-		vergütungsSatzTextField.setText(stdLohn); // TODO davor
-		// Selected item
-		// übernehmen
+		verguetungsSatzTextField.setText(stdLohn); // TODO davor Selected item
+													// übernehmen
 	}
 }
