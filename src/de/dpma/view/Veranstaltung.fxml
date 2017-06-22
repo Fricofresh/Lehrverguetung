@@ -15,7 +15,7 @@
       <Label layoutX="75.0" layoutY="160.0" text="Verfügung" AnchorPane.leftAnchor="50.0" />
       <Label layoutX="75.0" layoutY="200.0" text="Vortragsart" AnchorPane.leftAnchor="50.0" />
       <Label layoutX="75.0" layoutY="240.0" text="Datum" AnchorPane.leftAnchor="50.0" />
-      <Label layoutX="75.0" layoutY="280.0" text="Euro pro Stunde" AnchorPane.leftAnchor="50.0" />
+      <Label layoutX="75.0" layoutY="280.0" text="Stundensatz" AnchorPane.leftAnchor="50.0" />
       <Label layoutX="75.0" layoutY="320.0" text="Stundenanzahl" AnchorPane.leftAnchor="50.0" />
       <Label layoutX="75.0" layoutY="360.0" text="[Automatisch] Betrag" AnchorPane.leftAnchor="50.0" />
       <Label layoutX="75.0" layoutY="400.0" text="[Automatisch] Betrag in Worten" AnchorPane.leftAnchor="50.0" />

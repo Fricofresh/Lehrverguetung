@@ -21,6 +21,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TableColumn;
@@ -69,7 +70,6 @@ public class MainPageController {
 		navigationListe.setItems(inhalte);
 
 		handleSearch();
-
 	}
 
 	@FXML
@@ -333,7 +333,7 @@ public class MainPageController {
 		TableColumn<Event, String> vfgTableColumn = new TableColumn("Verfügung");
 		TableColumn<Event, String> vortragTableColumn = new TableColumn("Vortragsart");
 		TableColumn<Event, String> datumTableColumn = new TableColumn("Datum");
-		TableColumn<Event, String> euro_StdTableColumn = new TableColumn("Euro pro Stunde");
+		TableColumn<Event, String> euro_StdTableColumn = new TableColumn("Stundensatz");
 		TableColumn<Event, String> stdZahlTableColumn = new TableColumn("Stundenzahl");
 		TableColumn<Event, String> betragTableColumn = new TableColumn("Betrag");
 		TableColumn<Event, String> betrag_ABCTableColumn = new TableColumn("Betrag in Worten");
@@ -383,6 +383,8 @@ public class MainPageController {
 			default:
 				break;
 			}
+
+			tabellenTableView.setPlaceholder(new Label("Keine Einträge gefunden"));
 		} else {
 			if (fokus.equals("Veranstaltungen")) {
 				insertIntoVeranstaltungenTable(eventDAO.selectAllEvents());
@@ -392,6 +394,8 @@ public class MainPageController {
 				insertIntoLehrvergueungssaetzeTable(stundenlohnDAO.selectAllStundenloehne());
 			}
 
+			tabellenTableView.setPlaceholder(
+					new Label("Keine Einträge vorhanden - Verwenden Sie \"Neu\", um einen neuen Eintrag hinzuzufügen"));
 		}
 
 	}
