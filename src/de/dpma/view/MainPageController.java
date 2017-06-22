@@ -311,7 +311,7 @@ public class MainPageController {
 		bLZTableColumn.setCellValueFactory(cellData -> cellData.getValue().BLZProperty());
 	}
 
-	private void insertIntoLehrvergueungssaetzeTable(List<Stundenlohn> input) throws SQLException {
+	public void insertIntoLehrvergueungssaetzeTable(List<Stundenlohn> input) throws SQLException {
 
 		TableColumn<Stundenlohn, String> vergütungTableColumn = new TableColumn("Vergütung");
 
@@ -369,7 +369,7 @@ public class MainPageController {
 
 	public void handleSearch() throws SQLException, ParseException {
 
-		if (searchField.getText() != "") {
+		if (!searchField.getText().equals("")) {
 			switch (fokus) {
 			case "Veranstaltungen":
 				insertIntoVeranstaltungenTable(eventDAO.searchEvent(searchField.getText()));

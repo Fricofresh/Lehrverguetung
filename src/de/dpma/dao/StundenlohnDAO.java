@@ -20,7 +20,7 @@ public class StundenlohnDAO {
 
 	final String SELECT_STUNDENLOHN_ALL = "SELECT * FROM \"LEHRVERGUETUNG\".\"STUNDENLOEHNE\" ORDER BY \"CREATION_TIME\" DESC";
 
-	final String SELECT_STUNDENLOHN_SEARCH = "SELECT * FROM \"LEHRVERGUETUNG\".\"STUNDENLOEHNE\" WHERE LOHN LIKE ? ORDER BY \"CREATION_TIME\" DESC";
+	final String SELECT_STUNDENLOHN_SEARCH = "SELECT * FROM \"LEHRVERGUETUNG\".\"STUNDENLOEHNE\" WHERE LOHN || ' €' LIKE ? OR LOHN || '0 €' LIKE ? OR LOHN || ' €' LIKE ? OR LOHN || '0 €' LIKE ? ORDER BY \"CREATION_TIME\" DESC";
 
 	private int id;
 
@@ -70,7 +70,7 @@ public class StundenlohnDAO {
 	public Stundenlohn insertStundenlohn(Stundenlohn stundenlohn) throws SQLException {
 		PreparedStatement stat = con.prepareStatement(INSERT_STUNDENLOHN);
 		stat.setString(1, Double.toString(stundenlohn.getLohn()));
-		stat.setString(2, stundenlohn.getCreationTime() + " 00:00:00.0");
+		stat.setString(2, stundenlohn.getCreationTime());
 
 		stat.executeUpdate();
 		return stundenlohn;
@@ -88,7 +88,10 @@ public class StundenlohnDAO {
 
 	public List<Stundenlohn> searchStundenlohn(String searchString) throws SQLException {
 		PreparedStatement stat = con.prepareStatement(SELECT_STUNDENLOHN_SEARCH);
-		stat.setString(1, "%" + searchString.replace(",", ".") + "%");
+		stat.setString(1, "%" + searchString.replace(".", "").replace(",", ".") + "%");
+		stat.setString(2, "%" + searchString.replace(".", "").replace(",", ".") + "%");
+		stat.setString(3, "%" + searchString.replace(",", ".") + "%");
+		stat.setString(4, "%" + searchString.replace(",", ".") + "%");
 
 		ResultSet result = stat.executeQuery();
 
