@@ -22,6 +22,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -56,6 +57,9 @@ public class MainPageController {
 	Stundenlohn stundenlohn;
 
 	@FXML
+	MenuButton dokumentErstellenMenuButton;
+
+	@FXML
 	public void initialize() throws SQLException, ParseException {
 
 		FXML_GUI.primaryStage.setTitle(fokus);
@@ -74,6 +78,12 @@ public class MainPageController {
 		fokus = navigationListe.getFocusModel().getFocusedItem();
 		if (fokus == null) {
 			fokus = "Veranstaltungen";
+		}
+
+		if (!fokus.equals("Veranstaltungen")) {
+			dokumentErstellenMenuButton.setDisable(true);
+		} else {
+			dokumentErstellenMenuButton.setDisable(false);
 		}
 
 		FXML_GUI.primaryStage.setTitle(fokus);
