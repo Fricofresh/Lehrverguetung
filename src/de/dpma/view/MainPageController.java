@@ -3,6 +3,7 @@ package de.dpma.view;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Optional;
 
 import de.dpma.FXML_GUI;
 import de.dpma.MainApp;
@@ -16,6 +17,10 @@ import de.dpma.util.AlertUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -111,24 +116,81 @@ public class MainPageController {
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
+
+				Alert confirmationAlert = new Alert(AlertType.CONFIRMATION);
+
+				DialogPane dialogPane = confirmationAlert.getDialogPane();
+
+				confirmationAlert.setTitle("Löschen bestätigen");
+				confirmationAlert.setHeaderText("Möchten Sie diese Veranstaltung wirklich löschen?");
+				confirmationAlert.setContentText(null);
+
+				Optional<ButtonType> result = confirmationAlert.showAndWait();
+				if (result.get() == ButtonType.OK) {
+					try {
+						eventDAO.deleteEvent(event.getId());
+					} catch (SQLException e) {
+						e.printStackTrace();
+						return;
+					}
+
+					tabellenTableView.getItems().remove(selectedIndex);
+				}
 			} else if (fokus.equals("Dozenten")) {
 				dozent = (Dozent) tabellenTableView.getSelectionModel().getSelectedItem();
-				tabellenTableView.getItems().remove(selectedIndex);
 
-				try {
-					dozentDAO.deleteDozent(dozent.getId());
-				} catch (SQLException e) {
-					e.printStackTrace();
+				Alert confirmationAlert = new Alert(AlertType.CONFIRMATION);
+
+				DialogPane dialogPane = confirmationAlert.getDialogPane();
+
+				confirmationAlert.setTitle("Löschen bestätigen");
+				confirmationAlert.setHeaderText("Möchten Sie diesen Dozenten wirklich löschen?");
+				confirmationAlert.setContentText(null);
+
+				Optional<ButtonType> result = confirmationAlert.showAndWait();
+				if (result.get() == ButtonType.OK) {
+					try {
+						dozentDAO.deleteDozent(dozent.getId());
+					} catch (org.apache.derby.shared.common.error.DerbySQLIntegrityConstraintViolationException e) {
+						alert = new AlertUtil("Datenintegritätsfehler",
+								"Sie können diesen Dozenten im Moment nicht löschen, da er von einer Veranstaltung verwendet wird.",
+								"INFO");
+						return;
+					} catch (SQLException e) {
+						e.printStackTrace();
+						return;
+					}
+
+					tabellenTableView.getItems().remove(selectedIndex);
 				}
 			} else if (fokus.equals("Lehrvergütungssätze")) {
 				stundenlohn = (Stundenlohn) tabellenTableView.getSelectionModel().getSelectedItem();
-				tabellenTableView.getItems().remove(selectedIndex);
 
-				try {
-					stundenlohnDAO.deleteStundenlohn(stundenlohn.getId());
-				} catch (SQLException e) {
-					e.printStackTrace();
+				Alert confirmationAlert = new Alert(AlertType.CONFIRMATION);
+
+				DialogPane dialogPane = confirmationAlert.getDialogPane();
+
+				confirmationAlert.setTitle("Löschen bestätigen");
+				confirmationAlert.setHeaderText("Möchten Sie diesen Lehrvergütungssatz wirklich löschen?");
+				confirmationAlert.setContentText(null);
+
+				Optional<ButtonType> result = confirmationAlert.showAndWait();
+				if (result.get() == ButtonType.OK) {
+					try {
+						stundenlohnDAO.deleteStundenlohn(stundenlohn.getId());
+					} catch (org.apache.derby.shared.common.error.DerbySQLIntegrityConstraintViolationException e) {
+						alert = new AlertUtil("Datenintegritätsfehler",
+								"Sie können diesen Lehrvergütungssatz im Moment nicht löschen, da er von einer Veranstaltung verwendet wird.",
+								"INFO");
+						return;
+					} catch (SQLException e) {
+						e.printStackTrace();
+						return;
+					}
+
+					tabellenTableView.getItems().remove(selectedIndex);
 				}
+
 			}
 		} else {
 			alert = new AlertUtil("Keine Auswahl",
