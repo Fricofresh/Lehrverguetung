@@ -13,7 +13,7 @@
 
 <AnchorPane prefHeight="520.0" prefWidth="939.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dpma.view.MainPageController">
    <children>
-      <ButtonBar layoutY="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <ButtonBar layoutY="20.0" prefWidth="939.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <buttons>
           <Button mnemonicParsing="false" onAction="#handleNew" text="Neu" />
             <Button mnemonicParsing="false" onAction="#handleEdit" text="Bearbeiten" />
@@ -26,13 +26,13 @@
             </MenuButton>
         </buttons>
       </ButtonBar>
-      <SplitPane dividerPositions="0.3192771084337349" layoutY="118.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
+      <SplitPane dividerPositions="0.3192771084337349" layoutY="104.0" prefHeight="416.0" prefWidth="939.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="104.0">
          <items>
             <ListView fx:id="navigationListe" maxWidth="160.0" minWidth="160.0" onMouseClicked="#handleSelect" prefWidth="160.0" />
-            <TableView fx:id="tabellenTableView" />
+            <TableView fx:id="tabellenTableView" prefWidth="769.0" />
          </items>
       </SplitPane>
-      <TextField fx:id="searchField" layoutX="309.0" layoutY="39.0" onKeyReleased="#handleSearch" prefHeight="31.0" prefWidth="630.0" AnchorPane.rightAnchor="0.0" />
-      <Label layoutX="241.0" layoutY="44.0" text="Suchen:" AnchorPane.rightAnchor="646.0" />
+      <TextField fx:id="searchField" layoutX="309.0" layoutY="55.0" onKeyReleased="#handleSearch" prefHeight="31.0" prefWidth="630.0" AnchorPane.rightAnchor="0.0" />
+      <Label layoutX="241.0" layoutY="60.0" text="Suchen:" AnchorPane.rightAnchor="646.0" />
    </children>
 </AnchorPane>
