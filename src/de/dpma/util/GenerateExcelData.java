@@ -86,7 +86,11 @@ public class GenerateExcelData {
 				style2.setAlignment(CellStyle.ALIGN_RIGHT);
 				cell3.setCellStyle(style2);
 
-				row.createCell(14).setCellValue(stundenlohn.getLohn() * events.get(i).getStdzahl());
+				Cell cell4 = row.createCell(14);
+				cell4.setCellValue(FormatCurrrency.format(stundenlohn.getLohn() * events.get(i).getStdzahl(), true));
+				style2.setAlignment(CellStyle.ALIGN_RIGHT);
+				cell4.setCellStyle(style2);
+
 				row.createCell(15)
 						.setCellValue(NumberToText.NumberToText(stundenlohn.getLohn() * events.get(i).getStdzahl()));
 				row.createCell(16).setCellValue(dozent.getIBAN());
