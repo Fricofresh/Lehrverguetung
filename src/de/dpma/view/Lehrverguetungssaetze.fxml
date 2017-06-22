@@ -4,7 +4,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="285.0" maxWidth="463.0" prefHeight="135.0" prefWidth="486.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dpma.view.LehrverguetungssaetzeController">
+<AnchorPane maxHeight="285.0" maxWidth="463.0" onKeyPressed="#handleKeyPressed" prefHeight="135.0" prefWidth="486.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dpma.view.LehrverguetungssaetzeController">
    <children>
       <TextField fx:id="verguetungsSatzTextField" layoutX="28.0" layoutY="52.0" prefHeight="31.0" prefWidth="193.0" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="28.0" />
       <Button layoutX="343.0" layoutY="93.0" mnemonicParsing="false" onAction="#handleSubmit" prefHeight="31.0" prefWidth="93.0" text="OK" />

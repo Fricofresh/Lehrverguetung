@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="801.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dpma.view.VeranstaltungController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#handleKeyPressed" prefHeight="480.0" prefWidth="801.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dpma.view.VeranstaltungController">
    <children>
       <Label layoutX="75.0" layoutY="40.0" text="Dozent" AnchorPane.leftAnchor="50.0" />
       <Label layoutX="75.0" layoutY="80.0" text="Aktenzeichen" AnchorPane.leftAnchor="50.0" />
