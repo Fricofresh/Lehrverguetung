@@ -20,6 +20,7 @@ public class FXML_GUI {
 	
 	Logger log = Logger.getLogger(FXML_GUI.class.getName());
 	
+	// TODO Array erstellen gegen Bugs
 	public static Stage primaryStage;
 	
 	public BorderPane rootLayout;
@@ -182,12 +183,5 @@ public class FXML_GUI {
 		handleChildren("InsertPersonalData", tabelle, "confIni");
 		
 	}
-	
-	// public void showDocumentExport() {
-	// InsertPersonalDataController ipdc;
-	// ipdc.
-	// // TODO Auto-generated method stub
-	//
-	// }
 	
 }
