@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 
 public class DozentController {
 	
@@ -40,6 +41,8 @@ public class DozentController {
 	
 	@FXML
 	TextField bLZTextField = new TextField();
+	
+	KeyEvent keyEvent;
 	
 	ObservableList<String> anredeComboBoxList = FXCollections.observableArrayList("Frau", "Herr");
 	
@@ -111,6 +114,19 @@ public class DozentController {
 	private void handleCancel() {
 		
 		FXML_GUI.primaryStage.close();
+	}
+	
+	public void handleKeyPressed(KeyEvent keyEvent) {
+		
+		this.keyEvent = keyEvent;
+		switch (keyEvent.getCode()) {
+		case ENTER:
+			handleSubmit();
+			
+			break;
+		default:
+			break;
+		}
 	}
 	
 }

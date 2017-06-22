@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 
 public class InsertPersonalDataController {
@@ -19,6 +20,8 @@ public class InsertPersonalDataController {
 	// TODO E-Mail auto-Vervollständigung
 	
 	public Event event;
+	
+	KeyEvent keyEvent;
 	
 	@FXML
 	ComboBox<String> dienstortComboBox;
@@ -103,5 +106,18 @@ public class InsertPersonalDataController {
 	private void handleCancel() {
 		
 		FXML_GUI.primaryStage.close();
+	}
+	
+	public void handleKeyPressed(KeyEvent keyEvent) {
+		
+		this.keyEvent = keyEvent;
+		switch (keyEvent.getCode()) {
+		case ENTER:
+			handleSubmit();
+			
+			break;
+		default:
+			break;
+		}
 	}
 }
