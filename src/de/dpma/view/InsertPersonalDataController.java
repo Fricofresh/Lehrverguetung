@@ -51,6 +51,7 @@ public class InsertPersonalDataController {
 		confini = new ConfigIniUtil();
 		dienstortComboBox.setItems(dienstortComboBoxList);
 		dienstortComboBox.setValue(confini.getDienstort());
+		durchwahlTextField.setText(confini.getDurchwahl());
 		vornameTextField.setText(confini.getVorname());
 		nachnameTextField.setText(confini.getNachname());
 		emailTextField.setText(confini.getEmail());

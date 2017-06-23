@@ -1,6 +1,7 @@
 package de.dpma.util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Properties;
 
@@ -28,7 +29,6 @@ public class ConfigIniUtil {
 			boolean b;
 			if (!(b = (new File(path).exists()))) {
 				b = (new File(path).mkdirs());
-				System.out.println(b);
 			}
 			else if (b = new File(fullpath).exists()) {
 				readConf();
@@ -41,11 +41,19 @@ public class ConfigIniUtil {
 	
 	private void readConf() {
 		
-		dienstort = p.getProperty("Dienstort");
-		durchwahl = p.getProperty("Durchwahl");
-		vorname = p.getProperty("Vorname");
-		nachname = p.getProperty("Nachname");
-		email = p.getProperty("E-Mail");
+		try {
+			FileInputStream input = new FileInputStream(new File(fullpath));
+			p.load(input);
+			dienstort = p.getProperty("Dienstort");
+			durchwahl = p.getProperty("Durchwahl");
+			vorname = p.getProperty("Vorname");
+			nachname = p.getProperty("Nachname");
+			email = p.getProperty("E-Mail");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void writeConf() {
