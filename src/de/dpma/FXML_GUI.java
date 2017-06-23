@@ -166,8 +166,8 @@ public class FXML_GUI {
 			}
 			else if (check.equals("confIni")) {
 				Event event = (Event) tabelle;
-				InsertPersonalDataController sipd = new InsertPersonalDataController();
-				sipd.event = event;
+				InsertPersonalDataController sipd = loader.getController();
+				sipd.setEvent(event);
 			}
 			sizeHandling(children.getPrefHeight(), children.getPrefWidth());
 			rootLayout.setCenter(children);
@@ -178,7 +178,7 @@ public class FXML_GUI {
 		
 	}
 	
-	public void showConfigIni() {
+	public void showConfigIni(Object tabelle) {
 		
 		handleChildren("InsertPersonalData", tabelle, "confIni");
 		

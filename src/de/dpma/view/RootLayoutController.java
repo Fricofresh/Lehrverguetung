@@ -54,11 +54,9 @@ public class RootLayoutController {
 		
 		fxml_gui = new FXML_GUI(stage, borderPane);
 		switch (check) {
-		case "createDoc":
-			menuMenuBar.setDisable(false);
-			gesammtListeMenuItem.setVisible(false);
-			einstellungenMenuItem.setVisible(true);
-			fxml_gui.showConfigIni();
+		
+		case "configIni":
+			fxml_gui.showConfigIni(null);
 			break;
 		default:
 			alert = new AlertUtil("Falscher übergabeparameter", "Bitte kontaktieren Sie den Administrator!", "WARNING");
@@ -80,12 +78,16 @@ public class RootLayoutController {
 		case "Dozenten":
 			fxml_gui.showDozent(tabelle);
 			break;
+		case "createDoc":
+			menuMenuBar.setDisable(false);
+			gesammtListeMenuItem.setVisible(false);
+			einstellungenMenuItem.setVisible(true);
+			fxml_gui.showConfigIni(tabelle);
+			break;
 		case "Lehrvergütungssätze":
 			fxml_gui.showLehrverguetungssaetze(tabelle);
 			break;
-		case "configIni":
-			fxml_gui.showConfigIni();
-			break;
+		
 		default:
 			alert = new AlertUtil("Falscher übergabeparameter", "Bitte kontaktieren Sie den Administrator!", "WARNING");
 			break;
@@ -116,7 +118,7 @@ public class RootLayoutController {
 		
 		// TODO Konfigurationsdatei
 		
-		handleGUI("configIni", null);
+		handleGUI("configIni");
 		FXML_GUI.primaryStage.setTitle("Einstellungen");
 		
 	}

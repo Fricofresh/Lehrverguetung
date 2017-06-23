@@ -19,7 +19,7 @@ public class InsertPersonalDataController {
 	
 	// TODO E-Mail auto-Vervollständigung
 	
-	public Event event;
+	private Event event;
 	
 	KeyEvent keyEvent;
 	
@@ -84,7 +84,6 @@ public class InsertPersonalDataController {
 	private void handleSubmit() {
 		
 		boolean b = false;
-		
 		confini.setConf(dienstortComboBox.getValue().toString(), durchwahlTextField.getText(),
 				vornameTextField.getText(), nachnameTextField.getText(), emailTextField.getText());
 		confini.writeConf();
@@ -120,5 +119,10 @@ public class InsertPersonalDataController {
 		default:
 			break;
 		}
+	}
+	
+	public void setEvent(Event event) {
+		
+		this.event = event;
 	}
 }
