@@ -30,7 +30,7 @@ public class GenerateExcelData {
 		try {
 			String[] headers = new String[] { "Anrede", "Titel", "Vorname", "Name", "Strasse", "PLZ", "Ort",
 					"Aktenzeichen", "Schulungsart", "Verfügung", "Vortragsart", "Datum", "Stundensatz", "Stundenzahl",
-					"Betrag", "Betrag in Worten", "IBAN / Kontonummer", "Bank", "BLZ" };
+					"Betrag", "Betrag in Worten", "IBAN / Kontonummer", "Bank", "BIC / BLZ" };
 
 			XSSFWorkbook workbook = new XSSFWorkbook();
 			XSSFSheet sheet = workbook.createSheet("Dozentendaten");

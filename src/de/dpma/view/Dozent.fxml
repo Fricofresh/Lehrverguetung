@@ -17,7 +17,7 @@
       <Label layoutX="50.0" layoutY="280.0" text="Ort" />
       <Label layoutX="50.0" layoutY="320.0" text="IBAN / Kontonummer" />
       <Label layoutX="50.0" layoutY="360.0" text="Bank" />
-      <Label layoutX="50.0" layoutY="400.0" text="BLZ" />
+      <Label layoutX="50.0" layoutY="400.0" text="BIC / BLZ" />
       <ComboBox fx:id="anredeComboBox" layoutX="383.0" layoutY="35.0" prefHeight="31.0" prefWidth="132.0" AnchorPane.rightAnchor="30.0" />
       <TextField fx:id="titelTextField" layoutX="247.0" layoutY="75.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />
       <TextField fx:id="vornameTextField" layoutX="243.0" layoutY="115.0" prefHeight="31.0" prefWidth="272.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="30.0" />

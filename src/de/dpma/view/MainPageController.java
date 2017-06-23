@@ -296,7 +296,7 @@ public class MainPageController {
 		TableColumn<Dozent, String> ortTableColumn = new TableColumn("Ort");
 		TableColumn<Dozent, String> kontonummerTableColumn = new TableColumn("IBAN / Kontonummer");
 		TableColumn<Dozent, String> bankTableColumn = new TableColumn("Bank");
-		TableColumn<Dozent, String> bLZTableColumn = new TableColumn("BLZ");
+		TableColumn<Dozent, String> bLZTableColumn = new TableColumn("BIC / BLZ");
 		tabellenTableView.getColumns().setAll(anredeTableColumn, titelTableColumn, vornameTableColumn, nameTableColumn,
 				straﬂeTableColumn, pLZTableColumn, ortTableColumn, kontonummerTableColumn, bankTableColumn,
 				bLZTableColumn);

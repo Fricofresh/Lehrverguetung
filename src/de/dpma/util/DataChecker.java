@@ -47,4 +47,68 @@ public class DataChecker {
 	public static boolean hasTwoOrNoDecimals(Double input) {
 		return hasTwoOrNoDecimals(String.valueOf(input));
 	}
+
+	public static boolean isIBAN(String input) {
+		if (isEmpty(input)) {
+			return false;
+		}
+
+		input = input.replaceAll("\\s+", "");
+		return DataCheckerIBANLib.isIBAN(input) >= 2;
+	}
+
+	public static boolean isBIC(String input) {
+		if (isEmpty(input)) {
+			return false;
+		}
+
+		input = input.replaceAll("\\s+", "");
+		return DataCheckerIBANLib.isBIC(input) >= 1;
+	}
+
+	public static boolean isBLZ(String input) {
+		if (isEmpty(input)) {
+			return false;
+		}
+
+		input = input.replaceAll("\\s+", "");
+		return isNumeric(input) && input.length() == 8;
+	}
+
+	public static boolean isBLZ(int input) {
+		return isBLZ(String.valueOf(input));
+	}
+
+	public static boolean isBICorBLZ(String input) {
+		return isBIC(input) || isBLZ(input);
+	}
+
+	public static boolean isKontonummer(String input) {
+		if (isEmpty(input)) {
+			return false;
+		}
+
+		input = input.replaceAll("\\s+", "");
+		return isNumeric(input) && input.length() >= 5 && input.length() <= 10;
+	}
+
+	public static boolean isKontonummer(int input) {
+		return isKontonummer(String.valueOf(input));
+	}
+
+	public static boolean isIBANorKontonummer(String input) {
+		return isIBAN(input) || isKontonummer(input);
+	}
+
+	public static boolean isPLZ(String input) {
+		if (isEmpty(input)) {
+			return false;
+		}
+
+		return isNumeric(input) && input.length() == 5;
+	}
+
+	public static boolean isPLZ(int input) {
+		return isPLZ(String.valueOf(input));
+	}
 }
