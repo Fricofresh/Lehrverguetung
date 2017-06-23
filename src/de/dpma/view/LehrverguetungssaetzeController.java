@@ -9,6 +9,7 @@ import de.dpma.dao.StundenlohnDAO;
 import de.dpma.model.Stundenlohn;
 import de.dpma.util.AlertUtil;
 import de.dpma.util.DataChecker;
+import de.dpma.util.FormatCurrrency;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -58,7 +59,6 @@ public class LehrverguetungssaetzeController {
 
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				String currentTimestamp = sdf.format(System.currentTimeMillis());
-				System.out.println(currentTimestamp);
 				stundenlohn.setCreationTime(currentTimestamp);
 
 				MainPageController.stundenlohnDAO.insertStundenlohn(this.stundenlohn);
@@ -90,7 +90,7 @@ public class LehrverguetungssaetzeController {
 		this.stundenlohn = stundenlohn;
 
 		String stdLohn = String.valueOf(stundenlohn.getLohn());
-		verguetungsSatzTextField.setText(stdLohn);
+		verguetungsSatzTextField.setText(FormatCurrrency.format(stdLohn, false).replace(".", ""));
 	}
 
 	@FXML
