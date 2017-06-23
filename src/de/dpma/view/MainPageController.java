@@ -119,13 +119,6 @@ public class MainPageController {
 		if (selectedIndex >= 0) {
 			if (fokus.equals("Veranstaltungen")) {
 				event = (Event) tabellenTableView.getSelectionModel().getSelectedItem();
-				tabellenTableView.getItems().remove(selectedIndex);
-
-				try {
-					eventDAO.deleteEvent(event.getId());
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
 
 				Alert confirmationAlert = new Alert(AlertType.CONFIRMATION);
 
@@ -229,9 +222,24 @@ public class MainPageController {
 				FXML_GUI.primaryStage.setTitle(fokus.replace("ten", "t") + " bearbeiten");
 				break;
 			case "Lehrvergütungssätze":
+
 				stundenlohn = (Stundenlohn) tabellenTableView.getSelectionModel().getSelectedItem();
-				root.handleGUI(fokus, stundenlohn);
-				FXML_GUI.primaryStage.setTitle(fokus.replace("ätze", "atz") + " bearbeiten");
+
+				Alert confirmationAlert = new Alert(AlertType.CONFIRMATION);
+
+				DialogPane dialogPane = confirmationAlert.getDialogPane();
+
+				confirmationAlert.setTitle("Bearbeiten bestätigen");
+				confirmationAlert.setHeaderText("Möchten Sie diesen Lehrvergütungssatz wirklich bearbeiten?");
+				confirmationAlert.setContentText(
+						"Wenn Sie diesen Lehrvergütungssatz ändern, wird er auch in allen Veranstaltung geändert, welche ihn verwenden.");
+
+				Optional<ButtonType> result = confirmationAlert.showAndWait();
+				if (result.get() == ButtonType.OK) {
+					stundenlohn = (Stundenlohn) tabellenTableView.getSelectionModel().getSelectedItem();
+					root.handleGUI(fokus, stundenlohn);
+					FXML_GUI.primaryStage.setTitle(fokus.replace("ätze", "atz") + " bearbeiten");
+				}
 				break;
 
 			default:
