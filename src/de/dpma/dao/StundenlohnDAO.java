@@ -14,7 +14,7 @@ public class StundenlohnDAO {
 
 	final String DELETE_STUNDENLOHN = "DELETE FROM \"LEHRVERGUETUNG\".\"STUNDENLOEHNE\" WHERE \"ID\" = ?";
 
-	final String UPDATE_STUNDENLOHN = "UPDATE \"LEHRVERGUETUNG\".\"STUNDENLOEHNE\" SET \"LOHN\" = ?, \"CREATION_TIME\" = ? WHERE \"ID\" = ?";
+	final String UPDATE_STUNDENLOHN = "UPDATE \"LEHRVERGUETUNG\".\"STUNDENLOEHNE\" SET \"LOHN\" = ? WHERE \"ID\" = ?";
 
 	final String SELECT_STUNDENLOHN = "SELECT * FROM \"LEHRVERGUETUNG\".\"STUNDENLOEHNE\" WHERE \"ID\" = ? ORDER BY \"CREATION_TIME\" DESC";
 
@@ -54,6 +54,7 @@ public class StundenlohnDAO {
 
 	public List<Stundenlohn> selectAllStundenloehne() throws SQLException {
 		PreparedStatement stat = con.prepareStatement(SELECT_STUNDENLOHN_ALL);
+		stat.setMaxRows(5);
 		ResultSet result = stat.executeQuery();
 
 		ArrayList<Stundenlohn> stundenloehne = new ArrayList<>();
@@ -79,8 +80,7 @@ public class StundenlohnDAO {
 	public Stundenlohn updateStundenlohn(Stundenlohn stundenlohn) throws SQLException {
 		PreparedStatement stat = con.prepareStatement(UPDATE_STUNDENLOHN);
 		stat.setString(1, Double.toString(stundenlohn.getLohn()));
-		stat.setString(2, stundenlohn.getCreationTime() + " 00:00:00.0");
-		stat.setInt(3, stundenlohn.getId());
+		stat.setInt(2, stundenlohn.getId());
 
 		stat.executeUpdate();
 		return stundenlohn;
@@ -88,6 +88,7 @@ public class StundenlohnDAO {
 
 	public List<Stundenlohn> searchStundenlohn(String searchString) throws SQLException {
 		PreparedStatement stat = con.prepareStatement(SELECT_STUNDENLOHN_SEARCH);
+		stat.setMaxRows(5);
 		stat.setString(1, "%" + searchString.replace(".", "").replace(",", ".") + "%");
 		stat.setString(2, "%" + searchString.replace(".", "").replace(",", ".") + "%");
 		stat.setString(3, "%" + searchString.replace(",", ".") + "%");
