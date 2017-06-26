@@ -62,8 +62,9 @@ public class MainPageController {
 
 	@FXML
 	public void initialize() throws SQLException, ParseException {
-
-		FXML_GUI.primaryStage.setTitle(fokus);
+		
+		this.getStageID = MainApp.counter;
+		FXML_GUI.primaryStage[this.getStageID].setTitle(fokus);
 		navigationListe.getSelectionModel().select(fokus);
 		ObservableList<String> inhalte = FXCollections.observableArrayList("Veranstaltungen", "Dozenten",
 				"Lehrvergütungssätze");
@@ -85,9 +86,9 @@ public class MainPageController {
 		} else {
 			dokumentErstellenMenuButton.setDisable(false);
 		}
-
-		FXML_GUI.primaryStage.setTitle(fokus);
-
+		
+		FXML_GUI.primaryStage[this.getStageID].setTitle(fokus);
+		
 		handleSearch();
 	}
 
@@ -98,13 +99,13 @@ public class MainPageController {
 
 		switch (fokus) {
 		case "Veranstaltungen":
-			FXML_GUI.primaryStage.setTitle(fokus.replace("gen", "g") + " hinzufügen");
+			FXML_GUI.primaryStage[MainApp.counter].setTitle(fokus.replace("gen", "g") + " hinzufügen");
 			break;
 		case "Dozenten":
-			FXML_GUI.primaryStage.setTitle(fokus.replace("ten", "t") + " hinzufügen");
+			FXML_GUI.primaryStage[MainApp.counter].setTitle(fokus.replace("ten", "t") + " hinzufügen");
 			break;
 		case "Lehrvergütungssätze":
-			FXML_GUI.primaryStage.setTitle(fokus.replace("ätze", "atz") + " hinzufügen");
+			FXML_GUI.primaryStage[MainApp.counter].setTitle(fokus.replace("ätze", "atz") + " hinzufügen");
 			break;
 
 		default:
@@ -214,12 +215,12 @@ public class MainPageController {
 			case "Veranstaltungen":
 				event = (Event) tabellenTableView.getSelectionModel().getSelectedItem();
 				root.handleGUI(fokus, event);
-				FXML_GUI.primaryStage.setTitle(fokus.replace("gen", "g") + " bearbeiten");
+				FXML_GUI.primaryStage[MainApp.counter].setTitle(fokus.replace("gen", "g") + " bearbeiten");
 				break;
 			case "Dozenten":
 				dozent = (Dozent) tabellenTableView.getSelectionModel().getSelectedItem();
 				root.handleGUI(fokus, dozent);
-				FXML_GUI.primaryStage.setTitle(fokus.replace("ten", "t") + " bearbeiten");
+				FXML_GUI.primaryStage[MainApp.counter].setTitle(fokus.replace("ten", "t") + " bearbeiten");
 				break;
 			case "Lehrvergütungssätze":
 
@@ -238,7 +239,7 @@ public class MainPageController {
 				if (result.get() == ButtonType.OK) {
 					stundenlohn = (Stundenlohn) tabellenTableView.getSelectionModel().getSelectedItem();
 					root.handleGUI(fokus, stundenlohn);
-					FXML_GUI.primaryStage.setTitle(fokus.replace("ätze", "atz") + " bearbeiten");
+					FXML_GUI.primaryStage[MainApp.counter].setTitle(fokus.replace("ätze", "atz") + " bearbeiten");
 				}
 				break;
 
@@ -260,8 +261,9 @@ public class MainPageController {
 		if (selectedIndex >= 0) {
 			event = (Event) tabellenTableView.getSelectionModel().getSelectedItem();
 			root.handleGUI("createDoc");
-			FXML_GUI.primaryStage.setTitle("Rechnungsbegleitblatt exportieren");
-		} else {
+			FXML_GUI.primaryStage[MainApp.counter].setTitle("Rechnungsbegleitblatt exportieren");
+		}
+		else {
 			// TODO Rechtschreibprüfung
 			alert = new AlertUtil("Keine Auswahl",
 					"Sie haben kein zu exportierendes Element ausgewählt. Bitte wählen Sie ein Element aus und versuchen Sie es erneut.",
@@ -276,8 +278,9 @@ public class MainPageController {
 		if (selectedIndex >= 0) {
 			event = (Event) tabellenTableView.getSelectionModel().getSelectedItem();
 			root.handleGUI("createDoc");
-			FXML_GUI.primaryStage.setTitle("Auszahlung Lehrvergütung exportieren");
-		} else {
+			FXML_GUI.primaryStage[MainApp.counter].setTitle("Auszahlung Lehrvergütung exportieren");
+		}
+		else {
 			// TODO Rechtschreibprüfung
 			alert = new AlertUtil("Keine Auswahl",
 					"Sie haben kein zu exportierendes Element ausgewählt. Bitte wählen Sie ein Element aus und versuchen Sie es erneut.",
@@ -364,7 +367,6 @@ public class MainPageController {
 			try {
 				return cellData.getValue().DateProperty();
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return null;
@@ -383,7 +385,7 @@ public class MainPageController {
 				insertIntoVeranstaltungenTable(eventDAO.searchEvent(searchField.getText()));
 				break;
 			case "Dozenten":
-				insertIntoDozentenTable(dozentDAO.searchDozent(searchField.getText()));
+				insertIntoDozentenTable(dozentDAO.searchDozentFullname(searchField.getText()));
 				break;
 			case "Lehrvergütungssätze":
 				insertIntoLehrvergueungssaetzeTable(stundenlohnDAO.searchStundenlohn(searchField.getText()));

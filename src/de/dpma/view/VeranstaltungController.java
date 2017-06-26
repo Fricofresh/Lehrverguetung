@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 import de.dpma.FXML_GUI;
 import de.dpma.model.Dozent;
@@ -20,58 +19,57 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 
 public class VeranstaltungController {
-	
+
 	@FXML
-	TextField dozentTextField = new TextField();
-	
-	@FXML
-	ListView<String> dozentAutoListView;
-	
+	ComboBox<String> dozentComboBox = new ComboBox();
+
 	@FXML
 	TextField aktenzeichenTextField = new TextField();
-	
+
 	@FXML
 	TextField schulArtTextField = new TextField();
-	
+
 	@FXML
 	DatePicker vfgDatePicker = new DatePicker();
-	
+
 	@FXML
 	ComboBox<String> vortragComboBox = new ComboBox();
-	
+
 	@FXML
 	DatePicker datumVonDatePicker = new DatePicker();
-	
+
 	@FXML
 	DatePicker datumBisDatePicker = new DatePicker();
-	
+
 	@FXML
 	ComboBox<String> euro_StdComboBox = new ComboBox();
-	
+
 	@FXML
 	TextField stdZahlTextField = new TextField();
-	
+
 	@FXML
 	TextField betragTextField = new TextField();
-	
+
 	@FXML
 	TextField betrag_ABCTextField = new TextField();
-	
+
 	Event event;
-	
+
 	AlertUtil alert;
-	
+
 	KeyEvent keyEvent;
+
+	private int getStageID;
 	
 	@FXML
 	private void initialize() {
-		
+
 		try {
+			getStageID = MainApp.counter;
 			ObservableList<Stundenlohn> selectStundenloehne = FXCollections
 					.observableArrayList(MainPageController.stundenlohnDAO.selectAllStundenloehne());
 			ObservableList<String> euro_StdComboBoxList = FXCollections.observableArrayList();
@@ -79,37 +77,35 @@ public class VeranstaltungController {
 				euro_StdComboBoxList.add(FormatCurrrency.format(selectStundenloehne.get(i).getLohn(), false));
 			}
 			euro_StdComboBox.setItems(euro_StdComboBoxList);
-		}
-		catch (SQLException e) {
-			
+		} catch (SQLException e) {
+
 			e.printStackTrace();
 		}
-		
+
 		ObservableList<String> vortragComboBoxList = FXCollections.observableArrayList("Schulung", "Sonstiges");
 		vortragComboBox.setItems(vortragComboBoxList);
 	}
-	
+
 	public static final LocalDate LOCAL_DATE(String dateString) {
-		
+
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate localDate = LocalDate.parse(dateString, formatter);
 		return localDate;
 	}
-	
+
 	public void handleNew(Event event) throws SQLException {
-		
+
 		// Stundenlohn Tabelle die Auswahlmöglichkeiten reinschmeißen
 		this.event = event;
-		
-		dozentTextField.setText(event.DozentString());
+
+		dozentComboBox.getEditor().setText(event.DozentString());
 		aktenzeichenTextField.setText(event.getAktenz());
 		schulArtTextField.setText(event.getSchulart());
 		vfgDatePicker.setValue(LOCAL_DATE(event.getVfg()));
 		String vortrag;
 		if (event.getVortrg_mode() == 1) {
 			vortrag = "Schulung";
-		}
-		else {
+		} else {
 			vortrag = "Sonstiges";
 		}
 		vortragComboBox.setValue(vortrag);
@@ -125,53 +121,46 @@ public class VeranstaltungController {
 		String betrag_ABC = event.Betrag_ABCProperty().getValue();
 		betrag_ABCTextField.setText(betrag_ABC);
 	}
-	
+
 	@FXML
 	private void handleSubmit() {
-		
-		if (dozentTextField.getText().isEmpty() /* || Dozent nicht Vorhanden */) {
+
+		if (dozentComboBox.getValue().isEmpty()) {
 			alert = new AlertUtil("Dozent ungültig",
 					"Es wurde kein gültiger Dozent eingegeben. Bitte geben Sie einen validen Dozent an und versuchen Sie es erneut.",
 					"WARNING");
-		}
-		else if (aktenzeichenTextField.getText().isEmpty()) {
+		} else if (aktenzeichenTextField.getText().isEmpty()) {
 			alert = new AlertUtil("Aktenzeichen ungültig",
 					"Es wurde kein gültiges Aktenzeichen eingegeben. Bitte geben Sie ein valides Aktenzeichen an und versuchen Sie es erneut.",
 					"WARNING");
-		}
-		else if (schulArtTextField.getText().isEmpty()) {
+		} else if (schulArtTextField.getText().isEmpty()) {
 			alert = new AlertUtil("Schulungsart ungültig",
 					"Es wurde keine gültige Schulungsart eingegeben. Bitte geben Sie eine valide Schulungsart an und versuchen Sie es erneut.",
 					"WARNING");
-		}
-		else if (vfgDatePicker.getValue().toString().isEmpty()) {
+		} else if (vfgDatePicker.getValue().toString().isEmpty()) {
 			alert = new AlertUtil("Verfügungstag ungültig",
 					"Es wurde kein gültiger Verfügungstag eingegeben. Bitte geben Sie einen validen Verfügungstag an und versuchen Sie es erneut.",
 					"WARNING");
-		}
-		else if (vortragComboBox.getValue().isEmpty()) {
+		} else if (vortragComboBox.getValue().isEmpty()) {
 			alert = new AlertUtil("Vortragsart ungültig",
 					"Es wurde keine gültige Vortragsart eingegeben. Bitte geben Sie eine valide Vortragsart an und versuchen Sie es erneut.",
 					"WARNING");
-		}
-		else if (datumVonDatePicker.getValue().toString().isEmpty()) {
+		} else if (datumVonDatePicker.getValue().toString().isEmpty()) {
 			alert = new AlertUtil("Datum ungültig",
 					"Es wurde kein gültiges Startdatum eingegeben. Bitte geben Sie ein valides Startdatum an und versuchen Sie es erneut.",
 					"WARNING");
-		}
-		else if (datumBisDatePicker.getValue().toString().isEmpty()) {
+		} else if (datumBisDatePicker.getValue().toString().isEmpty()) {
 			alert = new AlertUtil("Datum ungültig",
 					"Es wurde kein gültiges Enddatum eingegeben. Bitte geben Sie ein valides Enddatum an und versuchen Sie es erneut.",
 					"WARNING");
 		}
-		
+
 		else if (stdZahlTextField.getText().isEmpty()) {
 			alert = new AlertUtil("Stundenanzahl ungültig",
 					"Es wurde keine gültige Stundenanzahl eingegeben. Bitte geben Sie eine valide Stundenanzahl an und versuchen Sie es erneut.",
 					"WARNING");
-		}
-		else {
-			
+		} else {
+
 			try {
 				if (event == null) {
 					event = new Event();
@@ -188,71 +177,63 @@ public class VeranstaltungController {
 				this.event.setVfg(vfgDatePicker.getValue().toString());
 				if (event.getId() == 0) {
 					MainPageController.eventDAO.insertEvent(event);
-				}
-				else {
+				} else {
 					MainPageController.eventDAO.updateEvent(event);
 				}
-				FXML_GUI.primaryStage.close();
-			}
-			catch (Exception e) {
+				FXML_GUI.primaryStage[this.getStageID].close();
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	@FXML
 	private void handleCancel() {
-		
-		FXML_GUI.primaryStage.close();
+
+		FXML_GUI.primaryStage[this.getStageID].close();
 	}
-	
+
 	@FXML
-	private void handleTypingDozent() {
-		
-		// TODO Vorschläge bei Eingabe des Dozenten (list)
-		// dozentAutoListView.setVisible(false);
-		dozentAutoListView = new ListView<>();
-		if (dozentTextField.isFocused()) {
+	private void handleTypingDozent() throws SQLException {
+
+		if (dozentComboBox.isFocused()) {
 			try {
-				List<Dozent> result = MainPageController.dozentDAO.searchDozent(dozentTextField.getText());
-				ObservableList<Dozent> listResult = FXCollections.observableArrayList(result);
+				System.out.println(dozentComboBox.getEditor().getText());
+				ObservableList<Dozent> listResult = FXCollections.observableArrayList(
+						MainPageController.dozentDAO.searchDozentFullname(dozentComboBox.getEditor().getText()));
 				ObservableList<String> results = FXCollections.observableArrayList();
 				for (int i = 0; i < listResult.size(); i++) {
-					results.add(listResult.get(i).getAnrede() + " " + listResult.get(i).getTitel()
-							+ (listResult.get(i).getTitel() == null ? "" : " " + listResult.get(i).getTitel())
-							+ listResult.get(i).getVorname() + listResult.get(i).getName());
+					results.add(listResult.get(i).getAnrede()
+							+ (listResult.get(i).getTitel() == null ? "" : " " + listResult.get(i).getTitel()) + " "
+							+ listResult.get(i).getVorname() + " " + listResult.get(i).getName());
 					System.out.println(listResult.get(i).getVorname());
-					
+
 				}
-				dozentAutoListView.setItems(results);
-				dozentAutoListView.setVisible(true);
-			}
-			catch (SQLException e) {
+				dozentComboBox.setItems(results);
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			
+
 		}
-		dozentTextField.getText();
 	}
-	
+
 	@FXML
 	private void handleCounting() {
-		
+
 		if (euro_StdComboBox.getValue().isEmpty() || stdZahlTextField.getText().isEmpty()
 				|| !DataChecker.isNumeric(euro_StdComboBox.getValue().replace(",", "."))
 				|| !DataChecker.isNumeric(stdZahlTextField.getText().replace(",", "."))) {
 			betragTextField.setText("");
 			betrag_ABCTextField.setText("");
-		}
-		else {
+		} else {
 			DecimalFormat df2 = new DecimalFormat("#.##");
 			df2.setRoundingMode(RoundingMode.HALF_UP);
-			
+
 			Double rechnung = Double.valueOf(df2.format((Double.valueOf(euro_StdComboBox.getValue().replace(",", "."))
 					* Double.valueOf(stdZahlTextField.getText()))).replace(",", "."));
 			betragTextField.setText(FormatCurrrency.format(rechnung, true));
 			betrag_ABCTextField.setText(NumberToText.NumberToText(Double.valueOf(rechnung)));
-			
+
 		}
 	}
 
@@ -263,7 +244,7 @@ public class VeranstaltungController {
 		switch (keyEvent.getCode()) {
 		case ENTER:
 			handleSubmit();
-			
+
 			break;
 		default:
 			break;

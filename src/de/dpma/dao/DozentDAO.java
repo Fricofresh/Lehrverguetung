@@ -22,6 +22,8 @@ public class DozentDAO {
 
 	final String SELECT_DOZENT_SEARCH = "SELECT * FROM \"LEHRVERGUETUNG\".\"DOZENTEN\" WHERE LOWER(\"ANREDE\") LIKE ? OR LOWER(\"TITEL\") LIKE ? OR LOWER(\"VORNAME\") LIKE ? OR LOWER(\"NAME\") LIKE ? OR LOWER(\"STRASSE\") LIKE ? OR LOWER(\"PLZ\") LIKE ? OR LOWER(\"IBAN\") LIKE ? OR LOWER(\"BANK\") LIKE ? OR LOWER(\"BLZ\") LIKE ? OR LOWER(\"ORT\") LIKE ?";
 
+	final String SELECT_DOZENT_SEARCH_FULLNAME = "SELECT * FROM \"LEHRVERGUETUNG\".\"DOZENTEN\" WHERE LOWER(\"ANREDE\") || '=' || LOWER(\"TITEL\") || '=' || LOWER(\"VORNAME\") || '=' || LOWER(\"NAME\") LIKE ? OR LOWER(\"ANREDE\") || '=' || LOWER(\"VORNAME\") || '=' || LOWER(\"NAME\") LIKE ? OR LOWER(\"ANREDE\") || LOWER(\"NAME\") LIKE ? OR LOWER(\"VORNAME\") || '=' || LOWER(\"NAME\") LIKE ?";
+
 	private int id;
 
 	private final Connection con;
@@ -130,6 +132,33 @@ public class DozentDAO {
 		stat.setString(8, ("%" + searchString + "%").toLowerCase());
 		stat.setString(9, ("%" + searchString + "%").toLowerCase());
 		stat.setString(10, ("%" + searchString + "%").toLowerCase());
+		ResultSet result = stat.executeQuery();
+
+		ArrayList<Dozent> dozenten = new ArrayList<>();
+		while (result.next()) {
+			Dozent dozent = new Dozent();
+			dozent.setId(result.getInt("ID"));
+			dozent.setAnrede(result.getString("ANREDE"));
+			dozent.setTitel(result.getString("TITEL"));
+			dozent.setVorname(result.getString("VORNAME"));
+			dozent.setName(result.getString("NAME"));
+			dozent.setStrasse(result.getString("STRASSE"));
+			dozent.setPLZ(result.getString("PLZ"));
+			dozent.setIBAN(result.getString("IBAN"));
+			dozent.setBank(result.getString("BANK"));
+			dozent.setBLZ(result.getString("BLZ"));
+			dozent.setOrt(result.getString("ORT"));
+			dozenten.add(dozent);
+		}
+		return dozenten;
+	}
+
+	public List<Dozent> searchDozentFullname(String searchString) throws SQLException {
+		PreparedStatement stat = con.prepareStatement(SELECT_DOZENT_SEARCH_FULLNAME);
+		stat.setString(1, ("%" + searchString + "%").toLowerCase().replace(" ", "="));
+		stat.setString(2, ("%" + searchString + "%").toLowerCase().replace(" ", "="));
+		stat.setString(3, ("%" + searchString + "%").toLowerCase().replace(" ", "="));
+		stat.setString(4, ("%" + searchString + "%").toLowerCase().replace(" ", "="));
 		ResultSet result = stat.executeQuery();
 
 		ArrayList<Dozent> dozenten = new ArrayList<>();
