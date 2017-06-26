@@ -104,7 +104,7 @@ public class RootLayoutController {
 		
 		String directory = chooser.getExtensionFilters().toString();
 		
-		File file = chooser.showSaveDialog(FXML_GUI.primaryStage.getScene().getWindow());
+		File file = chooser.showSaveDialog(FXML_GUI.primaryStage[MainApp.counter].getScene().getWindow());
 		
 		if (file != null) {
 			GenerateExcelData ged = new GenerateExcelData(file);
@@ -119,7 +119,7 @@ public class RootLayoutController {
 		// TODO Konfigurationsdatei
 		
 		handleGUI("configIni");
-		FXML_GUI.primaryStage.setTitle("Einstellungen");
+		FXML_GUI.primaryStage[MainApp.counter].setTitle("Einstellungen");
 		
 	}
 }

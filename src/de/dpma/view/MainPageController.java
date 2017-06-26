@@ -60,9 +60,11 @@ public class MainPageController {
 	@FXML
 	MenuButton dokumentErstellenMenuButton;
 
+	private int getStageID;
+
 	@FXML
 	public void initialize() throws SQLException, ParseException {
-		
+
 		this.getStageID = MainApp.counter;
 		FXML_GUI.primaryStage[this.getStageID].setTitle(fokus);
 		navigationListe.getSelectionModel().select(fokus);
@@ -86,9 +88,9 @@ public class MainPageController {
 		} else {
 			dokumentErstellenMenuButton.setDisable(false);
 		}
-		
+
 		FXML_GUI.primaryStage[this.getStageID].setTitle(fokus);
-		
+
 		handleSearch();
 	}
 
@@ -262,8 +264,7 @@ public class MainPageController {
 			event = (Event) tabellenTableView.getSelectionModel().getSelectedItem();
 			root.handleGUI("createDoc");
 			FXML_GUI.primaryStage[MainApp.counter].setTitle("Rechnungsbegleitblatt exportieren");
-		}
-		else {
+		} else {
 			// TODO Rechtschreibprüfung
 			alert = new AlertUtil("Keine Auswahl",
 					"Sie haben kein zu exportierendes Element ausgewählt. Bitte wählen Sie ein Element aus und versuchen Sie es erneut.",
@@ -279,8 +280,7 @@ public class MainPageController {
 			event = (Event) tabellenTableView.getSelectionModel().getSelectedItem();
 			root.handleGUI("createDoc");
 			FXML_GUI.primaryStage[MainApp.counter].setTitle("Auszahlung Lehrvergütung exportieren");
-		}
-		else {
+		} else {
 			// TODO Rechtschreibprüfung
 			alert = new AlertUtil("Keine Auswahl",
 					"Sie haben kein zu exportierendes Element ausgewählt. Bitte wählen Sie ein Element aus und versuchen Sie es erneut.",
@@ -366,7 +366,9 @@ public class MainPageController {
 		datumTableColumn.setCellValueFactory(cellData -> {
 			try {
 				return cellData.getValue().DateProperty();
+
 			} catch (ParseException e) {
+
 				e.printStackTrace();
 			}
 			return null;

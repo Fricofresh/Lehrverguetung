@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import de.dpma.FXML_GUI;
+import de.dpma.MainApp;
 import de.dpma.model.Dozent;
 import de.dpma.model.Event;
 import de.dpma.model.Stundenlohn;
@@ -64,7 +65,7 @@ public class VeranstaltungController {
 	KeyEvent keyEvent;
 
 	private int getStageID;
-	
+
 	@FXML
 	private void initialize() {
 
@@ -239,7 +240,7 @@ public class VeranstaltungController {
 
 	@FXML
 	private void handleKeyPressed(KeyEvent keyEvent) {
-		
+
 		this.keyEvent = keyEvent;
 		switch (keyEvent.getCode()) {
 		case ENTER:
@@ -250,4 +251,5 @@ public class VeranstaltungController {
 			break;
 		}
 	}
+
 }
