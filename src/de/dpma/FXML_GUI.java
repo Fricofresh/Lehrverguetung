@@ -21,7 +21,12 @@ public class FXML_GUI {
 	Logger log = Logger.getLogger(FXML_GUI.class.getName());
 	
 	// TODO Array erstellen gegen Bugs
-	public static Stage primaryStage;
+	// static integer auf MainApp als counter um die insgesammte anzahl
+	// herauszufinden und das es möglich ist die neuste Stage zu zuweisen
+	// bei den einzelnen Controller wird die ID der oberfläche als privater int
+	// gespeichert, der int bekommt den Wert des MainApp counter. Die Stages
+	// wird von der MainApp genommen
+	public static Stage[] primaryStage = new Stage[100];
 	
 	public BorderPane rootLayout;
 	
@@ -36,29 +41,31 @@ public class FXML_GUI {
 	}
 	
 	public FXML_GUI(Stage primaryStage, BorderPane rootLayout) {
-		this.primaryStage = primaryStage;
+//		this.primaryStage[MainApp.counter] = primaryStage;
+		
+		MainApp.counter++;
 		this.rootLayout = rootLayout;
 		initRootLayout(false);
 	}
 	
-	public FXML_GUI(Stage primaryStage, BorderPane rootLayout, String dump) {
-		this.primaryStage = primaryStage;
-		this.rootLayout = rootLayout;
-		initRootLayout(true);
-	}
+	// public FXML_GUI(Stage primaryStage, BorderPane rootLayout, String dump) {
+	// this.primaryStage[MainApp.counter] = primaryStage;
+	// this.rootLayout = rootLayout;
+	// initRootLayout(true);
+	// }
 	
 	public void initRootLayout(boolean b) {
 		
 		try {
-			primaryStage = new Stage();
+			primaryStage[MainApp.counter] = new Stage();
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(FXML_GUI.class.getResource("view/RootLayout.fxml"));
 			rootLayout = (BorderPane) loader.load();
 			Scene scene = new Scene(rootLayout);
 			
-			primaryStage.setScene(scene);
+			primaryStage[MainApp.counter].setScene(scene);
 			if (!b) {
-				primaryStage.show();
+				primaryStage[MainApp.counter].show();
 			}
 		}
 		catch (NullPointerException n) {
@@ -82,8 +89,8 @@ public class FXML_GUI {
 	// Anpassung der Größe
 	private void sizeHandling(double height, double width) {
 		
-		primaryStage.setMinWidth(width + 60);
-		primaryStage.setMinHeight(height + 120);
+		primaryStage[MainApp.counter].setMinWidth(width + 60);
+		primaryStage[MainApp.counter].setMinHeight(height + 120);
 	}
 	
 	public void showDozent(Object tabelle) {
@@ -120,8 +127,8 @@ public class FXML_GUI {
 		else {
 			handleChildren("Lehrverguetungssaetze");
 		}
-		primaryStage.setMaxWidth(400 + 60);
-		primaryStage.setMaxHeight(250 + 120);
+		primaryStage[MainApp.counter].setMaxWidth(400 + 60);
+		primaryStage[MainApp.counter].setMaxHeight(250 + 120);
 	}
 	
 	private void handleChildren(String FXML_Name) {

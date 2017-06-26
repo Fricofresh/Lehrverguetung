@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import de.dpma.FXML_GUI;
+import de.dpma.MainApp;
 import de.dpma.model.Dozent;
 import de.dpma.model.Event;
 import de.dpma.model.Stundenlohn;
@@ -68,10 +69,13 @@ public class VeranstaltungController {
 	
 	KeyEvent keyEvent;
 	
+	private int getStageID;
+	
 	@FXML
 	private void initialize() {
 		
 		try {
+			getStageID = MainApp.counter;
 			ObservableList<Stundenlohn> selectStundenloehne = FXCollections
 					.observableArrayList(MainPageController.stundenlohnDAO.selectAllStundenloehne());
 			ObservableList<String> euro_StdComboBoxList = FXCollections.observableArrayList();
@@ -192,7 +196,7 @@ public class VeranstaltungController {
 				else {
 					MainPageController.eventDAO.updateEvent(event);
 				}
-				FXML_GUI.primaryStage.close();
+				FXML_GUI.primaryStage[this.getStageID].close();
 			}
 			catch (Exception e) {
 				e.printStackTrace();
@@ -203,7 +207,7 @@ public class VeranstaltungController {
 	@FXML
 	private void handleCancel() {
 		
-		FXML_GUI.primaryStage.close();
+		FXML_GUI.primaryStage[this.getStageID].close();
 	}
 	
 	@FXML
@@ -255,7 +259,7 @@ public class VeranstaltungController {
 			
 		}
 	}
-
+	
 	@FXML
 	private void handleKeyPressed(KeyEvent keyEvent) {
 		
@@ -269,4 +273,5 @@ public class VeranstaltungController {
 			break;
 		}
 	}
+	
 }

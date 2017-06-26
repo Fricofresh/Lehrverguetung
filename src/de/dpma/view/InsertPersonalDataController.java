@@ -3,6 +3,7 @@ package de.dpma.view;
 import java.io.File;
 
 import de.dpma.FXML_GUI;
+import de.dpma.MainApp;
 import de.dpma.model.Event;
 import de.dpma.util.AlertUtil;
 import de.dpma.util.ConfigIniUtil;
@@ -45,9 +46,12 @@ public class InsertPersonalDataController {
 	
 	ConfigIniUtil confini;
 	
+	private int getStageID;
+	
 	@FXML
 	public void initialize() {
 		
+		getStageID = MainApp.counter;
 		confini = new ConfigIniUtil();
 		dienstortComboBox.setItems(dienstortComboBoxList);
 		dienstortComboBox.setValue(confini.getDienstort());
@@ -68,7 +72,7 @@ public class InsertPersonalDataController {
 			
 			String directory = chooser.getExtensionFilters().toString();
 			
-			File file = chooser.showSaveDialog(FXML_GUI.primaryStage.getScene().getWindow());
+			File file = chooser.showSaveDialog(FXML_GUI.primaryStage[this.getStageID].getScene().getWindow());
 			if (file == null) {
 				alert = new AlertUtil("Pfad ungültig", "Bitte wählen Sie einen Pfad an", "WARNING");
 				return false;
@@ -87,25 +91,25 @@ public class InsertPersonalDataController {
 		confini.setConf(dienstortComboBox.getValue().toString(), durchwahlTextField.getText(),
 				vornameTextField.getText(), nachnameTextField.getText(), emailTextField.getText());
 		confini.writeConf();
-		if (FXML_GUI.primaryStage.getTitle() == "Einstellungen") {
-			FXML_GUI.primaryStage.close();
+		if (FXML_GUI.primaryStage[this.getStageID].getTitle() == "Einstellungen") {
+			FXML_GUI.primaryStage[this.getStageID].close();
 		}
-		else if (FXML_GUI.primaryStage.getTitle().equals("Rechnungsbegleitblatt exportieren")) {
+		else if (FXML_GUI.primaryStage[this.getStageID].getTitle().equals("Rechnungsbegleitblatt exportieren")) {
 			b = wordExport("Rechnungsbegleitblatt");
 		}
-		else if (FXML_GUI.primaryStage.getTitle().equals("Auszahlung Lehrvergütung exportieren")) {
+		else if (FXML_GUI.primaryStage[this.getStageID].getTitle().equals("Auszahlung Lehrvergütung exportieren")) {
 			b = wordExport("Auszahlung");
 		}
 		if (b == false) {
 			return;
 		}
-		FXML_GUI.primaryStage.close();
+		FXML_GUI.primaryStage[this.getStageID].close();
 	}
 	
 	@FXML
 	private void handleCancel() {
 		
-		FXML_GUI.primaryStage.close();
+		FXML_GUI.primaryStage[this.getStageID].close();
 	}
 	
 	public void handleKeyPressed(KeyEvent keyEvent) {
