@@ -20,6 +20,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 
@@ -70,7 +71,10 @@ public class VeranstaltungController {
 	private void initialize() {
 
 		try {
+			// Stage ID zuweisen
 			getStageID = MainApp.counter;
+
+			// Stundenlöhne Combobox füllen
 			ObservableList<Stundenlohn> selectStundenloehne = FXCollections
 					.observableArrayList(MainPageController.stundenlohnDAO.selectAllStundenloehne());
 			ObservableList<String> euro_StdComboBoxList = FXCollections.observableArrayList();
@@ -78,11 +82,16 @@ public class VeranstaltungController {
 				euro_StdComboBoxList.add(FormatCurrrency.format(selectStundenloehne.get(i).getLohn(), false));
 			}
 			euro_StdComboBox.setItems(euro_StdComboBoxList);
+
+			// Dozenten Combobox initial mit Auswahlmöglichkeiten füllen
+			fillDozentenCheckbox(FXCollections.observableArrayList(MainPageController.dozentDAO.selectAllDozenten()),
+					false);
 		} catch (SQLException e) {
 
 			e.printStackTrace();
 		}
 
+		// Vortragsart mit Daten füllen
 		ObservableList<String> vortragComboBoxList = FXCollections.observableArrayList("Schulung", "Sonstiges");
 		vortragComboBox.setItems(vortragComboBoxList);
 	}
@@ -95,10 +104,7 @@ public class VeranstaltungController {
 	}
 
 	public void handleNew(Event event) throws SQLException {
-
-		// Stundenlohn Tabelle die Auswahlmöglichkeiten reinschmeißen
 		this.event = event;
-
 		dozentComboBox.getEditor().setText(event.DozentString());
 		aktenzeichenTextField.setText(event.getAktenz());
 		schulArtTextField.setText(event.getSchulart());
@@ -123,55 +129,85 @@ public class VeranstaltungController {
 		betrag_ABCTextField.setText(betrag_ABC);
 	}
 
-	@FXML
-	private void handleSubmit() {
+	private boolean checkDateRange(String date1, String date2) {
+		java.sql.Date gettedDatePickerDate1 = java.sql.Date.valueOf(date1);
+		java.sql.Date gettedDatePickerDate2 = java.sql.Date.valueOf(date2);
 
-		if (dozentComboBox.getValue().isEmpty()) {
+		long time1 = gettedDatePickerDate1.getTime();
+		long time2 = gettedDatePickerDate2.getTime();
+
+		return time2 >= time1;
+	}
+
+	@FXML
+	private void handleSubmit() throws SQLException {
+		int dozentId = MainPageController.dozentDAO.searchDozentIdByCodename(dozentComboBox.getEditor().getText());
+		int stundenlohnId = euro_StdComboBox.getValue() == null ? -2
+				: MainPageController.stundenlohnDAO.searchStundenlohnByValue(
+						String.valueOf(Double.valueOf(euro_StdComboBox.getValue().replace(",", "."))));
+
+		if (DataChecker.isEmpty(dozentComboBox.getEditor().getText())) {
 			alert = new AlertUtil("Dozent ungültig",
 					"Es wurde kein gültiger Dozent eingegeben. Bitte geben Sie einen validen Dozent an und versuchen Sie es erneut.",
 					"WARNING");
-		} else if (aktenzeichenTextField.getText().isEmpty()) {
+		} else if (dozentId < 0) {
+			alert = new AlertUtil("Dozent ungültig",
+					"Es wurde kein gültiger Dozent ausgewählt. Bitte wählen Sie einen validen Dozent aus und versuchen Sie es erneut.",
+					"WARNING");
+		} else if (DataChecker.isEmpty(aktenzeichenTextField.getText())) {
 			alert = new AlertUtil("Aktenzeichen ungültig",
 					"Es wurde kein gültiges Aktenzeichen eingegeben. Bitte geben Sie ein valides Aktenzeichen an und versuchen Sie es erneut.",
 					"WARNING");
-		} else if (schulArtTextField.getText().isEmpty()) {
+		} else if (DataChecker.isEmpty(schulArtTextField.getText())) {
 			alert = new AlertUtil("Schulungsart ungültig",
-					"Es wurde keine gültige Schulungsart eingegeben. Bitte geben Sie eine valide Schulungsart an und versuchen Sie es erneut.",
+					"Es wurde keine gültige Schulungsart ausgewählt. Bitte wählen Sie eine valide Schulungsart aus und versuchen Sie es erneut.",
 					"WARNING");
-		} else if (vfgDatePicker.getValue().toString().isEmpty()) {
+		} else if (vfgDatePicker.getValue() == null || DataChecker.isEmpty(vfgDatePicker.getValue().toString())) {
 			alert = new AlertUtil("Verfügungstag ungültig",
 					"Es wurde kein gültiger Verfügungstag eingegeben. Bitte geben Sie einen validen Verfügungstag an und versuchen Sie es erneut.",
 					"WARNING");
-		} else if (vortragComboBox.getValue().isEmpty()) {
+		} else if (DataChecker.isEmpty(vortragComboBox.getValue())) {
 			alert = new AlertUtil("Vortragsart ungültig",
-					"Es wurde keine gültige Vortragsart eingegeben. Bitte geben Sie eine valide Vortragsart an und versuchen Sie es erneut.",
+					"Es wurde keine gültige Vortragsart ausgewählt. Bitte wählen Sie eine valide Vortragsart aus und versuchen Sie es erneut.",
 					"WARNING");
-		} else if (datumVonDatePicker.getValue().toString().isEmpty()) {
-			alert = new AlertUtil("Datum ungültig",
+		} else if (datumVonDatePicker.getValue() == null
+				|| DataChecker.isEmpty(datumVonDatePicker.getValue().toString())) {
+			alert = new AlertUtil("Startdatum ungültig",
 					"Es wurde kein gültiges Startdatum eingegeben. Bitte geben Sie ein valides Startdatum an und versuchen Sie es erneut.",
 					"WARNING");
-		} else if (datumBisDatePicker.getValue().toString().isEmpty()) {
-			alert = new AlertUtil("Datum ungültig",
+		} else if (datumBisDatePicker.getValue() == null
+				|| DataChecker.isEmpty(datumBisDatePicker.getValue().toString())) {
+			alert = new AlertUtil("Enddatum ungültig",
 					"Es wurde kein gültiges Enddatum eingegeben. Bitte geben Sie ein valides Enddatum an und versuchen Sie es erneut.",
 					"WARNING");
-		}
-
-		else if (stdZahlTextField.getText().isEmpty()) {
+		} else if (!checkDateRange(datumVonDatePicker.getValue().toString(),
+				datumBisDatePicker.getValue().toString())) {
+			alert = new AlertUtil("Datumsbereich ungültig",
+					"Das Enddatum liegt vor dem Startdatum. Bitte geben Sie einen validen Datumsbereich an und versuchen Sie es erneut.",
+					"WARNING");
+		} else if (stdZahlTextField.getText().isEmpty()) {
 			alert = new AlertUtil("Stundenanzahl ungültig",
 					"Es wurde keine gültige Stundenanzahl eingegeben. Bitte geben Sie eine valide Stundenanzahl an und versuchen Sie es erneut.",
 					"WARNING");
+		} else if (stundenlohnId < -1) {
+			alert = new AlertUtil("Stundensatz ungültig",
+					"Es wurde kein gültiger Stundensatz ausgewählt. Bitte wählen Sie einen validen Stundensatz aus und versuchen Sie es erneut.",
+					"WARNING");
+		} else if (stundenlohnId < 0) {
+			alert = new AlertUtil("Stundensatz konnte nicht validiert werden",
+					"Es ist ein interner Fehler bei der Validierung des Stundensatzes aufgetreten.", "ERROR");
 		} else {
 
 			try {
 				if (event == null) {
 					event = new Event();
 				}
-				// TODO Insert befehl Dozent
-				// this.event.setId_dozent();
+
+				this.event.setId_dozent(dozentId);
 				this.event.setAktenz(aktenzeichenTextField.getText());
 				this.event.setDate_start(datumVonDatePicker.getValue().toString());
 				this.event.setDate_end(datumBisDatePicker.getValue().toString());
-				// this.event.setId_euro_std();
+				this.event.setId_euro_std(stundenlohnId);
 				this.event.setSchulart(schulArtTextField.getText());
 				int stdZahl = Integer.parseInt(stdZahlTextField.getText());
 				this.event.setStdzahl(stdZahl);
@@ -196,21 +232,10 @@ public class VeranstaltungController {
 
 	@FXML
 	private void handleTypingDozent() throws SQLException {
-
 		if (dozentComboBox.isFocused()) {
 			try {
-				System.out.println(dozentComboBox.getEditor().getText());
-				ObservableList<Dozent> listResult = FXCollections.observableArrayList(
-						MainPageController.dozentDAO.searchDozentFullname(dozentComboBox.getEditor().getText()));
-				ObservableList<String> results = FXCollections.observableArrayList();
-				for (int i = 0; i < listResult.size(); i++) {
-					results.add(listResult.get(i).getAnrede()
-							+ (listResult.get(i).getTitel() == null ? "" : " " + listResult.get(i).getTitel()) + " "
-							+ listResult.get(i).getVorname() + " " + listResult.get(i).getName());
-					System.out.println(listResult.get(i).getVorname());
-
-				}
-				dozentComboBox.setItems(results);
+				fillDozentenCheckbox(FXCollections.observableArrayList(
+						MainPageController.dozentDAO.searchDozentFullname(dozentComboBox.getEditor().getText())), true);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -218,10 +243,49 @@ public class VeranstaltungController {
 		}
 	}
 
+	private void fillDozentenCheckbox(ObservableList<Dozent> dataSource, boolean autoHider) throws SQLException {
+		ObservableList<Dozent> listResult = dataSource;
+
+		dozentComboBox.setCellFactory(lv -> {
+			ListCell<String> cell = new ListCell<String>() {
+				@Override
+				protected void updateItem(String item, boolean empty) {
+					super.updateItem(item, empty);
+					setText(empty ? null : item);
+				}
+			};
+			cell.setOnMousePressed(e -> {
+				if (!cell.isEmpty()) {
+					dozentComboBox.setValue(null);
+					dozentComboBox.getEditor().setText(cell.getText());
+				}
+			});
+			return cell;
+		});
+
+		ObservableList<String> results = FXCollections.observableArrayList();
+		for (int i = 0; i < listResult.size(); i++) {
+			results.add(listResult.get(i).getAnrede()
+					+ (listResult.get(i).getTitel() == null ? "" : " " + listResult.get(i).getTitel()) + " "
+					+ listResult.get(i).getVorname() + " " + listResult.get(i).getName());
+
+		}
+		dozentComboBox.setItems(results);
+
+		if (autoHider) {
+			if (!dozentComboBox.getItems().isEmpty()) {
+				dozentComboBox.show();
+			} else {
+				dozentComboBox.hide();
+			}
+		}
+	}
+
 	@FXML
 	private void handleCounting() {
 
-		if (euro_StdComboBox.getValue().isEmpty() || stdZahlTextField.getText().isEmpty()
+		if (euro_StdComboBox.getValue() == null || euro_StdComboBox.getValue().isEmpty()
+				|| stdZahlTextField.getText() == null || stdZahlTextField.getText().isEmpty()
 				|| !DataChecker.isNumeric(euro_StdComboBox.getValue().replace(",", "."))
 				|| !DataChecker.isNumeric(stdZahlTextField.getText().replace(",", "."))) {
 			betragTextField.setText("");
@@ -239,7 +303,7 @@ public class VeranstaltungController {
 	}
 
 	@FXML
-	private void handleKeyPressed(KeyEvent keyEvent) {
+	private void handleKeyPressed(KeyEvent keyEvent) throws SQLException {
 
 		this.keyEvent = keyEvent;
 		switch (keyEvent.getCode()) {

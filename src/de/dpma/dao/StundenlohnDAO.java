@@ -22,6 +22,8 @@ public class StundenlohnDAO {
 
 	final String SELECT_STUNDENLOHN_SEARCH = "SELECT * FROM \"LEHRVERGUETUNG\".\"STUNDENLOEHNE\" WHERE LOHN || ' €' LIKE ? OR LOHN || '0 €' LIKE ? OR LOHN || ' €' LIKE ? OR LOHN || '0 €' LIKE ? ORDER BY \"CREATION_TIME\" DESC";
 
+	final String SELECT_STUNDENLOHN_SEARCH_BY_VALUE = "SELECT \"ID\" FROM \"LEHRVERGUETUNG\".\"STUNDENLOEHNE\" WHERE LOHN = ?";
+
 	private int id;
 
 	private final Connection con;
@@ -105,6 +107,18 @@ public class StundenlohnDAO {
 			stundenloehne.add(stundenlohn);
 		}
 		return stundenloehne;
+	}
+
+	public int searchStundenlohnByValue(String searchString) throws SQLException {
+		PreparedStatement stat = con.prepareStatement(SELECT_STUNDENLOHN_SEARCH_BY_VALUE);
+		stat.setString(1, searchString);
+
+		ResultSet result = stat.executeQuery();
+
+		while (result.next()) {
+			return result.getInt("ID");
+		}
+		return -1;
 	}
 
 }
