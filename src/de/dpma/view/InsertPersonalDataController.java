@@ -7,7 +7,7 @@ import de.dpma.MainApp;
 import de.dpma.model.Event;
 import de.dpma.util.AlertUtil;
 import de.dpma.util.ConfigIniUtil;
-import de.dpma.util.WriteDocxTEST;
+import de.dpma.util.WriteDocx;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -75,7 +75,7 @@ public class InsertPersonalDataController {
 				alert = new AlertUtil("Pfad ungültig", "Bitte wählen Sie einen Pfad an", "WARNING");
 				return false;
 			}
-			WriteDocxTEST wdoc = new WriteDocxTEST(file, check, event);
+			WriteDocx wdoc = new WriteDocx(file, check, event);
 		}
 		catch (Exception e) {
 			e.printStackTrace();

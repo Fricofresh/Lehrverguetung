@@ -1,13 +1,12 @@
 package de.dpma.model;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import de.dpma.MainApp;
 import de.dpma.dao.DozentDAO;
 import de.dpma.dao.StundenlohnDAO;
 import de.dpma.util.FormatCurrrency;
+import de.dpma.util.FormatDate;
 import de.dpma.util.NumberToText;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
@@ -135,7 +134,7 @@ public class Event {
 	public void setVfg(String vfg) throws ParseException {
 
 		this.vfg.set(vfg);
-		this.vfgBeautiful.set(FormatDate(vfg));
+		this.vfgBeautiful.set(FormatDate.format(vfg));
 	}
 
 	public StringProperty VfgProperty() {
@@ -221,7 +220,7 @@ public class Event {
 	public StringProperty DateProperty() throws ParseException {
 
 		StringProperty combine = new SimpleStringProperty(
-				FormatDate(date_start.getValue()) + " - " + FormatDate(date_end.getValue()));
+				FormatDate.format(date_start.getValue()) + " - " + FormatDate.format(date_end.getValue()));
 		return combine;
 	}
 
@@ -314,17 +313,6 @@ public class Event {
 		} catch (Exception e) {
 		}
 		return temp;
-	}
-
-	private String FormatDate(String oldstring) throws ParseException {
-
-		SimpleDateFormat sourceDateFormat = new SimpleDateFormat("yyyy-MM-DD");
-
-		Date date = sourceDateFormat.parse(oldstring);
-
-		SimpleDateFormat targetDateFormat = new SimpleDateFormat("dd.MM.yyyy");
-
-		return targetDateFormat.format(date);
 	}
 
 }
