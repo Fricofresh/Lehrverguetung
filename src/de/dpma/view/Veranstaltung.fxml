@@ -21,6 +21,7 @@
       <Label layoutX="75.0" layoutY="400.0" text="[Automatisch] Betrag in Worten" AnchorPane.leftAnchor="50.0" />
       <Label layoutX="541.0" layoutY="240.0" text="bis:" AnchorPane.rightAnchor="254.0" />
       <Label layoutX="237.0" layoutY="240.0" text="von:" AnchorPane.leftAnchor="237.0" />
+      <ComboBox fx:id="dozentComboBox" editable="true" layoutX="284.0" layoutY="35.0" onKeyReleased="#handleTypingDozent" prefHeight="31.0" prefWidth="494.0" />
       <TextField fx:id="aktenzeichenTextField" layoutX="285.0" layoutY="75.0" prefHeight="31.0" prefWidth="494.0" AnchorPane.leftAnchor="285.0" AnchorPane.rightAnchor="22.0" />
       <TextField fx:id="schulArtTextField" layoutX="285.0" layoutY="115.0" prefHeight="31.0" prefWidth="494.0" AnchorPane.leftAnchor="285.0" AnchorPane.rightAnchor="22.0" />
       <DatePicker fx:id="vfgDatePicker" layoutX="564.0" layoutY="155.0" AnchorPane.rightAnchor="22.0" />
@@ -33,6 +34,5 @@
       <TextField fx:id="betrag_ABCTextField" editable="false" layoutX="285.0" layoutY="395.0" prefHeight="31.0" prefWidth="494.0" AnchorPane.leftAnchor="285.0" AnchorPane.rightAnchor="22.0" />
       <Button layoutX="591.0" layoutY="440.0" mnemonicParsing="false" onAction="#handleSubmit" prefWidth="93.0" text="OK" AnchorPane.rightAnchor="22.0" />
       <Button layoutX="592.0" layoutY="440.0" mnemonicParsing="false" onAction="#handleCancel" text="Abbrechen" AnchorPane.rightAnchor="135.0" />
-      <ComboBox fx:id="dozentComboBox" editable="true" layoutX="284.0" layoutY="35.0" onKeyReleased="#handleTypingDozent" prefHeight="31.0" prefWidth="494.0" />
    </children>
 </AnchorPane>
