@@ -7,7 +7,8 @@ import de.dpma.MainApp;
 import de.dpma.model.Event;
 import de.dpma.util.AlertUtil;
 import de.dpma.util.ConfigIniUtil;
-import de.dpma.util.WriteDocxTEST;
+import de.dpma.util.DataChecker;
+import de.dpma.util.WriteDocx;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -64,7 +65,6 @@ public class InsertPersonalDataController {
 	public boolean wordExport(String check) {
 		
 		try {
-			// TODO Word export
 			FileChooser chooser = new FileChooser();
 			chooser.setTitle("Speichern");
 			FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Word Datei (*.docx)", "*.docx");
@@ -75,7 +75,7 @@ public class InsertPersonalDataController {
 				alert = new AlertUtil("Pfad ungültig", "Bitte wählen Sie einen Pfad an", "WARNING");
 				return false;
 			}
-			WriteDocxTEST wdoc = new WriteDocxTEST(file, check, event);
+			WriteDocx wdoc = new WriteDocx(file, check, event);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -85,6 +85,27 @@ public class InsertPersonalDataController {
 	
 	@FXML
 	private void handleSubmit() {
+		
+		if (dienstortComboBox.getValue().isEmpty()) {
+			alert = new AlertUtil("Dienstort angeben", "Bitte geben Sie einen Dienstort an", "WARNING");
+			return;
+		}
+		else if (!DataChecker.isNumeric(durchwahlTextField.getText()) || durchwahlTextField.getText().isEmpty()) {
+			alert = new AlertUtil("Durchwahl falsch", "Bitte geben Sie eine valide Durchwahlnummer an", "WARNING");
+			return;
+		}
+		else if (vornameTextField.getText().isEmpty()) {
+			alert = new AlertUtil("Vorname angeben", "Bitte geben Sie Ihren Vorname an", "WARNING");
+			return;
+		}
+		else if (nachnameTextField.getText().isEmpty()) {
+			alert = new AlertUtil("Nachname angeben", "Bitte geben Sie Ihren Nachnanen an", "WARNING");
+			return;
+		}
+		else if (emailTextField.getText().isEmpty()) {
+			alert = new AlertUtil("E-Mail angeben", "Bitte geben Sie Ihre E-Mail adresse an", "WARNING");
+			return;
+		}
 		
 		boolean b = false;
 		confini.setConf(dienstortComboBox.getValue().toString(), durchwahlTextField.getText(),
@@ -122,6 +143,12 @@ public class InsertPersonalDataController {
 		default:
 			break;
 		}
+	}
+	
+	@FXML
+	private void handleEMail() {
+		
+		emailTextField.setText(vornameTextField.getText() + "." + nachnameTextField.getText() + "@dpma.de");
 	}
 	
 	public void setEvent(Event event) {

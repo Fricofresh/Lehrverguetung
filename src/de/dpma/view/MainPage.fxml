@@ -30,7 +30,7 @@
       <SplitPane dividerPositions="0.3192771084337349" layoutY="104.0" prefHeight="416.0" prefWidth="939.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="104.0">
          <items>
             <ListView fx:id="navigationListe" maxWidth="160.0" minWidth="160.0" onMouseClicked="#handleSelect" prefWidth="160.0" />
-            <TableView fx:id="tabellenTableView" onContextMenuRequested="#handleRightClick" onMouseClicked="#handleDoubleClick" prefWidth="769.0">
+            <TableView fx:id="tabellenTableView" onMouseClicked="#handleClick" prefWidth="769.0">
                <contextMenu>
                   <ContextMenu>
                      <items>

@@ -18,6 +18,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
@@ -28,6 +29,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -411,7 +413,7 @@ public class MainPageController {
 	}
 	
 	@FXML
-	private void handleSearch() throws SQLException, ParseException {
+	public void handleSearch() throws SQLException, ParseException {
 		
 		if (!searchField.getText().equals("")) {
 			switch (fokus) {
@@ -448,7 +450,7 @@ public class MainPageController {
 	}
 	
 	@FXML
-	private void handleDoubleClick() {
+	private void handleClick() {
 		
 		tabellenTableView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			
@@ -465,71 +467,20 @@ public class MainPageController {
 				}
 			}
 		});
-	}
-	
-	// bearbeiten und entfernen (vielleicht auch neu)
-	@FXML
-	private void handleRightClick() {
 		
-		tabellenContextMenu = new ContextMenu();
-		tabellenContextMenu.getItems().removeAll(tabellenContextMenu.getItems());
-		System.out.println("Rechte Maustaste wurde getätigt");
-		if (tabellenTableView.getSelectionModel().getSelectedItem() == null
-				|| tabellenTableView.getFocusModel().getFocusedItem() == null
-				|| tabellenTableView.getSelectionModel().isEmpty()) {
-			// this.tabellenContextMenu.getItems().add(neuMenuItem);
+		FXML_GUI.primaryStage[getStageID].getScene().addEventFilter(MouseEvent.MOUSE_CLICKED, evt -> {
+			Node source = evt.getPickResult().getIntersectedNode();
+			// move up through the node hierarchy until a TableRow or scene root
+			// is found
+			while (source != null && !(source instanceof TableRow)) {
+				source = source.getParent();
+			}
 			
-			neuMenuItem = new MenuItem();
-		}
-		else {
-			// this.tabellenContextMenu.getItems().clear();
-			loeschenMenuItem = new MenuItem();
-			bearbeitenMenuItem = new MenuItem();
-		}
-		// this.tabellenContextMenu.show(FXML_GUI.primaryStage[getStageID].getScene().getWindow());
+			// clear selection on click anywhere but on a filled row
+			if (source == null || (source instanceof TableRow && ((TableRow) source).isEmpty())) {
+				tabellenTableView.getSelectionModel().clearSelection();
+			}
+		});
 	}
 	
 }
-
-// if (tabellenTableView.getSelectionModel().getSelectedItem() == null
-// || tabellenTableView.getSelectionModel().isEmpty()) {
-// MenuItem neuMenuItem = new MenuItem("Neu");
-// this.tabellenContextMenu.getItems().setAll(neuMenuItem);
-// neuMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-//
-// @Override
-// public void handle(ActionEvent event) {
-//
-// System.out.println("ActionEvents sind toll");
-// handleNew();
-// }
-// });
-//
-// }
-// else {
-// MenuItem bearbeitenMenuItem = new MenuItem("Bearbeiten");
-// bearbeitenMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-//
-// @Override
-// public void handle(ActionEvent event) {
-//
-// try {
-// handleEdit();
-// }
-// catch (SQLException e) {
-// e.printStackTrace();
-// }
-// }
-// });
-//
-// löschenMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-//
-// @Override
-// public void handle(ActionEvent event) {
-//
-// handleDelete();
-// }
-// });
-// this.tabellenContextMenu.getItems().setAll(bearbeitenMenuItem,
-// löschenMenuItem);
-// }
