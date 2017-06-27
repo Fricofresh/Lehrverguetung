@@ -2,9 +2,6 @@ package de.dpma.util;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -71,10 +68,10 @@ public class GenerateExcelData {
 				row.createCell(6).setCellValue(dozent.getOrt());
 				row.createCell(7).setCellValue(events.get(i).getAktenz());
 				row.createCell(8).setCellValue(events.get(i).getSchulart());
-				row.createCell(9).setCellValue(FormatDate(events.get(i).getVfg()));
+				row.createCell(9).setCellValue(FormatDate.format(events.get(i).getVfg()));
 				row.createCell(10).setCellValue((events.get(i).getVortrg_mode() == 0 ? "Sonstiges" : "Schulung"));
-				row.createCell(11).setCellValue(
-						FormatDate(events.get(i).getDate_start()) + " - " + FormatDate(events.get(i).getDate_end()));
+				row.createCell(11).setCellValue(FormatDate.format(events.get(i).getDate_start()) + " - "
+						+ FormatDate.format(events.get(i).getDate_end()));
 
 				Cell cell2 = row.createCell(12);
 				cell2.setCellValue(stundenlohn.getLohn());
@@ -109,17 +106,6 @@ public class GenerateExcelData {
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
-	}
-
-	private String FormatDate(String oldstring) throws ParseException {
-
-		SimpleDateFormat sourceDateFormat = new SimpleDateFormat("yyyy-MM-DD");
-
-		Date date = sourceDateFormat.parse(oldstring);
-
-		SimpleDateFormat targetDateFormat = new SimpleDateFormat("dd.MM.yyyy");
-
-		return targetDateFormat.format(date);
 	}
 
 }
