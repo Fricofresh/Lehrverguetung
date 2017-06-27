@@ -24,6 +24,8 @@ public class DozentDAO {
 
 	final String SELECT_DOZENT_SEARCH_FULLNAME = "SELECT * FROM \"LEHRVERGUETUNG\".\"DOZENTEN\" WHERE LOWER(\"ANREDE\") || '=' || LOWER(\"TITEL\") || '=' || LOWER(\"VORNAME\") || '=' || LOWER(\"NAME\") LIKE ? OR LOWER(\"ANREDE\") || '=' || LOWER(\"VORNAME\") || '=' || LOWER(\"NAME\") LIKE ? OR LOWER(\"ANREDE\") || LOWER(\"NAME\") LIKE ? OR LOWER(\"VORNAME\") || '=' || LOWER(\"NAME\") LIKE ?";
 
+	final String SELECT_DOZENT_SEARCH_DOZENTID_BY_CODENAME = "SELECT \"ID\" FROM \"LEHRVERGUETUNG\".\"DOZENTEN\" WHERE LOWER(\"ANREDE\") || LOWER(\"TITEL\") || LOWER(\"VORNAME\") || LOWER(\"NAME\") LIKE ?";
+
 	private int id;
 
 	private final Connection con;
@@ -178,6 +180,17 @@ public class DozentDAO {
 			dozenten.add(dozent);
 		}
 		return dozenten;
+	}
+
+	public int searchDozentIdByCodename(String searchString) throws SQLException {
+		PreparedStatement stat = con.prepareStatement(SELECT_DOZENT_SEARCH_DOZENTID_BY_CODENAME);
+		stat.setString(1, (searchString).toLowerCase().replace(" ", ""));
+		ResultSet result = stat.executeQuery();
+
+		while (result.next()) {
+			return result.getInt("ID");
+		}
+		return -1;
 	}
 
 }
