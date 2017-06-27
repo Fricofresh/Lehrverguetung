@@ -9,6 +9,7 @@ import de.dpma.util.AlertUtil;
 import de.dpma.view.DozentController;
 import de.dpma.view.InsertPersonalDataController;
 import de.dpma.view.LehrverguetungssaetzeController;
+import de.dpma.view.RootLayoutController;
 import de.dpma.view.VeranstaltungController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,12 +21,6 @@ public class FXML_GUI {
 	
 	Logger log = Logger.getLogger(FXML_GUI.class.getName());
 	
-	// TODO Array erstellen gegen Bugs
-	// static integer auf MainApp als counter um die insgesammte anzahl
-	// herauszufinden und das es möglich ist die neuste Stage zu zuweisen
-	// bei den einzelnen Controller wird die ID der oberfläche als privater int
-	// gespeichert, der int bekommt den Wert des MainApp counter. Die Stages
-	// wird von der MainApp genommen
 	public static Stage[] primaryStage = new Stage[100];
 	
 	public BorderPane rootLayout;
@@ -41,11 +36,10 @@ public class FXML_GUI {
 	}
 	
 	public FXML_GUI(Stage primaryStage, BorderPane rootLayout) {
-//		this.primaryStage[MainApp.counter] = primaryStage;
 		
 		MainApp.counter++;
 		this.rootLayout = rootLayout;
-		initRootLayout(false);
+		initRootLayout(true);
 	}
 	
 	// public FXML_GUI(Stage primaryStage, BorderPane rootLayout, String dump) {
@@ -62,11 +56,16 @@ public class FXML_GUI {
 			loader.setLocation(FXML_GUI.class.getResource("view/RootLayout.fxml"));
 			rootLayout = (BorderPane) loader.load();
 			Scene scene = new Scene(rootLayout);
-			
-			primaryStage[MainApp.counter].setScene(scene);
-			if (!b) {
-				primaryStage[MainApp.counter].show();
+			if (b) {
+				RootLayoutController root = loader.getController();
+				root.menuMenuBar.setDisable(false);
+				root.gesammtListeMenuItem.setVisible(false);
+				root.einstellungenMenuItem.setVisible(false);
 			}
+			primaryStage[MainApp.counter].setScene(scene);
+			
+			primaryStage[MainApp.counter].show();
+			
 		}
 		catch (NullPointerException n) {
 			String nu = n.toString();
@@ -108,6 +107,7 @@ public class FXML_GUI {
 		// Path currentRelativePath = Paths.get("");
 		// String s = currentRelativePath.toAbsolutePath().toString();
 		// System.out.println("Current relative path is: " + s);
+		
 		if (tabelle != null) {
 			this.tabelle = tabelle;
 			handleChildren("Veranstaltung", tabelle, "vc");

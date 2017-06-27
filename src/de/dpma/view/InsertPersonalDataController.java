@@ -70,8 +70,6 @@ public class InsertPersonalDataController {
 			FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Word Datei (*.docx)", "*.docx");
 			chooser.getExtensionFilters().add(extFilter);
 			
-			String directory = chooser.getExtensionFilters().toString();
-			
 			File file = chooser.showSaveDialog(FXML_GUI.primaryStage[this.getStageID].getScene().getWindow());
 			if (file == null) {
 				alert = new AlertUtil("Pfad ungültig", "Bitte wählen Sie einen Pfad an", "WARNING");
@@ -80,6 +78,7 @@ public class InsertPersonalDataController {
 			WriteDocxTEST wdoc = new WriteDocxTEST(file, check, event);
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 		}
 		return true;
 	}

@@ -25,13 +25,13 @@ public class RootLayoutController {
 	AlertUtil alert;
 	
 	@FXML
-	MenuBar menuMenuBar = new MenuBar();
+	public MenuBar menuMenuBar = new MenuBar();
 	
 	@FXML
-	MenuItem gesammtListeMenuItem = new MenuItem();
+	public MenuItem gesammtListeMenuItem = new MenuItem();
 	
 	@FXML
-	MenuItem einstellungenMenuItem = new MenuItem();
+	public MenuItem einstellungenMenuItem = new MenuItem();
 	
 	@FXML
 	public void initialize() {
@@ -79,9 +79,6 @@ public class RootLayoutController {
 			fxml_gui.showDozent(tabelle);
 			break;
 		case "createDoc":
-			menuMenuBar.setDisable(false);
-			gesammtListeMenuItem.setVisible(false);
-			einstellungenMenuItem.setVisible(true);
 			fxml_gui.showConfigIni(tabelle);
 			break;
 		case "Lehrvergütungssätze":
