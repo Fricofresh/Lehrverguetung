@@ -9,6 +9,7 @@ import de.dpma.util.AlertUtil;
 import de.dpma.view.DozentController;
 import de.dpma.view.InsertPersonalDataController;
 import de.dpma.view.LehrverguetungssaetzeController;
+import de.dpma.view.MainPageController;
 import de.dpma.view.RootLayoutController;
 import de.dpma.view.VeranstaltungController;
 import javafx.fxml.FXMLLoader;
@@ -30,6 +31,8 @@ public class FXML_GUI {
 	AlertUtil alert;
 	
 	Object tabelle;
+	
+	private static FXMLLoader mainPageLoader;
 	
 	public FXML_GUI() {
 		
@@ -61,6 +64,9 @@ public class FXML_GUI {
 				root.menuMenuBar.setDisable(false);
 				root.gesammtListeMenuItem.setVisible(false);
 				root.einstellungenMenuItem.setVisible(false);
+			}
+			else {
+				this.mainPageLoader = loader;
 			}
 			primaryStage[MainApp.counter].setScene(scene);
 			
@@ -185,10 +191,34 @@ public class FXML_GUI {
 		
 	}
 	
+	public static void handleReload() {
+		
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(FXML_GUI.class.getResource("view/MainPage.fxml"));
+			
+			MainPageController mvc = mainPageLoader.getController();
+			mvc.handleSearch();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void showConfigIni(Object tabelle) {
 		
 		handleChildren("InsertPersonalData", tabelle, "confIni");
 		
+	}
+	
+	public FXMLLoader getMainPageLoader() {
+		
+		return mainPageLoader;
+	}
+	
+	public void setMainPageLoader(FXMLLoader mainPageLoader) {
+		
+		this.mainPageLoader = mainPageLoader;
 	}
 	
 }
