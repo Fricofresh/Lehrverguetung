@@ -22,10 +22,10 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
@@ -46,7 +46,7 @@ public class MainPageController {
 	@FXML
 	TextField searchField = new TextField();
 	
-	ContextMenu tabellenContextMenu = new ContextMenu();
+	// ContextMenu tabellenContextMenu = new ContextMenu();
 	
 	AlertUtil alert;
 	
@@ -78,6 +78,9 @@ public class MainPageController {
 	@FXML
 	MenuItem loeschenMenuItem;
 	
+	@FXML
+	Menu createDocMenu;
+	
 	private int getStageID;
 	
 	@FXML
@@ -89,7 +92,7 @@ public class MainPageController {
 		ObservableList<String> inhalte = FXCollections.observableArrayList("Veranstaltungen", "Dozenten",
 				"Lehrvergütungssätze");
 		navigationListe.setItems(inhalte);
-		
+		handleClickBlank();
 		handleSearch();
 	}
 	
@@ -102,14 +105,15 @@ public class MainPageController {
 		}
 		
 		if (!fokus.equals("Veranstaltungen")) {
+			createDocMenu.setDisable(true);
 			dokumentErstellenMenuButton.setDisable(true);
 		}
 		else {
+			createDocMenu.setDisable(false);
 			dokumentErstellenMenuButton.setDisable(false);
 		}
 		
 		FXML_GUI.primaryStage[this.getStageID].setTitle(fokus);
-		
 		handleSearch();
 	}
 	
@@ -312,7 +316,6 @@ public class MainPageController {
 			FXML_GUI.primaryStage[MainApp.counter].setTitle("Rechnungsbegleitblatt exportieren");
 		}
 		else {
-			// TODO Rechtschreibprüfung
 			alert = new AlertUtil("Keine Auswahl",
 					"Sie haben kein zu exportierendes Element ausgewählt. Bitte wählen Sie ein Element aus und versuchen Sie es erneut.",
 					"INFO");
@@ -330,7 +333,6 @@ public class MainPageController {
 			FXML_GUI.primaryStage[MainApp.counter].setTitle("Auszahlung Lehrvergütung exportieren");
 		}
 		else {
-			// TODO Rechtschreibprüfung
 			alert = new AlertUtil("Keine Auswahl",
 					"Sie haben kein zu exportierendes Element ausgewählt. Bitte wählen Sie ein Element aus und versuchen Sie es erneut.",
 					"INFO");
@@ -465,24 +467,27 @@ public class MainPageController {
 		
 	}
 	
+	// TODO bei Rechtsklick auf freie stelle nur Neu anzeigen lassen.
 	@FXML
-	private void handleClick() {
+	private void handleClick(MouseEvent click) {
 		
-		tabellenTableView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			
-			@Override
-			public void handle(MouseEvent click) {
-				
-				if (click.getClickCount() == 2) {
-					try {
-						handleEdit();
-					}
-					catch (SQLException e) {
-						e.printStackTrace();
-					}
+		if (click.getClickCount() == 2) {
+			if (!tabellenTableView.getSelectionModel().isEmpty()) {
+				try {
+					handleEdit();
+				}
+				catch (SQLException e) {
+					e.printStackTrace();
 				}
 			}
-		});
+			else {
+				handleNew();
+			}
+		}
+		handleClickBlank();
+	}
+	
+	private void handleClickBlank() {
 		
 		tabellenTableView.addEventFilter(MouseEvent.MOUSE_CLICKED, evt -> {
 			
@@ -496,6 +501,19 @@ public class MainPageController {
 			// clear selection on click anywhere but on a filled row
 			if (source == null || (source instanceof TableRow && ((TableRow) source).isEmpty())) {
 				tabellenTableView.getSelectionModel().clearSelection();
+				createDocMenu.setDisable(true);
+				bearbeitenMenuItem.setDisable(true);
+				loeschenMenuItem.setDisable(true);
+			}
+			else if (!fokus.equals("Veranstaltungen")) {
+				createDocMenu.setDisable(true);
+				bearbeitenMenuItem.setDisable(false);
+				loeschenMenuItem.setDisable(false);
+			}
+			else {
+				createDocMenu.setDisable(false);
+				bearbeitenMenuItem.setDisable(false);
+				loeschenMenuItem.setDisable(false);
 			}
 		});
 	}

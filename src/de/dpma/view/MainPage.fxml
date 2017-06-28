@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitPane?>
@@ -37,6 +38,12 @@
                         <MenuItem fx:id="neuMenuItem" mnemonicParsing="false" onAction="#handleNew" text="Neu" />
                         <MenuItem fx:id="bearbeitenMenuItem" mnemonicParsing="false" onAction="#handleEdit" text="Bearbeiten" />
                         <MenuItem fx:id="loeschenMenuItem" mnemonicParsing="false" onAction="#handleDelete" text="Löschen" />
+                        <Menu fx:id="createDocMenu" mnemonicParsing="false" text="Dokument Erstellen">
+                          <items>
+                            <MenuItem fx:id="exortRechnungMenuItem" mnemonicParsing="false" onAction="#handleCreateDocRechnung" text="Rechnungsbegleitblatt" />
+                            <MenuItem fx:id="exportAuszahlungMenuItem" mnemonicParsing="false" onAction="#handleCreateDocAuszahlung" text="Auszahlung Lehrvergütung" />
+                          </items>
+                        </Menu>
                      </items></ContextMenu>
                </contextMenu></TableView>
          </items>
