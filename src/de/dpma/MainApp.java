@@ -11,6 +11,7 @@ import de.dpma.util.AlertUtil;
 import de.dpma.util.StringIndexOf;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
@@ -22,6 +23,8 @@ public class MainApp extends Application {
 	Logger log = Logger.getLogger(MainApp.class.getName());
 	
 	public static int counter = 0;
+	
+	static FXMLLoader loader;
 	
 	static AlertUtil alert;
 	

@@ -33,6 +33,7 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.WindowEvent;
 
 public class MainPageController {
 	
@@ -40,7 +41,7 @@ public class MainPageController {
 	ListView<String> navigationListe = new ListView<String>();
 	
 	@FXML
-	TableView tabellenTableView;
+	TableView tabellenTableView = new TableView<>();
 	
 	@FXML
 	TextField searchField = new TextField();
@@ -116,7 +117,22 @@ public class MainPageController {
 	public void handleNew() {
 		
 		root.handleGUI(fokus, null);
-		
+		FXML_GUI.primaryStage[MainApp.counter].setOnHidden(new EventHandler<WindowEvent>() {
+			
+			@Override
+			public void handle(WindowEvent we) {
+				
+				try {
+					handleSearch();
+				}
+				catch (SQLException e) {
+					e.printStackTrace();
+				}
+				catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 		switch (fokus) {
 		case "Veranstaltungen":
 			FXML_GUI.primaryStage[MainApp.counter].setTitle(fokus.replace("gen", "g") + " hinzufügen");
@@ -131,6 +147,7 @@ public class MainPageController {
 		default:
 			break;
 		}
+		
 	}
 	
 	@FXML
