@@ -3,6 +3,8 @@ package de.dpma.util;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 
+import org.apache.commons.validator.routines.EmailValidator;
+
 public class DataChecker {
 	public static boolean isEmpty(String input) {
 		return input == null || input.trim().isEmpty();
@@ -110,5 +112,9 @@ public class DataChecker {
 
 	public static boolean isPLZ(int input) {
 		return isPLZ(String.valueOf(input));
+	}
+
+	public static boolean isEmail(String input) {
+		return EmailValidator.getInstance().isValid(input);
 	}
 }
