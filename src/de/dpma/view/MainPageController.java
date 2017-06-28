@@ -468,7 +468,7 @@ public class MainPageController {
 			}
 		});
 		
-		FXML_GUI.primaryStage[getStageID].getScene().addEventFilter(MouseEvent.MOUSE_CLICKED, evt -> {
+		tabellenTableView.addEventFilter(MouseEvent.MOUSE_CLICKED, evt -> {
 			Node source = evt.getPickResult().getIntersectedNode();
 			// move up through the node hierarchy until a TableRow or scene root
 			// is found
