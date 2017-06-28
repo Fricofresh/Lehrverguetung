@@ -21,7 +21,9 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -32,6 +34,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.WindowEvent;
 
@@ -81,18 +87,33 @@ public class MainPageController {
 	@FXML
 	Menu createDocMenu;
 	
+	@FXML
+	Button bearbeitenButton;
+	
+	@FXML
+	Button loeschenButton;
+	
+	@FXML
+	ContextMenu listViewContextMenu;
+	
+	KeyEvent keyEvent;
+	
 	private int getStageID;
 	
 	@FXML
 	public void initialize() throws SQLException, ParseException {
 		
 		this.getStageID = MainApp.counter;
+		neuMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN));
 		FXML_GUI.primaryStage[this.getStageID].setTitle(fokus);
 		navigationListe.getSelectionModel().select(fokus);
 		ObservableList<String> inhalte = FXCollections.observableArrayList("Veranstaltungen", "Dozenten",
 				"Lehrvergütungssätze");
 		navigationListe.setItems(inhalte);
 		handleClickBlank();
+		bearbeitenButton.setDisable(true);
+		loeschenButton.setDisable(true);
+		dokumentErstellenMenuButton.setDisable(true);
 		handleSearch();
 	}
 	
@@ -106,11 +127,15 @@ public class MainPageController {
 		
 		if (!fokus.equals("Veranstaltungen")) {
 			createDocMenu.setDisable(true);
+			bearbeitenButton.setDisable(true);
+			loeschenButton.setDisable(true);
 			dokumentErstellenMenuButton.setDisable(true);
 		}
 		else {
 			createDocMenu.setDisable(false);
-			dokumentErstellenMenuButton.setDisable(false);
+			bearbeitenButton.setDisable(true);
+			loeschenButton.setDisable(true);
+			dokumentErstellenMenuButton.setDisable(true);
 		}
 		
 		FXML_GUI.primaryStage[this.getStageID].setTitle(fokus);
@@ -467,7 +492,6 @@ public class MainPageController {
 		
 	}
 	
-	// TODO bei Rechtsklick auf freie stelle nur Neu anzeigen lassen.
 	@FXML
 	private void handleClick(MouseEvent click) {
 		
@@ -504,18 +528,57 @@ public class MainPageController {
 				createDocMenu.setDisable(true);
 				bearbeitenMenuItem.setDisable(true);
 				loeschenMenuItem.setDisable(true);
+				bearbeitenButton.setDisable(true);
+				loeschenButton.setDisable(true);
+				dokumentErstellenMenuButton.setDisable(true);
 			}
 			else if (!fokus.equals("Veranstaltungen")) {
 				createDocMenu.setDisable(true);
 				bearbeitenMenuItem.setDisable(false);
 				loeschenMenuItem.setDisable(false);
+				bearbeitenButton.setDisable(false);
+				loeschenButton.setDisable(false);
 			}
 			else {
 				createDocMenu.setDisable(false);
 				bearbeitenMenuItem.setDisable(false);
 				loeschenMenuItem.setDisable(false);
+				bearbeitenButton.setDisable(false);
+				loeschenButton.setDisable(false);
+				dokumentErstellenMenuButton.setDisable(false);
 			}
 		});
 	}
 	
+	@FXML
+	private void handleKeyPressed(KeyEvent keyEvent) throws SQLException {
+		
+		this.keyEvent = keyEvent;
+		
+		if (!tabellenTableView.getSelectionModel().isEmpty()) {
+			switch (keyEvent.getCode()) {
+			case ENTER:
+				handleEdit();
+				
+				break;
+			case DELETE:
+				handleDelete();
+				
+				break;
+			default:
+				break;
+			}
+		}
+		else {
+			switch (keyEvent.getCode()) {
+			case ENTER:
+				handleNew();
+				
+				break;
+			
+			default:
+				break;
+			}
+		}
+	}
 }

@@ -18,8 +18,8 @@
       <ButtonBar layoutY="20.0" prefWidth="939.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <buttons>
           <Button mnemonicParsing="false" onAction="#handleNew" text="Neu" />
-            <Button mnemonicParsing="false" onAction="#handleEdit" text="Bearbeiten" />
-            <Button mnemonicParsing="false" onAction="#handleDelete" text="Löschen" />
+            <Button fx:id="bearbeitenButton" mnemonicParsing="false" onAction="#handleEdit" text="Bearbeiten" />
+            <Button fx:id="loeschenButton" mnemonicParsing="false" onAction="#handleDelete" text="Löschen" />
             <MenuButton fx:id="dokumentErstellenMenuButton" mnemonicParsing="false" text="Dokument erstellen">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#handleCreateDocRechnung" text="Rechnungsbegleitblatt" />
@@ -30,8 +30,15 @@
       </ButtonBar>
       <SplitPane dividerPositions="0.3192771084337349" layoutY="104.0" prefHeight="416.0" prefWidth="939.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="104.0">
          <items>
-            <ListView fx:id="navigationListe" maxWidth="160.0" minWidth="160.0" onMouseClicked="#handleSelect" prefWidth="160.0" />
-            <TableView fx:id="tabellenTableView" onMouseClicked="#handleClick" prefWidth="769.0">
+            <ListView fx:id="navigationListe" maxWidth="160.0" minWidth="160.0" onMouseClicked="#handleSelect" prefWidth="160.0">
+               <contextMenu>
+                  <ContextMenu fx:id="listViewContextMenu">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#handleNew" text="Neu" />
+                    </items>
+                  </ContextMenu>
+               </contextMenu></ListView>
+            <TableView fx:id="tabellenTableView" onKeyPressed="#handleKeyPressed" onMouseClicked="#handleClick" prefWidth="769.0">
                <contextMenu>
                   <ContextMenu>
                      <items>
