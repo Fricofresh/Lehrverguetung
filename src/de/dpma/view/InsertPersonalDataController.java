@@ -75,10 +75,14 @@ public class InsertPersonalDataController {
 			if (file == null) {
 				return false;
 			}
+			
+			alert = new AlertUtil("Dokument wird exportiert...", null, "LOADING");
 			WriteDocx wdoc = new WriteDocx(file, check, event);
+			alert.closeAlert();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
+			
 		}
 		return true;
 	}
@@ -158,7 +162,12 @@ public class InsertPersonalDataController {
 	@FXML
 	private void handleEMail() {
 		
-		emailTextField.setText(vornameTextField.getText() + "." + nachnameTextField.getText() + "@dpma.de");
+		if (!DataChecker.isEmpty(vornameTextField.getText()) && !DataChecker.isEmpty(nachnameTextField.getText())) {
+			emailTextField.setText(vornameTextField.getText() + "." + nachnameTextField.getText() + "@dpma.de");
+		}
+		else {
+			emailTextField.setText("");
+		}
 	}
 	
 	public void setEvent(Event event) {

@@ -41,7 +41,7 @@ public class WriteDocx {
 					rpl.put("Name", dozent.getName());
 					rpl.put("Vorname", dozent.getVorname());
 					if (!dozent.getTitel().isEmpty()) {
-						rpl.put("Titel", dozent.getTitel());
+						rpl.put("Titel", dozent.getTitel() + " ");
 					}
 					rpl.put("Std_lohn", FormatCurrrency.format(String.valueOf(stdlohn.getLohn()), false));
 					rpl.put("Anrede2", dozent.getAnrede());
@@ -78,7 +78,7 @@ public class WriteDocx {
 								rpl.put("Name", dozent.getName());
 								rpl.put("Vorname", dozent.getVorname());
 								if (!dozent.getTitel().isEmpty()) {
-									rpl.put("Titel", dozent.getTitel());
+									rpl.put("Titel", dozent.getTitel() + " ");
 								}
 								rpl.put("Std_lohn", FormatCurrrency.format(String.valueOf(stdlohn.getLohn()), false));
 								rpl.put("Anrede2", dozent.getAnrede());
