@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
@@ -28,7 +27,7 @@ import de.dpma.view.MainPageController;
 public class WriteDocx {
 
 	public WriteDocx(File file, String source, Event event) throws FileNotFoundException, IOException {
-		// TODO alle Felder ersetzten
+
 		try {
 
 			XWPFDocument doc = new XWPFDocument(OPCPackage.open("Vorlagen/" + source + ".docx"));
@@ -36,76 +35,102 @@ public class WriteDocx {
 			Stundenlohn stdlohn = MainPageController.stundenlohnDAO.selectStundenlohn(event.getId_euro_std());
 			ConfigIniUtil confini = new ConfigIniUtil();
 
-			for (XWPFParagraph p : doc.getParagraphs()) {
-				Map<String, String> rpl = new HashMap<String, String>();
-				rpl.put("Name", dozent.getName());
-				rpl.put("Vorname", dozent.getVorname());
-				if (!dozent.getTitel().isEmpty()) {
-					rpl.put("Titel", dozent.getTitel());
+			if (source == "Auszahlung") {
+				for (XWPFParagraph p : doc.getParagraphs()) {
+					Map<String, String> rpl = new HashMap<String, String>();
+					rpl.put("Name", dozent.getName());
+					rpl.put("Vorname", dozent.getVorname());
+					if (!dozent.getTitel().isEmpty()) {
+						rpl.put("Titel", dozent.getTitel());
+					}
+					rpl.put("Std_lohn", FormatCurrrency.format(String.valueOf(stdlohn.getLohn()), false));
+					rpl.put("Anrede2", dozent.getAnrede());
+					if (dozent.getAnrede().equals("Herr")) {
+						rpl.put("Anrede1", dozent.getAnrede() + "n");
+					} else {
+						rpl.put("Anrede1", dozent.getAnrede());
+					}
+					rpl.put("Straﬂe", dozent.getStrasse());
+					rpl.put("PLZ", dozent.getPLZ());
+					rpl.put("Vfg", FormatDate.format(event.getVfg()));
+					rpl.put("Vortrag", event.getSchulart());
+					rpl.put("Date_start", FormatDate.format(event.getDate_start()));
+					rpl.put("Date_end", FormatDate.format(event.getDate_end()));
+					rpl.put("Sdt_anzahl", String.valueOf(event.getStdzahl()));
+					rpl.put("Betrag",
+							FormatCurrrency.format(String.valueOf((stdlohn.getLohn() * event.getStdzahl())), false));
+					rpl.put("Betrag_ABC", NumberToText.NumberToText((stdlohn.getLohn() * event.getStdzahl())));
+					rpl.put("IBAN", dozent.getIBAN());
+					rpl.put("Bank", dozent.getBank());
+					rpl.put("BIC", dozent.getBLZ());
+					rpl.put("Ort", dozent.getOrt());
+					rpl.put("Bearbeiter", confini.getVorname() + " " + confini.getNachname());
+					rpl.put("Durchwahl", confini.getDurchwahl());
+					rpl.put("Dienstort", confini.getDienstort());
+					rpl.put("email", confini.getEmail());
+					replace(p, rpl);
 				}
-				rpl.put("Std_lohn", FormatCurrrency.format(String.valueOf(stdlohn.getLohn()), false));
-				rpl.put("Anrede2", dozent.getAnrede());
-				if (dozent.getAnrede().equals("Herr")) {
-					rpl.put("Anrede1", dozent.getAnrede() + "n");
-				} else {
-					rpl.put("Anrede1", dozent.getAnrede());
+				for (XWPFTable tbl : doc.getTables()) {
+					for (XWPFTableRow row : tbl.getRows()) {
+						for (XWPFTableCell cell : row.getTableCells()) {
+							for (XWPFParagraph p : cell.getParagraphs()) {
+								Map<String, String> rpl = new HashMap<String, String>();
+								rpl.put("Name", dozent.getName());
+								rpl.put("Vorname", dozent.getVorname());
+								if (!dozent.getTitel().isEmpty()) {
+									rpl.put("Titel", dozent.getTitel());
+								}
+								rpl.put("Std_lohn", FormatCurrrency.format(String.valueOf(stdlohn.getLohn()), false));
+								rpl.put("Anrede2", dozent.getAnrede());
+								if (dozent.getAnrede().equals("Herr")) {
+									rpl.put("Anrede1", dozent.getAnrede() + "n");
+								} else {
+									rpl.put("Anrede1", dozent.getAnrede());
+								}
+								rpl.put("Straﬂe", dozent.getStrasse());
+								rpl.put("PLZ", dozent.getPLZ());
+								rpl.put("Vfg", FormatDate.format(event.getVfg()));
+								rpl.put("Vortrag", event.getSchulart());
+								rpl.put("Date_start", FormatDate.format(event.getDate_start()));
+								rpl.put("Date_end", FormatDate.format(event.getDate_end()));
+								rpl.put("Sdt_anzahl", String.valueOf(event.getStdzahl()));
+								rpl.put("Betrag", FormatCurrrency
+										.format(String.valueOf((stdlohn.getLohn() * event.getStdzahl())), false));
+								rpl.put("Betrag_ABC",
+										NumberToText.NumberToText((stdlohn.getLohn() * event.getStdzahl())));
+								rpl.put("IBAN", dozent.getIBAN());
+								rpl.put("Bank", dozent.getBank());
+								rpl.put("BIC", dozent.getBLZ());
+								rpl.put("Ort", dozent.getOrt());
+								rpl.put("Bearbeiter", confini.getVorname() + " " + confini.getNachname());
+								rpl.put("Durchwahl", confini.getDurchwahl());
+								rpl.put("Dienstort", confini.getDienstort());
+								rpl.put("email", confini.getEmail());
+								replace(p, rpl);
+							}
+						}
+					}
 				}
-				rpl.put("Straﬂe", dozent.getStrasse());
-				rpl.put("PLZ", dozent.getPLZ());
-				rpl.put("Vfg", FormatDate.format(event.getVfg()));
-				rpl.put("Vortrag", event.getSchulart());
-				rpl.put("Date_start", FormatDate.format(event.getDate_start()));
-				rpl.put("Date_end", FormatDate.format(event.getDate_end()));
-				rpl.put("Sdt_anzahl", String.valueOf(event.getStdzahl()));
-				rpl.put("Betrag",
-						FormatCurrrency.format(String.valueOf((stdlohn.getLohn() * event.getStdzahl())), false));
-				rpl.put("Betrag_ABC", NumberToText.NumberToText((stdlohn.getLohn() * event.getStdzahl())));
-				rpl.put("IBAN", dozent.getIBAN());
-				rpl.put("Bank", dozent.getBank());
-				rpl.put("BIC", dozent.getBLZ());
-				rpl.put("Ort", dozent.getOrt());
-				rpl.put("Bearbeiter", confini.getVorname() + confini.getNachname());
-				rpl.put("Durchwahl", confini.getDurchwahl());
-				rpl.put("Dienstort", confini.getDienstort());
-				rpl.put("email", confini.getEmail());
-				replace2(p, rpl);
-			}
-			for (XWPFTable tbl : doc.getTables()) {
-				for (XWPFTableRow row : tbl.getRows()) {
-					for (XWPFTableCell cell : row.getTableCells()) {
-						for (XWPFParagraph p : cell.getParagraphs()) {
-							Map<String, String> rpl = new HashMap<String, String>();
-							rpl.put("Name", dozent.getName());
-							rpl.put("Vorname", dozent.getVorname());
-							if (!dozent.getTitel().isEmpty()) {
-								rpl.put("Titel", dozent.getTitel());
+			} else {
+				for (XWPFParagraph p : doc.getParagraphs()) {
+					Map<String, String> rpl = new HashMap<String, String>();
+					rpl.put("Name", dozent.getName());
+					rpl.put("Betrag",
+							FormatCurrrency.format(String.valueOf((stdlohn.getLohn() * event.getStdzahl())), false));
+					rpl.put("Bearbeiter", confini.getVorname() + " " + confini.getNachname());
+					replace(p, rpl);
+				}
+				for (XWPFTable tbl : doc.getTables()) {
+					for (XWPFTableRow row : tbl.getRows()) {
+						for (XWPFTableCell cell : row.getTableCells()) {
+							for (XWPFParagraph p : cell.getParagraphs()) {
+								Map<String, String> rpl = new HashMap<String, String>();
+								rpl.put("Name", dozent.getName());
+								rpl.put("Betrag", FormatCurrrency
+										.format(String.valueOf((stdlohn.getLohn() * event.getStdzahl())), false));
+								rpl.put("Bearbeiter", confini.getVorname() + " " + confini.getNachname());
+								replace(p, rpl);
 							}
-							rpl.put("Std_lohn", FormatCurrrency.format(String.valueOf(stdlohn.getLohn()), false));
-							rpl.put("Anrede2", dozent.getAnrede());
-							if (dozent.getAnrede().equals("Herr")) {
-								rpl.put("Anrede1", dozent.getAnrede() + "n");
-							} else {
-								rpl.put("Anrede1", dozent.getAnrede());
-							}
-							rpl.put("Straﬂe", dozent.getStrasse());
-							rpl.put("PLZ", dozent.getPLZ());
-							rpl.put("Vfg", FormatDate.format(event.getVfg()));
-							rpl.put("Vortrag", event.getSchulart());
-							rpl.put("Date_start", FormatDate.format(event.getDate_start()));
-							rpl.put("Date_end", FormatDate.format(event.getDate_end()));
-							rpl.put("Sdt_anzahl", String.valueOf(event.getStdzahl()));
-							rpl.put("Betrag", FormatCurrrency
-									.format(String.valueOf((stdlohn.getLohn() * event.getStdzahl())), false));
-							rpl.put("Betrag_ABC", NumberToText.NumberToText((stdlohn.getLohn() * event.getStdzahl())));
-							rpl.put("IBAN", dozent.getIBAN());
-							rpl.put("Bank", dozent.getBank());
-							rpl.put("BIC", dozent.getBLZ());
-							rpl.put("Ort", dozent.getOrt());
-							rpl.put("Bearbeiter", confini.getVorname() + confini.getNachname());
-							rpl.put("Durchwahl", confini.getDurchwahl());
-							rpl.put("Dienstort", confini.getDienstort());
-							rpl.put("email", confini.getEmail());
-							replace2(p, rpl);
 						}
 					}
 				}
@@ -117,24 +142,7 @@ public class WriteDocx {
 		}
 	}
 
-	private void replace(String inFile, Map<String, String> data, OutputStream out) throws Exception, IOException {
-		XWPFDocument doc = new XWPFDocument(OPCPackage.open(inFile));
-		for (XWPFParagraph p : doc.getParagraphs()) {
-			replace2(p, data);
-		}
-		for (XWPFTable tbl : doc.getTables()) {
-			for (XWPFTableRow row : tbl.getRows()) {
-				for (XWPFTableCell cell : row.getTableCells()) {
-					for (XWPFParagraph p : cell.getParagraphs()) {
-						replace2(p, data);
-					}
-				}
-			}
-		}
-		doc.write(out);
-	}
-
-	private void replace2(XWPFParagraph p, Map<String, String> data) {
+	private void replace(XWPFParagraph p, Map<String, String> data) {
 		String pText = p.getText(); // complete paragraph as string
 		if (pText.contains("${")) { // if paragraph does not include our
 									// pattern, ignore

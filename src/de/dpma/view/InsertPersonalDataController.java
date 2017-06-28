@@ -66,14 +66,13 @@ public class InsertPersonalDataController {
 
 		try {
 			FileChooser chooser = new FileChooser();
-			chooser.setTitle("Speichern");
-			chooser.setInitialFileName("Auszahlung");
+			chooser.setTitle("Speicherort auswählen");
+			chooser.setInitialFileName(check);
 			FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Word Datei (*.docx)", "*.docx");
 			chooser.getExtensionFilters().add(extFilter);
 
 			File file = chooser.showSaveDialog(FXML_GUI.primaryStage[this.getStageID].getScene().getWindow());
 			if (file == null) {
-				alert = new AlertUtil("Pfad ungültig", "Bitte wählen Sie einen Pfad an", "WARNING");
 				return false;
 			}
 			WriteDocx wdoc = new WriteDocx(file, check, event);
@@ -86,20 +85,27 @@ public class InsertPersonalDataController {
 	@FXML
 	private void handleSubmit() {
 
-		if (dienstortComboBox.getValue().isEmpty()) {
-			alert = new AlertUtil("Dienstort angeben", "Bitte geben Sie einen Dienstort an", "WARNING");
+		if (DataChecker.isEmpty(dienstortComboBox.getValue())) {
+			alert = new AlertUtil("Dienstort ungültig",
+					"Es wurde kein gültiger Dienstort ausgewählt. Bitte wählen Sie eine valide Vortragsart aus und versuchen Sie es erneut.",
+					"WARNING");
 			return;
-		} else if (!DataChecker.isNumeric(durchwahlTextField.getText()) || durchwahlTextField.getText().isEmpty()) {
-			alert = new AlertUtil("Durchwahl falsch", "Bitte geben Sie eine valide Durchwahlnummer an", "WARNING");
+		} else if (!DataChecker.isNumeric(durchwahlTextField.getText())
+				|| DataChecker.isEmpty(durchwahlTextField.getText())) {
+			alert = new AlertUtil("Durchwahl ungültig",
+					"Bitte geben Sie eine valide Durchwahl an und versuchen Sie es erneut.", "WARNING");
 			return;
-		} else if (vornameTextField.getText().isEmpty()) {
-			alert = new AlertUtil("Vorname angeben", "Bitte geben Sie Ihren Vorname an", "WARNING");
+		} else if (DataChecker.isEmpty(vornameTextField.getText())) {
+			alert = new AlertUtil("Vorname ungültig",
+					"Bitte geben Sie einen validen Vornamen an und versuchen Sie es erneut.", "WARNING");
 			return;
-		} else if (nachnameTextField.getText().isEmpty()) {
-			alert = new AlertUtil("Nachname angeben", "Bitte geben Sie Ihren Nachnanen an", "WARNING");
+		} else if (DataChecker.isEmpty(nachnameTextField.getText())) {
+			alert = new AlertUtil("Nachname ungültig",
+					"Bitte geben Sie einen validen Nachnamen an und versuchen Sie es erneut.", "WARNING");
 			return;
-		} else if (emailTextField.getText().isEmpty()) {
-			alert = new AlertUtil("E-Mail angeben", "Bitte geben Sie Ihre E-Mail adresse an", "WARNING");
+		} else if (!DataChecker.isEmail(emailTextField.getText()) || DataChecker.isEmpty(emailTextField.getText())) {
+			alert = new AlertUtil("E-Mail ungültig",
+					"Bitte geben Sie eine valide E-Mail an und versuchen Sie es erneut.", "WARNING");
 			return;
 		}
 
