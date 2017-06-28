@@ -232,8 +232,8 @@ public class Event {
 			Dozent name = dozentDAO.selectDozent(this.getId_dozent());
 
 			StringProperty combine = new SimpleStringProperty(
-					name.getAnrede() + (name.getTitel() == null ? "" : " " + name.getTitel()) + " " + name.getVorname()
-							+ " " + name.getName());
+					name.getAnrede() + (name.getTitel().isEmpty() ? "" : " " + name.getTitel()) + " "
+							+ name.getVorname() + " " + name.getName());
 			return combine;
 
 		} catch (Exception e) {
@@ -249,7 +249,7 @@ public class Event {
 			DozentDAO dozentDAO = new DozentDAO(MainApp.dbcon.getConnection());
 			Dozent name = dozentDAO.selectDozent(this.getId_dozent());
 
-			String dozent = name.getAnrede() + (name.getTitel() == null ? "" : " " + name.getTitel()) + " "
+			String dozent = name.getAnrede() + (name.getTitel().isEmpty() ? "" : " asd" + name.getTitel()) + " "
 					+ name.getVorname() + " " + name.getName();
 			return dozent;
 
