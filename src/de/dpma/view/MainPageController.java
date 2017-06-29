@@ -27,6 +27,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
@@ -34,6 +35,8 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.WindowEvent;
@@ -81,18 +84,37 @@ public class MainPageController {
 	@FXML
 	MenuItem loeschenMenuItem;
 
+	@FXML
+	Menu createDocMenu;
+
+	@FXML
+	Button bearbeitenButton;
+
+	@FXML
+	Button loeschenButton;
+
+	@FXML
+	ContextMenu listViewContextMenu;
+
+	KeyEvent keyEvent;
+
 	private int getStageID;
 
 	@FXML
 	public void initialize() throws SQLException, ParseException {
 
 		this.getStageID = MainApp.counter;
+		neuMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN));
 		FXML_GUI.primaryStage[this.getStageID].setTitle(fokus);
 		navigationListe.getSelectionModel().select(fokus);
 		ObservableList<String> inhalte = FXCollections.observableArrayList("Veranstaltungen", "Dozenten",
 				"Lehrvergütungssätze");
 		navigationListe.setItems(inhalte);
 
+		handleClickBlank();
+		bearbeitenButton.setDisable(true);
+		loeschenButton.setDisable(true);
+		dokumentErstellenMenuButton.setDisable(true);
 		handleSearch();
 	}
 
@@ -105,9 +127,15 @@ public class MainPageController {
 		}
 
 		if (!fokus.equals("Veranstaltungen")) {
+			createDocMenu.setDisable(true);
+			bearbeitenButton.setDisable(true);
+			loeschenButton.setDisable(true);
 			dokumentErstellenMenuButton.setDisable(true);
 		} else {
-			dokumentErstellenMenuButton.setDisable(false);
+			createDocMenu.setDisable(false);
+			bearbeitenButton.setDisable(true);
+			loeschenButton.setDisable(true);
+			dokumentErstellenMenuButton.setDisable(true);
 		}
 
 		FXML_GUI.primaryStage[this.getStageID].setTitle(fokus);
@@ -349,8 +377,9 @@ public class MainPageController {
 			event = (Event) tabellenTableView.getSelectionModel().getSelectedItem();
 			root.handleGUI("createDoc", event);
 			FXML_GUI.primaryStage[MainApp.counter].setTitle("Rechnungsbegleitblatt exportieren");
+
 		} else {
-			// TODO Rechtschreibprüfung
+
 			alert = new AlertUtil("Keine Auswahl",
 					"Sie haben kein zu exportierendes Element ausgewählt. Bitte wählen Sie ein Element aus und versuchen Sie es erneut.",
 					"INFO");
@@ -366,8 +395,9 @@ public class MainPageController {
 			event = (Event) tabellenTableView.getSelectionModel().getSelectedItem();
 			root.handleGUI("createDoc", event);
 			FXML_GUI.primaryStage[MainApp.counter].setTitle("Auszahlung Lehrvergütung exportieren");
+
 		} else {
-			// TODO Rechtschreibprüfung
+
 			alert = new AlertUtil("Keine Auswahl",
 					"Sie haben kein zu exportierendes Element ausgewählt. Bitte wählen Sie ein Element aus und versuchen Sie es erneut.",
 					"INFO");
@@ -515,6 +545,29 @@ public class MainPageController {
 				}
 			}
 		});
+	}
+
+	private void handleClick(MouseEvent click) {
+
+		if (click.getClickCount() == 2) {
+			if (!tabellenTableView.getSelectionModel().isEmpty()) {
+				try {
+					handleEdit();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			else {
+				handleNew();
+			}
+		}
+
+		handleClickBlank();
+
+	}
+
+	private void handleClickBlank() {
 
 		tabellenTableView.addEventFilter(MouseEvent.MOUSE_CLICKED, evt -> {
 
@@ -528,8 +581,57 @@ public class MainPageController {
 			// clear selection on click anywhere but on a filled row
 			if (source == null || (source instanceof TableRow && ((TableRow) source).isEmpty())) {
 				tabellenTableView.getSelectionModel().clearSelection();
+				createDocMenu.setDisable(true);
+				bearbeitenMenuItem.setDisable(true);
+				loeschenMenuItem.setDisable(true);
+				bearbeitenButton.setDisable(true);
+				loeschenButton.setDisable(true);
+				dokumentErstellenMenuButton.setDisable(true);
+			} else if (!fokus.equals("Veranstaltungen")) {
+				createDocMenu.setDisable(true);
+				bearbeitenMenuItem.setDisable(false);
+				loeschenMenuItem.setDisable(false);
+				bearbeitenButton.setDisable(false);
+				loeschenButton.setDisable(false);
+			} else {
+				createDocMenu.setDisable(false);
+				bearbeitenMenuItem.setDisable(false);
+				loeschenMenuItem.setDisable(false);
+				bearbeitenButton.setDisable(false);
+				loeschenButton.setDisable(false);
+				dokumentErstellenMenuButton.setDisable(false);
 			}
 		});
 	}
 
+	@FXML
+	private void handleKeyPressed(KeyEvent keyEvent) throws SQLException {
+
+		this.keyEvent = keyEvent;
+
+		if (!tabellenTableView.getSelectionModel().isEmpty()) {
+			switch (keyEvent.getCode()) {
+			case ENTER:
+				handleEdit();
+
+				break;
+			case DELETE:
+				handleDelete();
+
+				break;
+			default:
+				break;
+			}
+		} else {
+			switch (keyEvent.getCode()) {
+			case ENTER:
+				handleNew();
+
+				break;
+
+			default:
+				break;
+			}
+		}
+	}
 }

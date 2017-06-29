@@ -336,6 +336,9 @@ public class VeranstaltungController {
 			handleSubmit();
 			
 			break;
+		case ESCAPE:
+			handleCancel();
+			break;
 		default:
 			break;
 		}

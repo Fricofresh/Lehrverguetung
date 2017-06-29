@@ -10,6 +10,9 @@ import de.dpma.util.GenerateExcelData;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -36,10 +39,11 @@ public class RootLayoutController {
 	@FXML
 	public void initialize() {
 		
+		gesammtListeMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN));
 	}
 	
 	@FXML
-	public void handleExit() {
+	private void handleExit() {
 		
 		try {
 			MainApp.dbcon.closeConnection();
@@ -92,7 +96,7 @@ public class RootLayoutController {
 	}
 	
 	@FXML
-	private void handleExport() {
+	public void handleExport() {
 		
 		FileChooser chooser = new FileChooser();
 		chooser.setTitle("Speichern");
@@ -111,7 +115,7 @@ public class RootLayoutController {
 	}
 	
 	@FXML
-	private void handleSettings() {
+	public void handleSettings() {
 		
 		// TODO Konfigurationsdatei
 		
