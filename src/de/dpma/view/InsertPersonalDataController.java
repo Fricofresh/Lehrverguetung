@@ -17,9 +17,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 
+/**
+ * Safes the data from the worker
+ * 
+ * @author KeBoehme
+ *
+ */
 public class InsertPersonalDataController {
-	
-	// TODO E-Mail auto-Vervollständigung
 	
 	private Event event;
 	
@@ -49,6 +53,11 @@ public class InsertPersonalDataController {
 	
 	private int getStageID;
 	
+	/**
+	 * Puts the data in the text fields if data exits.
+	 * 
+	 * @author Kenneth Böhmer
+	 */
 	@FXML
 	public void initialize() {
 		
@@ -62,7 +71,13 @@ public class InsertPersonalDataController {
 		emailTextField.setText(confini.getEmail());
 	}
 	
-	public boolean wordExport(String check) {
+	/**
+	 * 
+	 * @param check
+	 *            to difference which template to use.
+	 * @return <b>true</b> if a path is set, <b>false</b> if not.
+	 */
+	private boolean wordExport(String check) {
 		
 		try {
 			FileChooser chooser = new FileChooser();
@@ -87,6 +102,12 @@ public class InsertPersonalDataController {
 		return true;
 	}
 	
+	/**
+	 * Checks if everything is filled and checks if the settings just have to be
+	 * saved or to be exported to a document
+	 * 
+	 * @author Kenneth Böhmer
+	 */
 	@FXML
 	private void handleSubmit() {
 		
@@ -137,13 +158,25 @@ public class InsertPersonalDataController {
 		FXML_GUI.primaryStage[this.getStageID].close();
 	}
 	
+	/**
+	 * Closes the stage
+	 * 
+	 * @author Kenneth Böhmer
+	 */
 	@FXML
 	private void handleCancel() {
 		
 		FXML_GUI.primaryStage[this.getStageID].close();
 	}
 	
-	public void handleKeyPressed(KeyEvent keyEvent) {
+	/**
+	 * Checks if Enter or Escape is pressed to submit or cancel.
+	 * 
+	 * @author Kenneth Böhmer
+	 * @param keyEvent
+	 */
+	@FXML
+	private void handleKeyPressed(KeyEvent keyEvent) {
 		
 		this.keyEvent = keyEvent;
 		switch (keyEvent.getCode()) {
@@ -159,6 +192,11 @@ public class InsertPersonalDataController {
 		}
 	}
 	
+	/**
+	 * Writes the e-mail address of the worker with his for- and surname.
+	 * 
+	 * @author Kenneth Böhmer
+	 */
 	@FXML
 	private void handleEMail() {
 		

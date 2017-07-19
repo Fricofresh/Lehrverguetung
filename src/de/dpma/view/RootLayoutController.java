@@ -17,6 +17,13 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+/**
+ * This is the controller for the root layout. <br>
+ * The controller starts the method from {@link #fxml_gui FXML_GUI}.
+ * 
+ * @author Kenneth Böhmer
+ *
+ */
 public class RootLayoutController {
 	
 	Stage stage;
@@ -36,12 +43,22 @@ public class RootLayoutController {
 	@FXML
 	public MenuItem einstellungenMenuItem = new MenuItem();
 	
+	/**
+	 * Sets the accelerator to CTRL + S for export the hole event list
+	 * 
+	 * @author Kenneth Böhmer
+	 */
 	@FXML
 	public void initialize() {
 		
 		gesammtListeMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN));
 	}
 	
+	/**
+	 * Closes the database connection and the program.
+	 * 
+	 * @author Kenneth Böhmer
+	 */
 	@FXML
 	private void handleExit() {
 		
@@ -54,9 +71,21 @@ public class RootLayoutController {
 		}
 	}
 	
+	/**
+	 * Start the methods from {@link #fxml_gui FXML_GUI} to open the GUI.
+	 * 
+	 * @param check
+	 *            to difference witch GUI should be used.
+	 */
 	public void handleGUI(String check) {
 		
+		// Führt den Konstruktor aus um das RootLayout zu initialisieren. Dabei
+		// wird eine leere Stage und BorderPane übergeben um
+		// NullPointerExeptions zu vermeiden.
 		fxml_gui = new FXML_GUI(stage, borderPane);
+		// TODO Rechtschreibüberprüfung
+		// Switch case für Differensierung der Oberflächen, die gestarted werden
+		// müssen
 		switch (check) {
 		
 		case "configIni":
@@ -68,9 +97,23 @@ public class RootLayoutController {
 		}
 	}
 	
+	/**
+	 * Start the methods from {@link #fxml_gui FXML_GUI} to open the GUI.<br>
+	 * 
+	 * @param check
+	 *            to difference witch GUI should be used.
+	 * @param tabelle
+	 *            is the data set from one of the tree database tables.
+	 */
 	public void handleGUI(String check, Object tabelle) {
 		
+		// Führt den Konstruktor aus um das RootLayout zu initialisieren. Dabei
+		// wird eine leere Stage und BorderPane übergeben um
+		// NullPointerExeptions zu vermeiden.
 		fxml_gui = new FXML_GUI(stage, borderPane);
+		// TODO Rechtschreibüberprüfung
+		// Switch case für Differensierung der Oberflächen, die gestarted werden
+		// müssen
 		switch (check) {
 		case "main":
 			fxml_gui.showMainPage();
@@ -95,6 +138,11 @@ public class RootLayoutController {
 		}
 	}
 	
+	/**
+	 * Export the hole event list in a excel file
+	 * 
+	 * @author Kenneth Böhmer
+	 */
 	@FXML
 	public void handleExport() {
 		
@@ -114,10 +162,13 @@ public class RootLayoutController {
 		}
 	}
 	
+	/**
+	 * Opens the GUI to change the configuration of the worker
+	 * 
+	 * @author Kenneth Böhmer
+	 */
 	@FXML
 	public void handleSettings() {
-		
-		// TODO Konfigurationsdatei
 		
 		handleGUI("configIni");
 		FXML_GUI.primaryStage[MainApp.counter].setTitle("Einstellungen");
