@@ -10,10 +10,11 @@ import java.util.List;
 
 import de.dpma.model.Event;
 
-public class EventDAO{
+public class EventDAO {
+	
 	// SQL Statements
 	final String INSERT_EVENT = "INSERT INTO \"LEHRVERGUETUNG\".\"events\" (\"ID_DOZENT\", \"SCHULART\", \"AKTENZ\", \"VFG\", \"DATE_START\", \"DATE_END\", \"STDZAHL\", \"ID_EURO_STD\", \"VORTRG_MODE\") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
+	
 	final String DELETE_EVENT = "DELETE FROM \"LEHRVERGUETUNG\".\"events\" WHERE \"ID\" = ?";
 	
 	final String UPDATE_EVENT = "UPDATE \"LEHRVERGUETUNG\".\"events\" SET \"ID_DOZENT\" = ?, \"SCHULART\" = ?, \"AKTENZ\" = ?, \"VFG\" = ?, \"DATE_START\" = ?, \"DATE_END\" = ?, \"STDZAHL\" = ?, \"ID_EURO_STD\" = ?, \"VORTRG_MODE\" = ? WHERE \"ID\" = ?";

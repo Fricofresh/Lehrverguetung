@@ -26,6 +26,16 @@ import de.dpma.view.MainPageController;
 
 public class WriteDocx {
 
+	/**
+	 * Mithilfe der Replace Funktion Variablen im Word Dokument replacen
+	 * 
+	 * @author Kenneth + Flo
+	 * @param file
+	 * @param source
+	 * @param event
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	public WriteDocx(File file, String source, Event event) throws FileNotFoundException, IOException {
 
 		try {
@@ -142,6 +152,14 @@ public class WriteDocx {
 		}
 	}
 
+	/**
+	 * Text im Word Dokument ersetzen. Besonderheit: Sucht über mehrere Runs
+	 * gemeinsam. Variablen müssen in der Form ${variablenname} sein.
+	 * 
+	 * @author Stackoverflow Dude
+	 * @param p
+	 * @param data
+	 */
 	private void replace(XWPFParagraph p, Map<String, String> data) {
 		String pText = p.getText(); // complete paragraph as string
 		if (pText.contains("${")) { // if paragraph does not include our
@@ -231,6 +249,13 @@ public class WriteDocx {
 
 	}
 
+	/**
+	 * Helper-Funktion für Replace
+	 * 
+	 * @author Stackoverflow Dude
+	 * @param paragraph
+	 * @return map
+	 */
 	private TreeMap<Integer, XWPFRun> getPosToRuns(XWPFParagraph paragraph) {
 		int pos = 0;
 		TreeMap<Integer, XWPFRun> map = new TreeMap<Integer, XWPFRun>();

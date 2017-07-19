@@ -20,11 +20,20 @@ public class Stundenlohn {
 
 	private StringProperty creation_time = new SimpleStringProperty();
 
+	/**
+	 * Stundenlohn Constructor
+	 */
 	public Stundenlohn() {
 
 	}
 
-	// Standard Stundenlohn Constructor
+	/**
+	 * Standard Stundenlohn Constructor
+	 * 
+	 * @param id
+	 * @param lohn
+	 * @param creation_time
+	 */
 	public Stundenlohn(int id, double lohn, String creation_time) {
 		this.id = new SimpleIntegerProperty(id);
 		this.lohn = new SimpleDoubleProperty(lohn);
