@@ -10,6 +10,7 @@ import java.util.List;
 import de.dpma.model.Stundenlohn;
 
 public class StundenlohnDAO {
+	// SQL Statements
 	final String INSERT_STUNDENLOHN = "INSERT INTO \"LEHRVERGUETUNG\".\"STUNDENLOEHNE\" (\"LOHN\", \"CREATION_TIME\") VALUES (?, ?)";
 
 	final String DELETE_STUNDENLOHN = "DELETE FROM \"LEHRVERGUETUNG\".\"STUNDENLOEHNE\" WHERE \"ID\" = ?";
@@ -28,10 +29,24 @@ public class StundenlohnDAO {
 
 	private final Connection con;
 
+	/**
+	 * Datenbankverbindung herstellen
+	 * 
+	 * @author Flo
+	 * @param con
+	 */
 	public StundenlohnDAO(Connection con) {
 		this.con = con;
 	}
 
+	/**
+	 * Einen Stundenlohn anhand seiner ID abfragen
+	 * 
+	 * @author Flo
+	 * @param id
+	 * @return stundenlohn
+	 * @throws SQLException
+	 */
 	public Stundenlohn selectStundenlohn(int id) throws SQLException {
 		PreparedStatement stat = con.prepareStatement(SELECT_STUNDENLOHN);
 		stat.setInt(1, id);
@@ -46,6 +61,14 @@ public class StundenlohnDAO {
 		return stundenlohn;
 	}
 
+	/**
+	 * Einen Stundenlohn anhand seiner ID löschen
+	 * 
+	 * @author Flo
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
 	public Stundenlohn deleteStundenlohn(int id) throws SQLException {
 		PreparedStatement stat = con.prepareStatement(DELETE_STUNDENLOHN);
 		stat.setInt(1, id);
@@ -54,8 +77,17 @@ public class StundenlohnDAO {
 		return null;
 	}
 
+	/**
+	 * Die 5 neuesten Stundenlöhne abfragen
+	 * 
+	 * @author Flo
+	 * @return Liste an Stundenlöhnen
+	 * @throws SQLException
+	 */
 	public List<Stundenlohn> selectAllStundenloehne() throws SQLException {
 		PreparedStatement stat = con.prepareStatement(SELECT_STUNDENLOHN_ALL);
+		// Maximal 5, damit alte Stundenlöhne nicht verändert werden können und
+		// somit keine Daten beschädigt werden
 		stat.setMaxRows(5);
 		ResultSet result = stat.executeQuery();
 
@@ -70,6 +102,14 @@ public class StundenlohnDAO {
 		return stundenloehne;
 	}
 
+	/**
+	 * Stundenlohn einfügen
+	 * 
+	 * @author Flo
+	 * @param stundenlohn
+	 * @return stundenlohn
+	 * @throws SQLException
+	 */
 	public Stundenlohn insertStundenlohn(Stundenlohn stundenlohn) throws SQLException {
 		PreparedStatement stat = con.prepareStatement(INSERT_STUNDENLOHN);
 		stat.setString(1, Double.toString(stundenlohn.getLohn()));
@@ -79,6 +119,13 @@ public class StundenlohnDAO {
 		return stundenlohn;
 	}
 
+	/**
+	 * Stundenlohn updaten
+	 * 
+	 * @param stundenlohn
+	 * @return stundenlohn
+	 * @throws SQLException
+	 */
 	public Stundenlohn updateStundenlohn(Stundenlohn stundenlohn) throws SQLException {
 		PreparedStatement stat = con.prepareStatement(UPDATE_STUNDENLOHN);
 		stat.setString(1, Double.toString(stundenlohn.getLohn()));
@@ -88,9 +135,18 @@ public class StundenlohnDAO {
 		return stundenlohn;
 	}
 
+	/**
+	 * Stundenlöhne suchen
+	 * 
+	 * @author Flo
+	 * @param searchString
+	 * @return Liste an Stundenlöhnen
+	 * @throws SQLException
+	 */
 	public List<Stundenlohn> searchStundenlohn(String searchString) throws SQLException {
 		PreparedStatement stat = con.prepareStatement(SELECT_STUNDENLOHN_SEARCH);
 		stat.setMaxRows(5);
+		// Viele Eingabevariationen erlauben
 		stat.setString(1, "%" + searchString.replace(".", "").replace(",", ".") + "%");
 		stat.setString(2, "%" + searchString.replace(".", "").replace(",", ".") + "%");
 		stat.setString(3, "%" + searchString.replace(",", ".") + "%");
@@ -109,6 +165,13 @@ public class StundenlohnDAO {
 		return stundenloehne;
 	}
 
+	/**
+	 * Stundenlohn suchen, ID zurückgeben falls gefunden
+	 * 
+	 * @param searchString
+	 * @return ID wenn gefunden, -1 wenn nicht gefunden
+	 * @throws SQLException
+	 */
 	public int searchStundenlohnByValue(String searchString) throws SQLException {
 		PreparedStatement stat = con.prepareStatement(SELECT_STUNDENLOHN_SEARCH_BY_VALUE);
 		stat.setString(1, searchString);

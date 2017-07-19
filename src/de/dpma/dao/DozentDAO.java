@@ -10,6 +10,7 @@ import java.util.List;
 import de.dpma.model.Dozent;
 
 public class DozentDAO {
+	// SQL Statements
 	final String INSERT_DOZENT = "INSERT INTO \"LEHRVERGUETUNG\".\"DOZENTEN\" (\"ANREDE\", \"TITEL\", \"VORNAME\", \"NAME\", \"STRASSE\", \"PLZ\", \"IBAN\", \"BANK\", \"BLZ\", \"ORT\") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	final String DELETE_DOZENT = "DELETE FROM \"LEHRVERGUETUNG\".\"DOZENTEN\" WHERE \"ID\" = ?";
@@ -30,10 +31,24 @@ public class DozentDAO {
 
 	private final Connection con;
 
+	/**
+	 * Datenbankverbindung herstellen
+	 * 
+	 * @author Flo
+	 * @param con
+	 */
 	public DozentDAO(Connection con) {
 		this.con = con;
 	}
 
+	/**
+	 * Einen Dozent anhand seiner ID abfragen
+	 * 
+	 * @author Flo
+	 * @param id
+	 * @return dozent
+	 * @throws SQLException
+	 */
 	public Dozent selectDozent(int id) throws SQLException {
 		PreparedStatement stat = con.prepareStatement(SELECT_DOZENT);
 		stat.setInt(1, id);
@@ -56,6 +71,14 @@ public class DozentDAO {
 		return dozent;
 	}
 
+	/**
+	 * Dozent löschen
+	 * 
+	 * @author Flo
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
 	public Dozent deleteDozent(int id) throws SQLException {
 		PreparedStatement stat = con.prepareStatement(DELETE_DOZENT);
 		stat.setInt(1, id);
@@ -64,6 +87,13 @@ public class DozentDAO {
 		return null;
 	}
 
+	/**
+	 * Alle Dozenten abrufen
+	 * 
+	 * @author Flo
+	 * @return Liste an Dozenten
+	 * @throws SQLException
+	 */
 	public List<Dozent> selectAllDozenten() throws SQLException {
 		PreparedStatement stat = con.prepareStatement(SELECT_DOZENT_ALL);
 		ResultSet result = stat.executeQuery();
@@ -87,6 +117,14 @@ public class DozentDAO {
 		return dozenten;
 	}
 
+	/**
+	 * Dozent einfügen
+	 * 
+	 * @author Flo
+	 * @param dozent
+	 * @return dozent
+	 * @throws SQLException
+	 */
 	public Dozent insertDozent(Dozent dozent) throws SQLException {
 		PreparedStatement stat = con.prepareStatement(INSERT_DOZENT);
 		stat.setString(1, dozent.getAnrede());
@@ -104,6 +142,14 @@ public class DozentDAO {
 		return dozent;
 	}
 
+	/**
+	 * Dozent Datensatz updaten
+	 * 
+	 * @author Flo
+	 * @param dozent
+	 * @return dozent
+	 * @throws SQLException
+	 */
 	public Dozent updateDozent(Dozent dozent) throws SQLException {
 		PreparedStatement stat = con.prepareStatement(UPDATE_DOZENT);
 		stat.setString(1, dozent.getAnrede());
@@ -122,6 +168,14 @@ public class DozentDAO {
 		return dozent;
 	}
 
+	/**
+	 * Dozenten anhand sämtlichen Kriterien suchen
+	 * 
+	 * @author Flo
+	 * @param searchString
+	 * @return Liste an Dozenten
+	 * @throws SQLException
+	 */
 	public List<Dozent> searchDozent(String searchString) throws SQLException {
 		PreparedStatement stat = con.prepareStatement(SELECT_DOZENT_SEARCH);
 		stat.setString(1, ("%" + searchString + "%").toLowerCase());
@@ -155,6 +209,14 @@ public class DozentDAO {
 		return dozenten;
 	}
 
+	/**
+	 * Dozenten anhand ihres vollen Namens (Anrede, Titel, Vorname, Name) suchen
+	 * 
+	 * @author Flo
+	 * @param searchString
+	 * @return Liste an Dozenten
+	 * @throws SQLException
+	 */
 	public List<Dozent> searchDozentFullname(String searchString) throws SQLException {
 		PreparedStatement stat = con.prepareStatement(SELECT_DOZENT_SEARCH_FULLNAME);
 		stat.setString(1, ("%" + searchString + "%").toLowerCase().replace(" ", "="));
@@ -182,6 +244,15 @@ public class DozentDAO {
 		return dozenten;
 	}
 
+	/**
+	 * Vollständigen Namen eines Dozenten in der Datenbank suchen und seine ID
+	 * zurückgeben
+	 * 
+	 * @author Flo
+	 * @param searchString
+	 * @return ID wenn erfolgreich, -1 wenn nicht gefunden
+	 * @throws SQLException
+	 */
 	public int searchDozentIdByCodename(String searchString) throws SQLException {
 		PreparedStatement stat = con.prepareStatement(SELECT_DOZENT_SEARCH_DOZENTID_BY_CODENAME);
 		stat.setString(1, (searchString).toLowerCase().replace(" ", ""));

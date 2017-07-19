@@ -23,6 +23,12 @@ import de.dpma.model.Stundenlohn;
 public class GenerateExcelData {
 
 	@SuppressWarnings("deprecation")
+	/**
+	 * Generiert ein Excel Dokument
+	 * 
+	 * @author Flo
+	 * @param file
+	 */
 	public GenerateExcelData(File file) {
 		try {
 			String[] headers = new String[] { "Anrede", "Titel", "Vorname", "Name", "Strasse", "PLZ", "Ort",

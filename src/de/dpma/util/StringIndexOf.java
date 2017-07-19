@@ -2,6 +2,14 @@ package de.dpma.util;
 
 public class StringIndexOf {
 
+	/**
+	 * Gibt zurück, wie oft ein String in einem String gefunden wurde
+	 * 
+	 * @author Flo
+	 * @param string
+	 * @param substring
+	 * @return count
+	 */
 	public static int count(String string, String substring) {
 
 		int atIndex = 0;

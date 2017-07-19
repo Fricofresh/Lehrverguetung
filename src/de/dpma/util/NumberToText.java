@@ -196,8 +196,6 @@ public class NumberToText {
 	 *
 	 * @param x
 	 *            umzuwandelnde Zahl
-	 * @return
-	 * @return
 	 *
 	 * @return Zahl in Worten
 	 */
