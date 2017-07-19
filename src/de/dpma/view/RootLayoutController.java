@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 
 /**
  * This is the controller for the root layout. <br>
- * The controller starts the method from {@link #fxml_gui FXML_GUI}.
+ * The controller starts the methods from {@link FXML_GUI}.
  * 
  * @author Kenneth Böhmer
  *

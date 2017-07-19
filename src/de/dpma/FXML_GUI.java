@@ -18,6 +18,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+/**
+ * Opens the GUI for this application.
+ * 
+ * @author Kenneth Böhmer
+ *
+ */
 public class FXML_GUI {
 	
 	Logger log = Logger.getLogger(FXML_GUI.class.getName());

@@ -18,9 +18,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 
 /**
- * Safes the data from the worker
+ * Safes the data from the worker. <br>
+ * Export a docx file if the {@link #event} has been passed.
  * 
- * @author KeBoehme
+ * @author Kenneth Böhmer
  *
  */
 public class InsertPersonalDataController {
@@ -111,6 +112,7 @@ public class InsertPersonalDataController {
 	@FXML
 	private void handleSubmit() {
 		
+		// Überprüft ob die Eingabe gültig ist.
 		if (DataChecker.isEmpty(dienstortComboBox.getValue())) {
 			alert = new AlertUtil("Dienstort ungültig",
 					"Es wurde kein gültiger Dienstort ausgewählt. Bitte wählen Sie eine valide Vortragsart aus und versuchen Sie es erneut.",

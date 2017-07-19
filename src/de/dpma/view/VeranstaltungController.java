@@ -24,6 +24,13 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 
+/**
+ * The controller for the events. <br>
+ * The controller checks if a data set has to be added or edited
+ * 
+ * @author Kenneth Böhmer
+ *
+ */
 public class VeranstaltungController {
 	
 	@FXML
@@ -67,13 +74,17 @@ public class VeranstaltungController {
 	
 	private int getStageID;
 	
+	/**
+	 * Fills the combobox.
+	 * 
+	 * @author Kenneth Böhmer
+	 */
 	@FXML
 	private void initialize() {
 		
 		try {
 			// Stage ID zuweisen
 			getStageID = MainApp.counter;
-			
 			// Stundenlöhne Combobox füllen
 			ObservableList<Stundenlohn> selectStundenloehne = FXCollections
 					.observableArrayList(MainPageController.stundenlohnDAO.selectAllStundenloehne());
@@ -97,6 +108,13 @@ public class VeranstaltungController {
 		vortragComboBox.setItems(vortragComboBoxList);
 	}
 	
+	/**
+	 * Formats the date.
+	 * 
+	 * @author Kenneth Böhmer
+	 * @param dateString
+	 * @return the date
+	 */
 	public static final LocalDate LOCAL_DATE(String dateString) {
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -104,34 +122,54 @@ public class VeranstaltungController {
 		return localDate;
 	}
 	
-	public void handleNew(Event event) throws SQLException {
+	/**
+	 * Sets the data set.
+	 * 
+	 * @author Kenneth Böhmer
+	 * @param event
+	 *            is the data set
+	 * @throws SQLException
+	 */
+	public void handleNew(Event event) {
 		
-		this.event = event;
-		dozentComboBox.getEditor().setText(event.DozentString());
-		aktenzeichenTextField.setText(event.getAktenz());
-		schulArtTextField.setText(event.getSchulart());
-		vfgDatePicker.setValue(LOCAL_DATE(event.getVfg()));
-		String vortrag;
-		if (event.getVortrg_mode() == 1) {
-			vortrag = "Schulung";
+		try {
+			this.event = event;
+			dozentComboBox.getEditor().setText(event.DozentString());
+			aktenzeichenTextField.setText(event.getAktenz());
+			schulArtTextField.setText(event.getSchulart());
+			vfgDatePicker.setValue(LOCAL_DATE(event.getVfg()));
+			String vortrag;
+			if (event.getVortrg_mode() == 1) {
+				vortrag = "Schulung";
+			}
+			else {
+				vortrag = "Sonstiges";
+			}
+			vortragComboBox.setValue(vortrag);
+			datumVonDatePicker.setValue(LOCAL_DATE(event.getDate_start()));
+			datumBisDatePicker.setValue(LOCAL_DATE(event.getDate_end()));
+			euro_StdComboBox.setValue(String
+					.valueOf(MainPageController.stundenlohnDAO.selectStundenlohn(event.getId_euro_std()).getLohn())
+					.replace(".", ","));
+			String stdZahl = String.valueOf(event.getStdzahl());
+			stdZahlTextField.setText(stdZahl);
+			String betrag = event.BetragProperty().getValue();
+			betragTextField.setText(betrag);
+			String betrag_ABC = event.Betrag_ABCProperty().getValue();
+			betrag_ABCTextField.setText(betrag_ABC);
 		}
-		else {
-			vortrag = "Sonstiges";
+		catch (SQLException e) {
+			e.printStackTrace();
 		}
-		vortragComboBox.setValue(vortrag);
-		datumVonDatePicker.setValue(LOCAL_DATE(event.getDate_start()));
-		datumBisDatePicker.setValue(LOCAL_DATE(event.getDate_end()));
-		euro_StdComboBox.setValue(
-				String.valueOf(MainPageController.stundenlohnDAO.selectStundenlohn(event.getId_euro_std()).getLohn())
-						.replace(".", ","));
-		String stdZahl = String.valueOf(event.getStdzahl());
-		stdZahlTextField.setText(stdZahl);
-		String betrag = event.BetragProperty().getValue();
-		betragTextField.setText(betrag);
-		String betrag_ABC = event.Betrag_ABCProperty().getValue();
-		betrag_ABCTextField.setText(betrag_ABC);
 	}
 	
+	/**
+	 * Checks the date if it is not possible like 21.08.2015 to 19.01.2000
+	 * 
+	 * @param date1
+	 * @param date2
+	 * @return
+	 */
 	private boolean checkDateRange(String date1, String date2) {
 		
 		java.sql.Date gettedDatePickerDate1 = java.sql.Date.valueOf(date1);
@@ -144,77 +182,81 @@ public class VeranstaltungController {
 	}
 	
 	@FXML
-	private void handleSubmit() throws SQLException {
+	private void handleSubmit() {
 		
-		int dozentId = MainPageController.dozentDAO.searchDozentIdByCodename(dozentComboBox.getEditor().getText());
-		int stundenlohnId = euro_StdComboBox.getValue() == null ? -2
-				: MainPageController.stundenlohnDAO.searchStundenlohnByValue(
-						String.valueOf(Double.valueOf(euro_StdComboBox.getValue().replace(",", "."))));
-		
-		if (DataChecker.isEmpty(dozentComboBox.getEditor().getText())) {
-			alert = new AlertUtil("Dozent ungültig",
-					"Es wurde kein gültiger Dozent eingegeben. Bitte geben Sie einen validen Dozent an und versuchen Sie es erneut.",
-					"WARNING");
-		}
-		else if (dozentId < 0) {
-			alert = new AlertUtil("Dozent ungültig",
-					"Es wurde kein gültiger Dozent ausgewählt. Bitte wählen Sie einen validen Dozent aus und versuchen Sie es erneut.",
-					"WARNING");
-		}
-		else if (DataChecker.isEmpty(aktenzeichenTextField.getText())) {
-			alert = new AlertUtil("Aktenzeichen ungültig",
-					"Es wurde kein gültiges Aktenzeichen eingegeben. Bitte geben Sie ein valides Aktenzeichen an und versuchen Sie es erneut.",
-					"WARNING");
-		}
-		else if (DataChecker.isEmpty(schulArtTextField.getText())) {
-			alert = new AlertUtil("Schulungsart ungültig",
-					"Es wurde keine gültige Schulungsart ausgewählt. Bitte wählen Sie eine valide Schulungsart aus und versuchen Sie es erneut.",
-					"WARNING");
-		}
-		else if (vfgDatePicker.getValue() == null || DataChecker.isEmpty(vfgDatePicker.getValue().toString())) {
-			alert = new AlertUtil("Verfügungstag ungültig",
-					"Es wurde kein gültiger Verfügungstag eingegeben. Bitte geben Sie einen validen Verfügungstag an und versuchen Sie es erneut.",
-					"WARNING");
-		}
-		else if (DataChecker.isEmpty(vortragComboBox.getValue())) {
-			alert = new AlertUtil("Vortragsart ungültig",
-					"Es wurde keine gültige Vortragsart ausgewählt. Bitte wählen Sie eine valide Vortragsart aus und versuchen Sie es erneut.",
-					"WARNING");
-		}
-		else if (datumVonDatePicker.getValue() == null
-				|| DataChecker.isEmpty(datumVonDatePicker.getValue().toString())) {
-			alert = new AlertUtil("Startdatum ungültig",
-					"Es wurde kein gültiges Startdatum eingegeben. Bitte geben Sie ein valides Startdatum an und versuchen Sie es erneut.",
-					"WARNING");
-		}
-		else if (datumBisDatePicker.getValue() == null
-				|| DataChecker.isEmpty(datumBisDatePicker.getValue().toString())) {
-			alert = new AlertUtil("Enddatum ungültig",
-					"Es wurde kein gültiges Enddatum eingegeben. Bitte geben Sie ein valides Enddatum an und versuchen Sie es erneut.",
-					"WARNING");
-		}
-		else if (!checkDateRange(datumVonDatePicker.getValue().toString(), datumBisDatePicker.getValue().toString())) {
-			alert = new AlertUtil("Datumsbereich ungültig",
-					"Das Enddatum liegt vor dem Startdatum. Bitte geben Sie einen validen Datumsbereich an und versuchen Sie es erneut.",
-					"WARNING");
-		}
-		else if (stdZahlTextField.getText().isEmpty()) {
-			alert = new AlertUtil("Stundenanzahl ungültig",
-					"Es wurde keine gültige Stundenanzahl eingegeben. Bitte geben Sie eine valide Stundenanzahl an und versuchen Sie es erneut.",
-					"WARNING");
-		}
-		else if (stundenlohnId < -1) {
-			alert = new AlertUtil("Stundensatz ungültig",
-					"Es wurde kein gültiger Stundensatz ausgewählt. Bitte wählen Sie einen validen Stundensatz aus und versuchen Sie es erneut.",
-					"WARNING");
-		}
-		else if (stundenlohnId < 0) {
-			alert = new AlertUtil("Stundensatz konnte nicht validiert werden",
-					"Es ist ein interner Fehler bei der Validierung des Stundensatzes aufgetreten.", "ERROR");
-		}
-		else {
+		int dozentId;
+		try {
+			dozentId = MainPageController.dozentDAO.searchDozentIdByCodename(dozentComboBox.getEditor().getText());
 			
-			try {
+			// Überprüft ob die Eingabe gültig ist.
+			int stundenlohnId = euro_StdComboBox.getValue() == null ? -2
+					: MainPageController.stundenlohnDAO.searchStundenlohnByValue(
+							String.valueOf(Double.valueOf(euro_StdComboBox.getValue().replace(",", "."))));
+			
+			if (DataChecker.isEmpty(dozentComboBox.getEditor().getText())) {
+				alert = new AlertUtil("Dozent ungültig",
+						"Es wurde kein gültiger Dozent eingegeben. Bitte geben Sie einen validen Dozent an und versuchen Sie es erneut.",
+						"WARNING");
+			}
+			else if (dozentId < 0) {
+				alert = new AlertUtil("Dozent ungültig",
+						"Es wurde kein gültiger Dozent ausgewählt. Bitte wählen Sie einen validen Dozent aus und versuchen Sie es erneut.",
+						"WARNING");
+			}
+			else if (DataChecker.isEmpty(aktenzeichenTextField.getText())) {
+				alert = new AlertUtil("Aktenzeichen ungültig",
+						"Es wurde kein gültiges Aktenzeichen eingegeben. Bitte geben Sie ein valides Aktenzeichen an und versuchen Sie es erneut.",
+						"WARNING");
+			}
+			else if (DataChecker.isEmpty(schulArtTextField.getText())) {
+				alert = new AlertUtil("Schulungsart ungültig",
+						"Es wurde keine gültige Schulungsart ausgewählt. Bitte wählen Sie eine valide Schulungsart aus und versuchen Sie es erneut.",
+						"WARNING");
+			}
+			else if (vfgDatePicker.getValue() == null || DataChecker.isEmpty(vfgDatePicker.getValue().toString())) {
+				alert = new AlertUtil("Verfügungstag ungültig",
+						"Es wurde kein gültiger Verfügungstag eingegeben. Bitte geben Sie einen validen Verfügungstag an und versuchen Sie es erneut.",
+						"WARNING");
+			}
+			else if (DataChecker.isEmpty(vortragComboBox.getValue())) {
+				alert = new AlertUtil("Vortragsart ungültig",
+						"Es wurde keine gültige Vortragsart ausgewählt. Bitte wählen Sie eine valide Vortragsart aus und versuchen Sie es erneut.",
+						"WARNING");
+			}
+			else if (datumVonDatePicker.getValue() == null
+					|| DataChecker.isEmpty(datumVonDatePicker.getValue().toString())) {
+				alert = new AlertUtil("Startdatum ungültig",
+						"Es wurde kein gültiges Startdatum eingegeben. Bitte geben Sie ein valides Startdatum an und versuchen Sie es erneut.",
+						"WARNING");
+			}
+			else if (datumBisDatePicker.getValue() == null
+					|| DataChecker.isEmpty(datumBisDatePicker.getValue().toString())) {
+				alert = new AlertUtil("Enddatum ungültig",
+						"Es wurde kein gültiges Enddatum eingegeben. Bitte geben Sie ein valides Enddatum an und versuchen Sie es erneut.",
+						"WARNING");
+			}
+			else if (!checkDateRange(datumVonDatePicker.getValue().toString(),
+					datumBisDatePicker.getValue().toString())) {
+				alert = new AlertUtil("Datumsbereich ungültig",
+						"Das Enddatum liegt vor dem Startdatum. Bitte geben Sie einen validen Datumsbereich an und versuchen Sie es erneut.",
+						"WARNING");
+			}
+			else if (stdZahlTextField.getText().isEmpty()) {
+				alert = new AlertUtil("Stundenanzahl ungültig",
+						"Es wurde keine gültige Stundenanzahl eingegeben. Bitte geben Sie eine valide Stundenanzahl an und versuchen Sie es erneut.",
+						"WARNING");
+			}
+			else if (stundenlohnId < -1) {
+				alert = new AlertUtil("Stundensatz ungültig",
+						"Es wurde kein gültiger Stundensatz ausgewählt. Bitte wählen Sie einen validen Stundensatz aus und versuchen Sie es erneut.",
+						"WARNING");
+			}
+			else if (stundenlohnId < 0) {
+				alert = new AlertUtil("Stundensatz konnte nicht validiert werden",
+						"Es ist ein interner Fehler bei der Validierung des Stundensatzes aufgetreten.", "ERROR");
+			}
+			else {
+				
 				if (event == null) {
 					event = new Event();
 				}
@@ -236,20 +278,30 @@ public class VeranstaltungController {
 				}
 				FXML_GUI.primaryStage[this.getStageID].close();
 			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
+		}
+		catch (Exception e1) {
+			e1.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Closes the stage
+	 * 
+	 * @author Kenneth Böhmer
+	 */
 	@FXML
 	private void handleCancel() {
 		
 		FXML_GUI.primaryStage[this.getStageID].close();
 	}
 	
+	/**
+	 * Search the lecturer while typing.
+	 * 
+	 * @author Kenneth Böhmer
+	 */
 	@FXML
-	private void handleTypingDozent() throws SQLException {
+	private void handleTypingDozent() {
 		
 		if (dozentComboBox.isFocused()) {
 			try {
@@ -263,6 +315,14 @@ public class VeranstaltungController {
 		}
 	}
 	
+	/**
+	 * Schows the results of possible lecturer.
+	 * 
+	 * @author Kenneth Böhmer
+	 * @param dataSource
+	 * @param autoHider
+	 * @throws SQLException
+	 */
 	private void fillDozentenCheckbox(ObservableList<Dozent> dataSource, boolean autoHider) throws SQLException {
 		
 		ObservableList<Dozent> listResult = dataSource;
@@ -318,7 +378,7 @@ public class VeranstaltungController {
 		else {
 			DecimalFormat df2 = new DecimalFormat("#.##");
 			df2.setRoundingMode(RoundingMode.HALF_UP);
-			
+			// Der Betrag wird berechnet
 			Double rechnung = Double.valueOf(df2.format((Double.valueOf(euro_StdComboBox.getValue().replace(",", "."))
 					* Double.valueOf(stdZahlTextField.getText()))).replace(",", "."));
 			betragTextField.setText(FormatCurrrency.format(rechnung, true));
@@ -327,6 +387,12 @@ public class VeranstaltungController {
 		}
 	}
 	
+	/**
+	 * Checks if Enter or Escape is pressed to submit or cancel.
+	 * 
+	 * @author Kenneth Böhmer
+	 * @param keyEvent
+	 */
 	@FXML
 	private void handleKeyPressed(KeyEvent keyEvent) throws SQLException {
 		

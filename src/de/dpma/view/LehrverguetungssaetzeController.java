@@ -15,6 +15,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 
+/**
+ * The controller for the salary. <br>
+ * The controller checks if a data set has to be added or edited
+ * 
+ * @author Kenneth Böhmer
+ */
 public class LehrverguetungssaetzeController {
 	
 	@FXML
@@ -31,7 +37,7 @@ public class LehrverguetungssaetzeController {
 	private int getStageID;
 	
 	@FXML
-	public void initialize() {
+	private void initialize() {
 		
 		getStageID = MainApp.counter;
 		stundenlohn = new Stundenlohn();
@@ -46,8 +52,9 @@ public class LehrverguetungssaetzeController {
 	}
 	
 	@FXML
-	public void handleSubmit() throws SQLException, ParseException {
+	private void handleSubmit() throws SQLException, ParseException {
 		
+		// Überprüft ob die Eingabe gültig ist.
 		if (!DataChecker.isNumeric(verguetungsSatzTextField.getText())) {
 			alert = new AlertUtil("Invalider Vergütungssatz",
 					"Der Vergüngssatz ist entweder nicht angegeben oder enthält Zeichen, welche nicht numerisch sind.",
@@ -77,22 +84,26 @@ public class LehrverguetungssaetzeController {
 			
 			FXML_GUI.primaryStage[this.getStageID].close();
 		}
-		
-		// TODO: Tabelle aktualisieren
-		
-		// MainPageController tableReload = new MainPageController();
-		// tableReload.handleSearch();
-		// tableReload.insertIntoLehrvergueungssaetzeTable(stundenlohnDAO.selectAllStundenloehne());
-		// tableReload = null;
-		// System.gc();
 	}
 	
+	/**
+	 * Closes the stage
+	 * 
+	 * @author Kenneth Böhmer
+	 */
 	@FXML
-	public void handleCancel() {
+	private void handleCancel() {
 		
 		FXML_GUI.primaryStage[this.getStageID].close();
 	}
 	
+	/**
+	 * Sets the data set.
+	 * 
+	 * @author Kenneth Böhmer
+	 * @param stundenlohn
+	 *            is the data set
+	 */
 	public void handleNew(Stundenlohn stundenlohn) {
 		
 		this.stundenlohn = stundenlohn;
@@ -101,8 +112,14 @@ public class LehrverguetungssaetzeController {
 		verguetungsSatzTextField.setText(FormatCurrrency.format(stdLohn, false).replace(".", ""));
 	}
 	
+	/**
+	 * Checks if Enter or Escape is pressed to submit or cancel.
+	 * 
+	 * @author Kenneth Böhmer
+	 * @param keyEvent
+	 */
 	@FXML
-	public void handleKeyPressed(KeyEvent keyEvent) throws ParseException {
+	private void handleKeyPressed(KeyEvent keyEvent) throws ParseException {
 		
 		this.keyEvent = keyEvent;
 		switch (keyEvent.getCode()) {

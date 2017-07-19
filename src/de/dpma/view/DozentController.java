@@ -12,6 +12,12 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 
+/**
+ * The controller for the lecturer. <br>
+ * The controller checks if a data set has to be added or edited
+ * 
+ * @author Kenneth Böhmer
+ */
 public class DozentController {
 	
 	@FXML
@@ -54,13 +60,25 @@ public class DozentController {
 	
 	private int getStageID;
 	
+	/**
+	 * Fills the combobox.
+	 * 
+	 * @author Kenneth Böhmer
+	 */
 	@FXML
-	public void initialize() {
+	private void initialize() {
 		
 		getStageID = MainApp.counter;
 		anredeComboBox.setItems(anredeComboBoxList);
 	}
 	
+	/**
+	 * Sets the data set.
+	 * 
+	 * @author Kenneth Böhmer
+	 * @param dozent
+	 *            is the data set
+	 */
 	@FXML
 	public void handleNew(Dozent dozent) {
 		
@@ -82,6 +100,7 @@ public class DozentController {
 	@FXML
 	private void handleSubmit() {
 		
+		// Überprüft ob die Eingabe gültig ist.
 		try {
 			if (dozent == null) {
 				dozent = new Dozent();
@@ -160,12 +179,23 @@ public class DozentController {
 		}
 	}
 	
+	/**
+	 * Closes the stage
+	 * 
+	 * @author Kenneth Böhmer
+	 */
 	@FXML
 	private void handleCancel() {
 		
 		FXML_GUI.primaryStage[this.getStageID].close();
 	}
 	
+	/**
+	 * Checks if Enter or Escape is pressed to submit or cancel.
+	 * 
+	 * @author Kenneth Böhmer
+	 * @param keyEvent
+	 */
 	public void handleKeyPressed(KeyEvent keyEvent) {
 		
 		this.keyEvent = keyEvent;
@@ -173,6 +203,9 @@ public class DozentController {
 		case ENTER:
 			handleSubmit();
 			
+			break;
+		case ESCAPE:
+			handleCancel();
 			break;
 		default:
 			break;
