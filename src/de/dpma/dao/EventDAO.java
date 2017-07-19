@@ -10,17 +10,18 @@ import java.util.List;
 
 import de.dpma.model.Event;
 
-public class EventDAO {
+public class EventDAO{
+	// SQL Statements
 	final String INSERT_EVENT = "INSERT INTO \"LEHRVERGUETUNG\".\"events\" (\"ID_DOZENT\", \"SCHULART\", \"AKTENZ\", \"VFG\", \"DATE_START\", \"DATE_END\", \"STDZAHL\", \"ID_EURO_STD\", \"VORTRG_MODE\") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	final String DELETE_EVENT = "DELETE FROM \"LEHRVERGUETUNG\".\"events\" WHERE \"ID\" = ?";
-
+	
 	final String UPDATE_EVENT = "UPDATE \"LEHRVERGUETUNG\".\"events\" SET \"ID_DOZENT\" = ?, \"SCHULART\" = ?, \"AKTENZ\" = ?, \"VFG\" = ?, \"DATE_START\" = ?, \"DATE_END\" = ?, \"STDZAHL\" = ?, \"ID_EURO_STD\" = ?, \"VORTRG_MODE\" = ? WHERE \"ID\" = ?";
-
+	
 	final String SELECT_EVENT = "SELECT * FROM \"LEHRVERGUETUNG\".\"events\" WHERE \"ID\" = ?";
-
+	
 	final String SELECT_EVENT_ALL = "SELECT * FROM \"LEHRVERGUETUNG\".\"events\"";
-
+	
 	final String SELECT_EVENT_SEARCH = "" + "SELECT " + "\"events\".*, \"STUNDENLOEHNE\".*, \"DOZENTEN\".* " + "FROM "
 			+ "\"LEHRVERGUETUNG\".\"events\", \"LEHRVERGUETUNG\".\"STUNDENLOEHNE\", \"LEHRVERGUETUNG\".\"DOZENTEN\" "
 			+ "WHERE " + "\"DOZENTEN\".\"ID\" = \"events\".\"ID_DOZENT\" AND "
@@ -32,22 +33,36 @@ public class EventDAO {
 			+ "LOWER(\"STUNDENLOEHNE\".\"LOHN\") LIKE ? OR LOWER(\"DOZENTEN\".\"TITEL\") LIKE ? OR "
 			+ "LOWER(\"DOZENTEN\".\"ANREDE\") LIKE ? OR LOWER(\"DOZENTEN\".\"VORNAME\") LIKE ? OR "
 			+ "LOWER(\"DOZENTEN\".\"NAME\") LIKE ?)";
-	// RIGHT OUTER JOIN \"LEHRVERGUETUNG\".\"STUNDENLOEHNE\" ON
-	// \"events\".\"ID_EUR_STD\" = \"STUNDENLOEHNE\".\"ID\"
-
+	
 	private int id;
-
+	
 	private final Connection con;
-
+	
+	/**
+	 * Datenbankverbindung herstellen
+	 * 
+	 * @author Flo
+	 * @param con
+	 */
 	public EventDAO(Connection con) {
 		this.con = con;
 	}
-
+	
+	/**
+	 * Ein Event anhand seiner ID abfragen
+	 * 
+	 * @author Flo
+	 * @param id
+	 * @return event
+	 * @throws SQLException
+	 * @throws ParseException
+	 */
 	public Event selectEvent(int id) throws SQLException, ParseException {
+		
 		PreparedStatement stat = con.prepareStatement(SELECT_EVENT);
 		stat.setInt(1, id);
 		ResultSet result = stat.executeQuery();
-
+		
 		Event event = new Event();
 		while (result.next()) {
 			event.setId(result.getInt("ID"));
@@ -63,19 +78,37 @@ public class EventDAO {
 		}
 		return event;
 	}
-
+	
+	/**
+	 * Ein Event anhand seiner ID löschen
+	 * 
+	 * @author Flo
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
 	public Event deleteEvent(int id) throws SQLException {
+		
 		PreparedStatement stat = con.prepareStatement(DELETE_EVENT);
 		stat.setInt(1, id);
 		stat.executeUpdate();
-
+		
 		return null;
 	}
-
+	
+	/**
+	 * Alle Events abfragen
+	 * 
+	 * @author Flo
+	 * @return Liste an Events
+	 * @throws SQLException
+	 * @throws ParseException
+	 */
 	public List<Event> selectAllEvents() throws SQLException, ParseException {
+		
 		PreparedStatement stat = con.prepareStatement(SELECT_EVENT_ALL);
 		ResultSet result = stat.executeQuery();
-
+		
 		ArrayList<Event> events = new ArrayList<>();
 		while (result.next()) {
 			Event event = new Event();
@@ -93,8 +126,17 @@ public class EventDAO {
 		}
 		return events;
 	}
-
+	
+	/**
+	 * Ein Event einfügen
+	 * 
+	 * @author Flo
+	 * @param event
+	 * @return event
+	 * @throws SQLException
+	 */
 	public Event insertEvent(Event event) throws SQLException {
+		
 		PreparedStatement stat = con.prepareStatement(INSERT_EVENT);
 		stat.setInt(1, event.getId_dozent());
 		stat.setString(2, event.getSchulart());
@@ -105,12 +147,21 @@ public class EventDAO {
 		stat.setInt(7, event.getStdzahl());
 		stat.setInt(8, event.getId_euro_std());
 		stat.setInt(9, event.getVortrg_mode());
-
+		
 		stat.executeUpdate();
 		return event;
 	}
-
+	
+	/**
+	 * Ein Event updaten
+	 * 
+	 * @author Flo
+	 * @param event
+	 * @return event
+	 * @throws SQLException
+	 */
 	public Event updateEvent(Event event) throws SQLException {
+		
 		PreparedStatement stat = con.prepareStatement(UPDATE_EVENT);
 		stat.setInt(1, event.getId_dozent());
 		stat.setString(2, event.getSchulart());
@@ -122,23 +173,35 @@ public class EventDAO {
 		stat.setInt(8, event.getId_euro_std());
 		stat.setInt(9, event.getVortrg_mode());
 		stat.setInt(10, event.getId());
-
+		
 		stat.executeUpdate();
 		return event;
 	}
-
+	
+	/**
+	 * Events anhand vieler verschiedener Kriterien suchen
+	 * 
+	 * @author Flo
+	 * @param searchString
+	 * @return Liste an Events
+	 * @throws SQLException
+	 * @throws ParseException
+	 */
 	public List<Event> searchEvent(String searchString) throws SQLException, ParseException {
+		
 		int SearchIntVortrag;
 		PreparedStatement stat = con.prepareStatement(SELECT_EVENT_SEARCH);
-
+		
 		if (searchString.equalsIgnoreCase("Schulung")) {
 			SearchIntVortrag = 1;
-		} else if (searchString.equalsIgnoreCase("Sonstiges")) {
+		}
+		else if (searchString.equalsIgnoreCase("Sonstiges")) {
 			SearchIntVortrag = 0;
-		} else {
+		}
+		else {
 			SearchIntVortrag = 2;
 		}
-
+		
 		stat.setInt(1, SearchIntVortrag);
 		stat.setString(2, ("%" + searchString + "%").toLowerCase());
 		stat.setString(3, ("%" + searchString + "%").toLowerCase());
@@ -163,7 +226,7 @@ public class EventDAO {
 		// }
 		// System.out.println("");
 		// }
-
+		
 		ArrayList<Event> events = new ArrayList<>();
 		while (result.next()) {
 			Event event = new Event();
@@ -187,5 +250,5 @@ public class EventDAO {
 		}
 		return events;
 	}
-
+	
 }
