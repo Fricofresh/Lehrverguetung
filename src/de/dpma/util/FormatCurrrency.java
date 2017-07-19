@@ -5,6 +5,16 @@ import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 
 public class FormatCurrrency {
+	/**
+	 * Double in schönen Eurobetrag umwandeln (z.B. 11,1 in 11,10 €)
+	 * 
+	 * @author Flo
+	 * @param input
+	 *            (Double)
+	 * @param euro_design
+	 *            (Mit Eurozeichen oder nicht, boolean)
+	 * @return Schöner Eurobetrag
+	 */
 	public static String format(double input, boolean euro_design) {
 		DecimalFormat df = (DecimalFormat) NumberFormat.getCurrencyInstance(java.util.Locale.GERMANY);
 		DecimalFormatSymbols symbols = df.getDecimalFormatSymbols();
@@ -15,6 +25,16 @@ public class FormatCurrrency {
 		return df.format(input).trim();
 	}
 
+	/**
+	 * String in schönen Eurobetrag umwandeln (z.B. 11,1 in 11,10 €)
+	 * 
+	 * @author Flo
+	 * @param input
+	 *            (String)
+	 * @param euro_design
+	 *            (Mit Eurozeichen oder nicht, boolean)
+	 * @return Schöner Eurobetrag
+	 */
 	public static String format(String input, boolean euro_design) {
 		return format(Double.parseDouble(input), euro_design);
 	}

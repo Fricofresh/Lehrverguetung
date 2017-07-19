@@ -14,6 +14,14 @@ public class AlertUtil {
 
 	private Alert alert;
 
+	/**
+	 * ÷ffnet ein Alertfenster.
+	 * 
+	 * @author Flo
+	 * @param title
+	 * @param content
+	 * @param type
+	 */
 	public AlertUtil(String title, String content, String type) {
 
 		if (type.equalsIgnoreCase("warning") || type.equalsIgnoreCase("warn") || type.equalsIgnoreCase("w")) {
@@ -56,6 +64,11 @@ public class AlertUtil {
 		}
 	}
 
+	/**
+	 * Schlieﬂt ein Alertfenster ohne Buttons (Typ "loading").
+	 * 
+	 * @author Flo
+	 */
 	public void closeAlert() {
 		alert.getButtonTypes().add(ButtonType.CANCEL);
 		alert.hide();

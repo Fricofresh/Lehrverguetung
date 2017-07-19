@@ -15,6 +15,13 @@ public class DatabaseConnection {
 
 	Logger log = Logger.getLogger(DatabaseConnection.class.getName());
 
+	/**
+	 * Baut eine Datenbankverbindung auf.
+	 * 
+	 * @author Flo
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
 	public DatabaseConnection() throws SQLException, ClassNotFoundException {
 		log.info("Die Verbindung zur Datenbank wird gestartet");
 
@@ -38,12 +45,20 @@ public class DatabaseConnection {
 		log.info("Verbindung erfolgreich");
 	}
 
+	/**
+	 * Holt sich die Datenbankverbindung.
+	 * 
+	 * @return con (Connection)
+	 */
 	public Connection getConnection() {
 
 		log.info("Die Datenbankverbindung wird hergestellt");
 		return con;
 	}
 
+	/**
+	 * Schlieﬂt die Datenbankverbindung, falls sie existiert.
+	 */
 	public void closeConnection() throws SQLException {
 		if (con != null) {
 			try {
