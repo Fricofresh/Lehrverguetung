@@ -25,11 +25,12 @@ import de.dpma.model.Stundenlohn;
 import de.dpma.view.MainPageController;
 
 public class WriteDocx {
-
+	
 	/**
 	 * Mithilfe der Replace Funktion Variablen im Word Dokument replacen
 	 * 
-	 * @author Kenneth + Flo
+	 * @author Kenneth Böhmer
+	 * @author Flo
 	 * @param file
 	 * @param source
 	 * @param event
@@ -37,14 +38,14 @@ public class WriteDocx {
 	 * @throws IOException
 	 */
 	public WriteDocx(File file, String source, Event event) throws FileNotFoundException, IOException {
-
+		
 		try {
-
+			
 			XWPFDocument doc = new XWPFDocument(OPCPackage.open("Vorlagen/" + source + ".docx"));
 			Dozent dozent = MainPageController.dozentDAO.selectDozent(event.getId_dozent());
 			Stundenlohn stdlohn = MainPageController.stundenlohnDAO.selectStundenlohn(event.getId_euro_std());
 			ConfigIniUtil confini = new ConfigIniUtil();
-
+			
 			if (source == "Auszahlung") {
 				for (XWPFParagraph p : doc.getParagraphs()) {
 					Map<String, String> rpl = new HashMap<String, String>();
@@ -57,7 +58,8 @@ public class WriteDocx {
 					rpl.put("Anrede2", dozent.getAnrede());
 					if (dozent.getAnrede().equals("Herr")) {
 						rpl.put("Anrede1", dozent.getAnrede() + "n");
-					} else {
+					}
+					else {
 						rpl.put("Anrede1", dozent.getAnrede());
 					}
 					rpl.put("Straße", dozent.getStrasse());
@@ -94,7 +96,8 @@ public class WriteDocx {
 								rpl.put("Anrede2", dozent.getAnrede());
 								if (dozent.getAnrede().equals("Herr")) {
 									rpl.put("Anrede1", dozent.getAnrede() + "n");
-								} else {
+								}
+								else {
 									rpl.put("Anrede1", dozent.getAnrede());
 								}
 								rpl.put("Straße", dozent.getStrasse());
@@ -121,7 +124,8 @@ public class WriteDocx {
 						}
 					}
 				}
-			} else {
+			}
+			else {
 				for (XWPFParagraph p : doc.getParagraphs()) {
 					Map<String, String> rpl = new HashMap<String, String>();
 					rpl.put("Name", dozent.getName());
@@ -145,22 +149,29 @@ public class WriteDocx {
 					}
 				}
 			}
-
+			
 			doc.write(new FileOutputStream(file));
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
+	
 	/**
 	 * Text im Word Dokument ersetzen. Besonderheit: Sucht über mehrere Runs
 	 * gemeinsam. Variablen müssen in der Form ${variablenname} sein.
 	 * 
-	 * @author Stackoverflow Dude
+	 * <p>
+	 * Die Methode wurde von Stackoverflow entnommen und etwas angepasst.
+	 * </p>
+	 * 
+	 * @author Flo
+	 * @author Keneth Böhmer
 	 * @param p
 	 * @param data
 	 */
 	private void replace(XWPFParagraph p, Map<String, String> data) {
+		
 		String pText = p.getText(); // complete paragraph as string
 		if (pText.contains("${")) { // if paragraph does not include our
 									// pattern, ignore
@@ -201,8 +212,9 @@ public class WriteDocx {
 							txt = r.getText(k); // note: should return null, but
 												// throws exception if the text
 												// does not exist
-						} catch (Exception ex) {
-
+						}
+						catch (Exception ex) {
+							
 						}
 						if (txt == null)
 							break; // no more texts in the run, exit loop
@@ -226,9 +238,11 @@ public class WriteDocx {
 								if (r == found2Run) { // complete pattern was
 														// within a single run
 									txt = txt.substring(0, found2Pos) + txt.substring(txt.indexOf('}'));
-								} else // pattern spread across multiple runs
+								}
+								else // pattern spread across multiple runs
 									txt = txt.substring(txt.indexOf('}'));
-							} else if (r == found2Run) // same run as { but no
+							}
+							else if (r == found2Run) // same run as { but no
 														// }, remove all text
 														// starting at {
 								txt = txt.substring(0, found2Pos);
@@ -244,19 +258,25 @@ public class WriteDocx {
 					}
 				}
 			}
-
+			
 		}
-
+		
 	}
-
+	
 	/**
-	 * Helper-Funktion für Replace
+	 * Helper-Funktion für Replace.
 	 * 
-	 * @author Stackoverflow Dude
+	 * <p>
+	 * Die Methode wurde von Stackoverflow entnommen und etwas angepasst.
+	 * </p>
+	 * 
+	 * @author Flo
+	 * @author Kenneth Böhmer
 	 * @param paragraph
 	 * @return map
 	 */
 	private TreeMap<Integer, XWPFRun> getPosToRuns(XWPFParagraph paragraph) {
+		
 		int pos = 0;
 		TreeMap<Integer, XWPFRun> map = new TreeMap<Integer, XWPFRun>();
 		for (XWPFRun run : paragraph.getRuns()) {
@@ -267,7 +287,7 @@ public class WriteDocx {
 				}
 				pos += runText.length();
 			}
-
+			
 		}
 		return map;
 	}

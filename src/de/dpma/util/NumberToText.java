@@ -1,16 +1,19 @@
 package de.dpma.util;
 
 public class NumberToText {
-
+	
 	/**
 	 * Gibt das Wort für die Zehnerstellen zurück.
-	 *
+	 * 
+	 * @author Flo
+	 * @author Kenneth Böhmer
 	 * @param x
-	 *            die umzuwandelnde Zahl
+	 *            zu umzuwandelnde Zahl
 	 *
 	 * @return Text für die Zahl
 	 */
 	public static String intToText10(int x) {
+		
 		int y = x / 10; /* nur Zehnerstelle */
 		switch (y) {
 		case 1:
@@ -35,10 +38,11 @@ public class NumberToText {
 			return "FEHLER";
 		}
 	}
-
+	
 	/**
 	 * Gibt den Betrag in Worten für 1 bis 99 zurück.
-	 *
+	 * 
+	 * @author Flo
 	 * @param x
 	 *            die umzuwandelnde Zahl
 	 * @param digits
@@ -47,6 +51,7 @@ public class NumberToText {
 	 * @return Text für die Zahl
 	 */
 	public static String intToText100(int x, int digits) {
+		
 		int y = x % 100; /* nur Einer- und Zehnerstelle */
 		/* -- Sonderbehandlung der Zahl 1 -- */
 		if (y == 1) {
@@ -64,7 +69,8 @@ public class NumberToText {
 				/* -- Einzahl oder Mehrzahl ? -- */
 				if (x == 1) {
 					return "eine";
-				} else {
+				}
+				else {
 					return "ein";
 				}
 			default:
@@ -118,16 +124,18 @@ public class NumberToText {
 		if ((y >= 20) && (y <= 99)) {
 			if (y % 10 == 0) {
 				return intToText10(y);
-			} else {
+			}
+			else {
 				return intToText100(y % 10, 1) + "und" + intToText10(y);
 			}
 		}
 		return "";
 	}
-
+	
 	/**
 	 * Gibt den Betrag in Worten für 1 bis 999 zurück.
-	 *
+	 * 
+	 * @author Flo
 	 * @param x
 	 *            die umzuwandelnde Zahl
 	 * @param digits
@@ -136,16 +144,19 @@ public class NumberToText {
 	 * @return Text für die Zahl
 	 */
 	public static String intToText1000(int x, int digits) {
+		
 		if (x / 100 == 0) {
 			return intToText100(x, digits);
-		} else {
+		}
+		else {
 			return intToText100(x / 100, 2) + "hundert" + intToText100(x, digits);
 		}
 	}
-
+	
 	/**
-	 * Bezeichnung der Werte über einer Miilion
+	 * Bezeichnung der Werte über einer Million
 	 *
+	 * @author Flo
 	 * @param digits
 	 *            Anzahl der Stellen
 	 * @param mz
@@ -154,6 +165,7 @@ public class NumberToText {
 	 * @return Zahlen-Suffix
 	 */
 	public static String intToTextDigits(int digits, boolean mz) {
+		
 		if (mz) { /* Mehrzahl oder Einzahl ? */
 			switch (digits) {
 			case 0:
@@ -171,7 +183,8 @@ public class NumberToText {
 			default:
 				return "";
 			}
-		} else {
+		}
+		else {
 			switch (digits) {
 			case 0:
 				return "";
@@ -190,30 +203,33 @@ public class NumberToText {
 			}
 		}
 	}
-
+	
 	/**
 	 * Betrag in Worten einer ganzen, positiven Zahl
-	 *
+	 * 
+	 * @author Flo
 	 * @param x
 	 *            umzuwandelnde Zahl
 	 *
 	 * @return Zahl in Worten
 	 */
 	public static String NumberToText(double y) {
+		
 		int x = (int) y;
-
+		
 		String after;
 		String prepared;
-
+		
 		if (String.valueOf(y).contains(".")) {
 			prepared = String.valueOf(y).substring(String.valueOf(y).indexOf(".")).substring(1);
-		} else {
+		}
+		else {
 			prepared = String.valueOf(y);
 		}
-
+		
 		after = String.valueOf(FormatCurrrency.format(Double.parseDouble("0." + prepared), false)).split(",")[1].trim()
 				.replace("00", "0");
-
+		
 		int digits; /* Anzahl der bearb. Stellen */
 		String result; /* Zahl in Worten */
 		/* -- Sonderfall 0 -- */
