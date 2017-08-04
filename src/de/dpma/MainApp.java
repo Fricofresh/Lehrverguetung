@@ -20,7 +20,7 @@ public class MainApp extends Application {
 	
 	public static boolean dbcon_error;
 	
-	Logger log = Logger.getLogger(MainApp.class.getName());
+	private static Logger log = Logger.getLogger(MainApp.class.getName());
 	
 	public static int counter = 0;
 	
@@ -32,12 +32,15 @@ public class MainApp extends Application {
 	public void start(Stage primaryStage) {
 		
 		try {
+			log.info("Die Oberfläche wird gestartet.");
 			FXML_GUI fxml_gui = new FXML_GUI();
 			fxml_gui.primaryStage[counter] = primaryStage;
 			fxml_gui.initRootLayout(false);
 			fxml_gui.showMainPage();
+			log.info("Die Oberfläche soll nun sichbar sein.");
 		}
 		catch (Exception e) {
+			log.warning("Fehler bei der Oberflächeninitialisierung.");
 			e.printStackTrace();
 		}
 	}
@@ -52,10 +55,16 @@ public class MainApp extends Application {
 	public static void main(String[] args) {
 		
 		boolean b;
+		log.info("Es wird überprfüft ob der Vorlagenordner existiert");
 		if (!(b = (new File("Vorlagen\\").exists()))) {
+			log.warning("Der Ordner Vorlagen ist nicht vorhanden.");
+			log.info("Der Ordner Vorlagen wird erstellt.");
 			b = (new File("Vorlagen\\").mkdirs());
 		}
-		
+		else {
+			log.info("Der Ordner Vorlagen ist vorhanden.");
+		}
+		log.info("Es wird überprüft ob die Vorlagen existieren.");
 		if (!new File("Vorlagen\\Rechnungsbegleitblatt.docx").exists()) {
 			Platform.runLater(new Runnable() {
 				
@@ -81,6 +90,7 @@ public class MainApp extends Application {
 			});
 		}
 		else {
+			log.info("Die Vorlagen sind vorhanden.");
 			dbcon_error = false;
 			
 			try {

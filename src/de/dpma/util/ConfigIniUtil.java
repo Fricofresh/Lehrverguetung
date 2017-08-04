@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 /**
  * This Class is to read and write in the configuration file.
@@ -14,6 +15,8 @@ import java.util.Properties;
 public class ConfigIniUtil {
 	
 	Properties p = new Properties();
+	
+	Logger log = Logger.getLogger(this.getClass().getName());
 	
 	private String dienstort;
 	
@@ -42,11 +45,14 @@ public class ConfigIniUtil {
 	 */
 	public ConfigIniUtil() {
 		try {
+			log.info("Der Construktor wurde aufgerufen");
 			boolean b;
 			if (!(b = (new File(path).exists()))) {
+				log.info("Konfigurationsdatei ist nicht vorhanden und wird erstellt.");
 				b = (new File(path).mkdirs());
 			}
 			else if (b = new File(fullpath).exists()) {
+				log.info("Konfigurationsdatei ist vorhanden.");
 				readConf();
 			}
 		}
@@ -56,13 +62,14 @@ public class ConfigIniUtil {
 	}
 	
 	/**
-	 * Reads the properties
+	 * Reads the properties.
 	 * 
 	 * @author Kenneth Böhmer
 	 */
 	private void readConf() {
 		
 		try {
+			log.info("Die Konfigurationsdatei wird ausgelesen.");
 			FileInputStream input = new FileInputStream(new File(fullpath));
 			p.load(input);
 			dienstort = p.getProperty("Dienstort");
@@ -85,7 +92,7 @@ public class ConfigIniUtil {
 	public void writeConf() {
 		
 		try {
-			// Properties werden gesetzt
+			log.info("Properties werden gesetzt");
 			p.setProperty("Dienstort", dienstort);
 			p.setProperty("Durchwahl", durchwahl);
 			p.setProperty("Vorname", vorname);
@@ -93,7 +100,7 @@ public class ConfigIniUtil {
 			p.setProperty("E-Mail", email);
 			// Die Datei wird angelegt
 			File file = new File(fullpath);
-			// Die Datei wird im nachfolgenden beschrieben
+			log.info("Die Datei wird beschrieben");
 			FileOutputStream out = new FileOutputStream(file, false);
 			p.store(out, "Benutzer Konfiguration");
 			out.flush();
@@ -105,7 +112,7 @@ public class ConfigIniUtil {
 	}
 	
 	/**
-	 * Reads the file
+	 * Set the properties with the given parameters.
 	 * 
 	 * @see #ConfigIniUtil
 	 * 

@@ -60,7 +60,7 @@ public class InsertPersonalDataController {
 	 * @author Kenneth Böhmer
 	 */
 	@FXML
-	public void initialize() {
+	private void initialize() {
 		
 		getStageID = MainApp.counter;
 		confini = new ConfigIniUtil();
@@ -105,7 +105,7 @@ public class InsertPersonalDataController {
 	
 	/**
 	 * Checks if everything is filled and checks if the settings just have to be
-	 * saved or to be exported to a document
+	 * saved or to be exported to a document.
 	 * 
 	 * @author Kenneth Böhmer
 	 */
@@ -210,6 +210,12 @@ public class InsertPersonalDataController {
 		}
 	}
 	
+	/**
+	 * Sets the event to export a word document.
+	 * 
+	 * @author Kenneth Böhmer
+	 * @param event
+	 */
 	public void setEvent(Event event) {
 		
 		this.event = event;
