@@ -7,7 +7,7 @@ import java.util.Date;
 public class FormatDate {
 	
 	/**
-	 * Wandel einen Derby DATETIME String in ein Datum im Format ddMM.yyyy um.
+	 * Wandel einen Derby DATETIME String in ein Datum im Format dd.MM.yyyy um.
 	 * 
 	 * @author Flo
 	 * @author Kenneth Böhmer
